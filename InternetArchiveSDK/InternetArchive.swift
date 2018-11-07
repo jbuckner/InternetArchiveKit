@@ -9,8 +9,12 @@
 import Foundation
 
 public class InternetArchive {
-  static func getCollection(collecton: String, completion: @escaping (SearchResponse?, Error?) -> ()) {
-    let url = URL(string: "https://archive.org/advancedsearch.php?q=collection%3A%28\(collecton)%29&output=json")!
+  static let baseUrl: String = "https://archive.org"
+
+  // hits the advancedsearch url,
+  // ie https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&output=json
+  static func search(query: String, fields: String?, completion: @escaping (SearchResponse?, Error?) -> ()) {
+    let url = URL(string: "\(baseUrl)/advancedsearch.php?q=\(query)&output=json")!
 
     debugPrint("InternetArchive.getCollection", url)
 
@@ -29,5 +33,18 @@ public class InternetArchive {
     }
 
     task.resume()
+  }
+
+  // hits the metadata url for a particular item,
+  // ie https://archive.org/metadata/ymsb2006-07-03.flac16
+  static func itemDetail(identifier: String, completion: @escaping (Item?, Error?) -> () ) {
+
+  }
+
+  static func getCollection(collecton: String,
+                            mediatype: String? = nil,
+                            completion: @escaping (SearchResponse?, Error?) -> ()) {
+    let query: String = "collection:(\(collecton))+AND+mediatype:(collection)"
+    self.search(query: query, fields: nil, completion: completion)
   }
 }

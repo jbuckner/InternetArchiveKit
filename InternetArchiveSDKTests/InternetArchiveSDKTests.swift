@@ -21,8 +21,12 @@ class InternetArchiveSDKTests: XCTestCase {
   
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Object Manager Nil")
-    InternetArchive.getCollection(collecton: "YonderMountainStringBand") { (response: SearchResponse?, error: Error?) in
-      XCTAssertNotNil(response)
+    InternetArchive.getCollection(collecton: "etree", mediatype: nil) { (response: SearchResponse?, error: Error?) in
+      if let response = response {
+        XCTAssertTrue(response.response.numFound > 7000)  // the etree archive has 7400+ artists so just sanity check
+      } else {
+        XCTFail("no response")
+      }
       expectation.fulfill()
     }
 
