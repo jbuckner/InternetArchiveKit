@@ -10,25 +10,30 @@ import XCTest
 @testable import InternetArchiveSDK
 
 class InternetArchiveSDKTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+  
+  override func setUp() {
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+  }
+  
+  override func tearDown() {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+  }
+  
+  func testGetCollection() {
+    let expectation = XCTestExpectation(description: "Test Object Manager Nil")
+    InternetArchive.getCollection(collecton: "YonderMountainStringBand") { (response: SearchResponse?, error: Error?) in
+      XCTAssertNotNil(response)
+      expectation.fulfill()
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    wait(for: [expectation], timeout: 10.0)
+  }
+  
+  func testPerformanceExample() {
+    // This is an example of a performance test case.
+    self.measure {
+      // Put the code you want to measure the time of here.
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+  }
+  
 }

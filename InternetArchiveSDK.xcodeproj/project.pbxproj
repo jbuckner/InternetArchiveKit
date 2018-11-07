@@ -10,6 +10,11 @@
 		96ECE0E221913AE200A0C8A6 /* InternetArchiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */; };
 		96ECE0E721913AE200A0C8A6 /* InternetArchiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0E621913AE200A0C8A6 /* InternetArchiveSDKTests.swift */; };
 		96ECE0E921913AE200A0C8A6 /* InternetArchiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 96ECE0DB21913AE100A0C8A6 /* InternetArchiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96ECE0F421913D2F00A0C8A6 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F321913D2F00A0C8A6 /* Item.swift */; };
+		96ECE0F62191584000A0C8A6 /* ItemMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */; };
+		96ECE0F82191585300A0C8A6 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F72191585300A0C8A6 /* File.swift */; };
+		96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */; };
+		96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +34,11 @@
 		96ECE0E121913AE200A0C8A6 /* InternetArchiveSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InternetArchiveSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96ECE0E621913AE200A0C8A6 /* InternetArchiveSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveSDKTests.swift; sourceTree = "<group>"; };
 		96ECE0E821913AE200A0C8A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96ECE0F321913D2F00A0C8A6 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMetadata.swift; sourceTree = "<group>"; };
+		96ECE0F72191585300A0C8A6 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchive.swift; sourceTree = "<group>"; };
+		96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +81,11 @@
 		96ECE0DA21913AE100A0C8A6 /* InternetArchiveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				96ECE0F221913D1E00A0C8A6 /* Models */,
 				96ECE0DB21913AE100A0C8A6 /* InternetArchiveSDK.h */,
 				96ECE0DC21913AE100A0C8A6 /* Info.plist */,
+				96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */,
+				96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */,
 			);
 			path = InternetArchiveSDK;
 			sourceTree = "<group>";
@@ -84,6 +97,16 @@
 				96ECE0E821913AE200A0C8A6 /* Info.plist */,
 			);
 			path = InternetArchiveSDKTests;
+			sourceTree = "<group>";
+		};
+		96ECE0F221913D1E00A0C8A6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96ECE0F321913D2F00A0C8A6 /* Item.swift */,
+				96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */,
+				96ECE0F72191585300A0C8A6 /* File.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +171,7 @@
 				TargetAttributes = {
 					96ECE0D721913AE100A0C8A6 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					96ECE0E021913AE200A0C8A6 = {
 						CreatedOnToolsVersion = 10.1;
@@ -194,6 +218,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */,
+				96ECE0F421913D2F00A0C8A6 /* Item.swift in Sources */,
+				96ECE0F82191585300A0C8A6 /* File.swift in Sources */,
+				96ECE0F62191584000A0C8A6 /* ItemMetadata.swift in Sources */,
+				96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +370,7 @@
 		96ECE0ED21913AE200A0C8A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -358,6 +388,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jasonbuckner.InternetArchiveSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -366,6 +397,7 @@
 		96ECE0EE21913AE200A0C8A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -391,6 +423,7 @@
 		96ECE0F021913AE200A0C8A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
 				INFOPLIST_FILE = InternetArchiveSDKTests/Info.plist;
@@ -409,6 +442,7 @@
 		96ECE0F121913AE200A0C8A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
 				INFOPLIST_FILE = InternetArchiveSDKTests/Info.plist;
