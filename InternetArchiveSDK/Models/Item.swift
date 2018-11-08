@@ -9,9 +9,9 @@
 import Foundation
 
 struct Item: Decodable {
-  let created: Int
+  let created: Int?
   let collection: [String]?
-  let creator: String
+  let creator: String?
   let metadata: ItemMetadata?
   let files: [File]?
   let d1: String?
