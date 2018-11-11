@@ -1,0 +1,390 @@
+// advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&output=json&rows=10&start=0
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 23,
+    "params": {
+      "query": "collection:(etree ) AND mediatype:(collection )",
+      "qin": "collection:(etree) AND mediatype:(collection)",
+      "fields": "avg_rating,backup_location,btih,call_number,collection,contributor,coverage,creator,date,description,downloads,external-identifier,foldoutcount,format,genre,headerImage,identifier,imagecount,indexflag,item_size,language,licenseurl,mediatype,members,month,name,noindex,num_reviews,oai_updatedate,publicdate,publisher,related-external-id,reviewdate,rights,scanningcentre,source,stripped_tags,subject,title,type,volume,week,year",
+      "wt": "json",
+      "rows": "10",
+      "start": 0
+    }
+  },
+  "response": {
+    "numFound": 7579,
+    "start": 0,
+    "docs": [
+      {
+        "backup_location": "ia906302_25",
+        "btih": "5f61112b83c81f3a2ace94cea716620b081c95f2",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "The Floyds",
+        "downloads": 45,
+        "format": [
+          "Archive BitTorrent",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "TheFloyds",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 40016,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2016-12-09T10:35:24Z",
+          "2016-12-09T10:35:32Z",
+          "2018-09-04T10:41:14Z"
+        ],
+        "publicdate": "2016-12-09T10:35:32Z",
+        "publisher": "etree.org",
+        "rights": "On December 5, 2016, Jon Hultman granted permission to host recordings on the Live Music Archive My name is Jon Hultman, a/k/a \"noj\", bass player, singer and one of the primary songwriters of a number of underground Southern California bands active from the mid-80s to the mid-90s. Most of these bands permitted and even encouraged taping at their shows, and I would permit any past or future live performance that include me or my original songs to be uploaded to Internet Archive for streaming and/or downloading until such time as I write you to revise this policy. This would include--but is not limited to--live performances by the following bands: - Bunji Thump (San Diego-based alternative rock band, active circa 1988-1991 - not to be confused with British EDM artist of the same name) - Huge (successor to Bunji Thump; same primary songwriters, active circa 1991-1993) - Gangbusters (San Diego-based ska band, 1991 and later only, as this is when I joined and became a primary songwriter) - Current State (Los Angeles-based rock/funk band, active circa 1984-1988) - Section 8 (Los-Angeles-based funk band, active circa 1989-early 90s) - Smokescreen (San Diego-based classic rock/jam band, active circa 1993-1994) - Toadstool (San Diego-based progressive funk band, active circa 1991-1992) - The Floyds (San Diego-based folk/bluegrass band, active early 90s) - Fusebox (La Mesa-based alternative jam band, active early 90s) - SVAH (San Diego-based experimental music project, \"active\" early 90s) Thanks, Jon Hultman",
+        "subject": "The Floyds",
+        "title": "The Floyds",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903708_1",
+        "btih": "ce732efeef82537304e1c0603405c0a9e3cac159",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Oreganic",
+        "downloads": 373,
+        "format": [
+          "Archive BitTorrent",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "Oreganic",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 39039,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2012-01-24T15:49:00Z",
+          "2012-01-24T15:49:17Z",
+          "2012-01-24T15:52:47Z",
+          "2012-01-24T15:53:04Z",
+          "2018-07-05T02:06:52Z"
+        ],
+        "publicdate": "2012-01-24T15:49:17Z",
+        "publisher": "etree.org",
+        "rights": "On January 20th 2012, Billy Carnese granted permission on behalf of Oreganic to host recordings on the Live Music Archive: Allow me to introduce Oreganic, a band who wishes to contribute to the LMA. Web Site: http://oreganic.net Please add Oreganic as a taper-friendly band on the Archive. Please allow all formats for this band. And of course let me know if you have any questions. Thank you! ~PEACE~ Billy Carnese & Oreganic",
+        "subject": "Oreganic",
+        "title": "Oreganic",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903602_26",
+        "btih": "c7ca30120264e21a7bc0e8f5bb1492f82d6108f4",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Rubblebucket",
+        "description": "Download free music. Concerts in the Live Music Archive are available for download and streaming in formats including flac, mp3, and ogg vorbis.",
+        "downloads": 41801,
+        "format": [
+          "Archive BitTorrent",
+          "Metadata"
+        ],
+        "identifier": "Rubblebucket",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 2982,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2009-02-04T22:22:28Z",
+          "2009-02-04T22:23:09Z",
+          "2009-02-04T22:25:05Z",
+          "2009-02-04T22:29:08Z",
+          "2016-06-01T21:06:57Z"
+        ],
+        "publicdate": "2009-02-04T22:23:09Z",
+        "publisher": "etree.org",
+        "rights": "Mon, Feb 2, 2009 Matt Currie gave permission for \"Rubblebucket\" Hi, Matt Currie here, Rubblebucket Orchestra's manager. We would like to give permission for Rubblebucket shows to be uploaded and included on Archive.org. Here is a link to the band's myspace: www.myspace.com/rubblebucket Matt",
+        "title": "Rubblebucket",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903703_19",
+        "btih": "95eda44db18fdfc6eee27f37b7a1b0e7606985f5",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "anarchistwood",
+        "downloads": 21,
+        "format": [
+          "Archive BitTorrent",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "anarchistwood",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 29444,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2011-10-02T18:57:05Z",
+          "2011-10-02T18:57:22Z",
+          "2011-10-02T18:57:36Z",
+          "2011-10-02T18:58:52Z",
+          "2018-07-05T01:22:08Z"
+        ],
+        "publicdate": "2011-10-02T18:57:22Z",
+        "publisher": "etree.org",
+        "rights": "On September 26, 2011 permission was granted for the LMA: \"we hereby give permission for anarchistwood to be included in the archive.org candi's 'paul' flipped blackwood anarchistwood -- punkvert.tv\"",
+        "subject": "anarchistwood",
+        "title": "anarchistwood",
+        "week": 0
+      },
+      {
+        "btih": "c3cd21255c659d9759c24abd6f49de5eb6f93cb7",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "The Argus: A Tribute To Ween",
+        "downloads": 90,
+        "format": [
+          "Archive BitTorrent",
+          "Item Tile",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "TheArgusATributeToWeen",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 38970,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2018-08-30T19:26:41Z",
+          "2018-08-30T19:26:52Z",
+          "2018-08-30T20:15:41Z"
+        ],
+        "publicdate": "2018-08-30T19:26:52Z",
+        "publisher": "etree.org",
+        "rights": "On August 29 2018, permission was granted to the LMA: Erich Krapf from the band The Argus: A Tribute To Ween granted permission to add a collection on archive.org for live audio recordings for public download and noncommercial, royalty-free circulation.",
+        "subject": "The Argus: A Tribute To Ween",
+        "title": "The Argus: A Tribute To Ween",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903600_7",
+        "btih": "482dbf7af0b79203e9842ee402106f1c1b4a33a6",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Might As Well",
+        "description": "Download free music. Concerts in the Live Music Archive are available for download and streaming in formats including flac, mp3, and ogg vorbis.",
+        "downloads": 18859,
+        "format": [
+          "Archive BitTorrent",
+          "Metadata"
+        ],
+        "identifier": "MightAsWell",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 3952,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2006-05-10T07:26:50Z",
+          "2004-11-26T08:01:08Z",
+          "2018-07-05T02:04:22Z"
+        ],
+        "publicdate": "2004-11-26T08:01:08Z",
+        "publisher": [
+          "Internet Archive",
+          "etree.org"
+        ],
+        "rights": "On November 23, 2004, MAW gave permission for shows to be hosted at the Archive: To the kind folks at etree, My name is Nick Buriegi and am a member of the band \"Might as Well\"... In the spirit of sharing our music, we wish to be included in the Live Music Archive of etree. On behalf of the band, I will be submitting the music (in FLAC format) recorded from our shows.... We look forward to hearing back from you and are eager to share our music through your generous outlet. Sincerely, Nick Buriegi Might as Well's Official Taping & Trading Policy Audio Taping Audio taping of 'Might as Well' (MAW) shows is allowed and encouraged with the following stipulations: + Taping occurs from the audience and not a patch from the soundboard. + Tapers are required to bring ALL the required equipment (microphones,cables, DAT and power supplies). Please assume nothing will be available for you. + Taping does not interfere with others' enjoyment of the show in anyway. + Taping does not interfere with the venue's ability to do business or their policies. + Tapers assume full responsibility for their equipment. Audio Trading + MAW allows trading for personal, private, non-commercial use. + Trading music is limited to a disc for disc transaction or free discs given out. + No person is allowed to recoup equipment or media costs. + By no means shall any profit be made or cash exchange hands. Video Taping/Trading Videotaping is not allowed. Therefore video trading is not allowed. Hosting We give the permission to have our shows hosted on the Live Music Archive.",
+        "title": "Might As Well",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903600_27",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Psycho Conquistadors",
+        "description": "Download free music. Concerts in the Live Music Archive are available for download and streaming in formats including flac, mp3, and ogg vorbis.",
+        "downloads": 43,
+        "format": "Metadata",
+        "identifier": "PsychoConquistadors",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 1892,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2006-12-23T01:45:32Z",
+          "2006-12-23T01:46:04Z",
+          "2006-12-23T01:50:04Z",
+          "2016-05-19T07:38:36Z"
+        ],
+        "publicdate": "2006-12-23T01:46:04Z",
+        "publisher": "etree.org",
+        "rights": "On Nov. 26, 2006 Psycho Conquistadors gave the OK for archive.org inclusion: \"Please add Psycho Conquistadors to the archive. We are a new band that is starting up in Las Vegas, NV and would love to share our music! --Zak Winnick Psycho Conquistadors - Chapman Stick/Didgeridoo/Cajon\"",
+        "title": "Psycho Conquistadors",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903600_18",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Hoodoo Groove",
+        "description": "Download free music. Concerts in the Live Music Archive are available for download and streaming in formats including flac, mp3, and ogg vorbis.",
+        "downloads": 33,
+        "format": "Metadata",
+        "identifier": "HoodooGroove",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 3884,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2006-08-13T20:57:44Z",
+          "2006-08-13T20:58:02Z",
+          "2006-08-13T20:59:44Z",
+          "2006-08-13T21:01:25Z",
+          "2006-09-02T16:09:10Z",
+          "2016-05-18T05:30:51Z"
+        ],
+        "publicdate": "2006-08-13T20:58:02Z",
+        "publisher": "etree.org",
+        "rights": "On July 31, 2006, we received permission for shows to be hosted at the Archive: To Whom It may Concern, Hoodoo Groove would like to begin uploading shows to archive.org for use in the live shows archive. Formed in Michiana in early 2006, Hoodoo Groove is a spicy jambalaya of rock, jazz and funk elements. The driving backbeat and jazzy guitar lines perfectly intersect with the layered horns and light- hearted lyrics. Hoodoo Groove first came together after the tragedy of Hurricane Katrina when saxophonist Chris Olivier found himself uprooted from New Orleans and relocated to Northern Indiana. Bassist Matt Miles contacted his old friend Chris to welcome him back. During that call, Matt and Chris agreed that they still shared a common love of music and decided it was time to embark on a new musical endeavor. Olivier dialed up trumpet player Mark Gamble and guitarist Justin Ross, members of his Chicago Jazz Project and they immediately signed on. Matt called Steve Krojniewski, a dynamic drummer who had played with Ali Babas Tahini, and the concept for Hoodoo Groove was born. We are excited about the way that this group came together, the chemistry that we have discovered, and the speed of developments thus far. For this reason, we would like to share some selected shows with the broad audience that the Archive caters to. For now we would prefer that archived shows be limited to those that are provided by the band so that we can monitor quality. These shows are for end user purposes only and are not intended for commercial resale. In addition, if other sites would like to post shows, they will need to obtain permission from the band prior to making material available for download. This is not a complete or official taping/trading policy for Hoodoo Groove. It merely gives Archive.org permission to post live shows to the archive that Hoodoo Groove has provided. For additional information about our taping/trading policy please visit www.hoodoogroove.com. Sincerely, Matt Miles Bass Guitar, Vocals Hoodoo Groove",
+        "title": "Hoodoo Groove",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903908_3",
+        "btih": "de140203f7b1fed6407cc109034fa5f5e46828be",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "NPR",
+        "downloads": 65,
+        "format": [
+          "Archive BitTorrent",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "NPRMusic",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 38751,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2012-09-26T00:37:41Z",
+          "2012-09-26T00:38:00Z",
+          "2018-07-05T02:06:31Z"
+        ],
+        "publicdate": "2012-09-26T00:38:00Z",
+        "publisher": "etree.org",
+        "rights": "On September 19th, Patrick Arden McNally granted permission on behalf of NPR to host recordings on the Live Music Archive: This is Patrick Arden McNally from the band NPR. We would like to allow posting of shows. You have my permission. Thank you =) May all of life come to you with Ease and Joy and Glory! -Patrick Arden McNally =)",
+        "subject": "NPR",
+        "title": "NPR",
+        "week": 0
+      },
+      {
+        "backup_location": "ia903703_8",
+        "btih": "95950350f99c6ed86031040d8d813218fe1f0df7",
+        "collection": [
+          "etree",
+          "audio"
+        ],
+        "creator": "Alliens",
+        "description": "Alliens Alliens - (al.e.inz) - A conscious-groove band that specializes in world rhythms, including but not limited to rock, reggae, funk, ska, caribbean soca, spanish hip-hop, electronica, and cumbia. A cross-cultural blend of sound is rooted deep in their souls from growing and living in foreign lands. Rock infused Reggae , Funk covered Ska, Caribbean Soca with a splash of Spanish Hip-Hop, Electronica Drum-Breaks meet Cumbia Dance Beats, and still more! Top it off with conscious multi-lingual lyrics and sweet trio harmonies and you get an experience that moves mind, body and soul. Through their seamless transitions and flowing dynamics, one message shines like a beacon of truth: forget your differences & dance! The band line up is a family affair at heart, the founders of the band being two brothers (Jamiel and Janiah Allen) and their cousin (Zeph Allen). Standing strong with these boys on stage are Cameron McLaughlin (Bass) , and Richie Ursomarso (Guitar). Taping Policy We allow taping and sharing of our shows/performances/concerts. Alliens requests that if you tape/record a show please come talk to one of the members of the band and let us know you are recording. If the circumstances don't allow that conversation please consider contacting us at alliensmusic@gmail.com If the performance you have recorded is from a direct line (from the board) then we require that you get confirmation from us before uploading the material. Thanks everyone! Share and enjoy!",
+        "downloads": 744719,
+        "format": [
+          "Archive BitTorrent",
+          "Collection Header",
+          "JPEG",
+          "JPEG Thumb",
+          "Metadata"
+        ],
+        "identifier": "Alliens",
+        "indexflag": [
+          "index",
+          "nonoindex",
+          "collections"
+        ],
+        "item_size": 291296,
+        "mediatype": "collection",
+        "month": 0,
+        "oai_updatedate": [
+          "2011-09-20T09:47:11Z",
+          "2011-09-20T09:47:27Z",
+          "2011-09-20T09:47:44Z",
+          "2011-09-20T09:49:48Z",
+          "2011-09-21T09:17:05Z",
+          "2011-09-21T20:03:50Z",
+          "2018-07-05T01:21:44Z"
+        ],
+        "publicdate": "2011-09-20T09:47:27Z",
+        "publisher": "etree.org",
+        "rights": "On ,September 19, 2011, Jamiel Allen granted permission to host Alliens recordings on the Live Music Archive Hello, I am contacting you to allow rights and permissions to start up a Live Music Archive for the band I am a co-founder of called: (founders: Jamiel Allen, Janiah Allen, Zeph Allen.) Alliens We also are into allowing others to upload taped audio and video of our shows to the archive in the spirit of sharing and spreading good vibes. There will be many shows in the future that will be uploaded as well. thanks so much, - Jamiel Allen",
+        "stripped_tags": [
+          "td width=\"600\" valign=\"top\"",
+          "span style=\"font-size:200%;\"",
+          "br/",
+          "img src=\"http://www.archive.org/download/Alliens/alliensarchive.jpg\" alt=\"Alliens\""
+        ],
+        "subject": "Alliens",
+        "title": "Alliens",
+        "week": 0
+      }
+    ]
+  }
+}
