@@ -8,28 +8,32 @@
 
 import Foundation
 
-struct ResponseParams: Decodable {
-  let query: String
-  let qin: String
-  let fields: String
-  let wt: String
-  let rows: String?
-  let start: Int
-}
+extension InternetArchive {
 
-struct ResponseHeader: Decodable {
-  let status: Int
-  let QTime: Int
-  let params: ResponseParams
-}
+  public struct ResponseParams: Decodable {
+    let query: String
+    let qin: String
+    let fields: String
+    let wt: String
+    let rows: String?
+    let start: Int
+  }
 
-struct Response: Decodable {
-  let numFound: Int
-  let start: Int
-  let docs: [ItemMetadata]
-}
+  public struct ResponseHeader: Decodable {
+    let status: Int
+    let QTime: Int
+    let params: ResponseParams
+  }
 
-struct SearchResponse: Decodable {
-  let responseHeader: ResponseHeader
-  let response: Response
+  public struct Response: Decodable {
+    let numFound: Int
+    let start: Int
+    let docs: [ItemMetadata]
+  }
+
+  public struct SearchResponse: Decodable {
+    let responseHeader: ResponseHeader
+    let response: Response
+  }
+
 }

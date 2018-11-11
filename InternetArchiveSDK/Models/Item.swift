@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Item: Decodable {
+public struct Item: Decodable {
   let created: Int?
   let collection: [String]?
   let creator: String?

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct File: Decodable {
+public struct File: Decodable {
   let name: String?
   let source: String?
   let format: String?

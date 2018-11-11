@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ItemMetadata: Decodable {
+public struct ItemMetadata: Decodable {
   let identifier: String
   let collection: [String]?
   let creator: String?
