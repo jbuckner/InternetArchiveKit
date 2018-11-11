@@ -15,7 +15,7 @@ extension InternetArchive {
     let creator: String?
     let updated: String?
     let tasks: String?
-    let is_dark: String?
+    let isDark: String?
     let source: String?
     let title: String?
     let mediatype: String?
@@ -32,6 +32,6 @@ extension InternetArchive {
     let notes: String?
     let updatedate: String?
     let updater: String?
-    let backup_location: String?
+    let backupLocation: String?
   }
 }

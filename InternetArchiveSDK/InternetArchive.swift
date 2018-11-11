@@ -61,7 +61,10 @@ public class InternetArchive {
       }
 
       do {
-        let results: T = try JSONDecoder().decode(T.self, from: data)
+        let decoder: JSONDecoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let results: T = try decoder.decode(T.self, from: data)
         completion(results, error)
       } catch {
         completion(nil, error)

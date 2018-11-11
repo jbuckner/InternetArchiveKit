@@ -14,13 +14,15 @@ extension InternetArchive {
     let collection: [String]?
     let creator: String?
     let metadata: ItemMetadata?
-    let files: [File]?
     let d1: String?
     let d2: String?
     let dir: String?
-    let files_count: Int?
-    let item_size: Int?
+    let isCollection: Bool?
+    let filesCount: Int?
+    let itemSize: Int?
     let server: String?
     let uniq: Int?
+    let workableServers: [String]?
+    let files: [File]?
   }
 }
