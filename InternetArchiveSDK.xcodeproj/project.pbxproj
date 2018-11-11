@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		9669B01C2197B76D00E7CE2A /* artists.json in Resources */ = {isa = PBXBuildFile; fileRef = 9669B01B2197B76D00E7CE2A /* artists.json */; };
 		9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0232197B91200E7CE2A /* AppDelegate.swift */; };
-		9669B0262197B91200E7CE2A /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0252197B91200E7CE2A /* MasterViewController.swift */; };
-		9669B0282197B91200E7CE2A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0272197B91200E7CE2A /* DetailViewController.swift */; };
+		9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */; };
+		9669B0282197B91200E7CE2A /* ArtistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0272197B91200E7CE2A /* ArtistDetailViewController.swift */; };
 		9669B02B2197B91200E7CE2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9669B0292197B91200E7CE2A /* Main.storyboard */; };
 		9669B02D2197B91600E7CE2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9669B02C2197B91600E7CE2A /* Assets.xcassets */; };
 		9669B0302197B91600E7CE2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9669B02E2197B91600E7CE2A /* LaunchScreen.storyboard */; };
@@ -42,8 +42,8 @@
 		9669B01B2197B76D00E7CE2A /* artists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = artists.json; sourceTree = "<group>"; };
 		9669B0212197B91200E7CE2A /* InternetArchiveSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternetArchiveSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9669B0232197B91200E7CE2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9669B0252197B91200E7CE2A /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		9669B0272197B91200E7CE2A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtreeCollectionViewController.swift; sourceTree = "<group>"; };
+		9669B0272197B91200E7CE2A /* ArtistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailViewController.swift; sourceTree = "<group>"; };
 		9669B02A2197B91200E7CE2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9669B02C2197B91600E7CE2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9669B02F2197B91600E7CE2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				9669B0232197B91200E7CE2A /* AppDelegate.swift */,
-				9669B0252197B91200E7CE2A /* MasterViewController.swift */,
-				9669B0272197B91200E7CE2A /* DetailViewController.swift */,
+				9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */,
+				9669B0272197B91200E7CE2A /* ArtistDetailViewController.swift */,
 				9669B0292197B91200E7CE2A /* Main.storyboard */,
 				9669B02C2197B91600E7CE2A /* Assets.xcassets */,
 				9669B02E2197B91600E7CE2A /* LaunchScreen.storyboard */,
@@ -319,8 +319,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9669B0282197B91200E7CE2A /* DetailViewController.swift in Sources */,
-				9669B0262197B91200E7CE2A /* MasterViewController.swift in Sources */,
+				9669B0282197B91200E7CE2A /* ArtistDetailViewController.swift in Sources */,
+				9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */,
 				9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

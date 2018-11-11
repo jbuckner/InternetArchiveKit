@@ -9,21 +9,18 @@
 import UIKit
 import InternetArchiveSDK
 
-class MasterViewController: UITableViewController {
+class EtreeCollectionViewController: UITableViewController {
 
-  var detailViewController: DetailViewController? = nil
+  var detailViewController: ArtistDetailViewController? = nil
   var artists: [InternetArchive.ItemMetadata] = []
 
   var internetArchive: InternetArchive = InternetArchive()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    navigationItem.leftBarButtonItem = editButtonItem
-
     if let split = splitViewController {
-        let controllers = split.viewControllers
-        detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+      let controllers = split.viewControllers
+      detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? ArtistDetailViewController
     }
 
     internetArchive.getCollection(
@@ -48,13 +45,13 @@ class MasterViewController: UITableViewController {
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showDetail" {
-        if let indexPath = tableView.indexPathForSelectedRow {
-            let object = artists[indexPath.row]
-            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-            controller.detailItem = object
-            controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-            controller.navigationItem.leftItemsSupplementBackButton = true
-        }
+      if let indexPath = tableView.indexPathForSelectedRow {
+        let object = artists[indexPath.row]
+        let controller = (segue.destination as! UINavigationController).topViewController as! ArtistDetailViewController
+        controller.detailItem = object
+        controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        controller.navigationItem.leftItemsSupplementBackButton = true
+      }
     }
   }
 
@@ -83,10 +80,10 @@ class MasterViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-        artists.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
+      artists.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .fade)
     } else if editingStyle == .insert {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
   }
 

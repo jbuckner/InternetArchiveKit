@@ -9,7 +9,7 @@
 import UIKit
 import InternetArchiveSDK
 
-class DetailViewController: UIViewController {
+class ArtistDetailViewController: UIViewController {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
 
