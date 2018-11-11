@@ -11,29 +11,29 @@ import Foundation
 extension InternetArchive {
 
   public struct ResponseParams: Decodable {
-    let query: String
-    let qin: String
-    let fields: String
-    let wt: String
-    let rows: String?
-    let start: Int
+    public let query: String
+    public let qin: String
+    public let fields: String
+    public let wt: String
+    public let rows: String?
+    public let start: Int
   }
 
   public struct ResponseHeader: Decodable {
-    let status: Int
-    let QTime: Int
-    let params: ResponseParams
+    public let status: Int
+    public let QTime: Int
+    public let params: ResponseParams
   }
 
   public struct Response: Decodable {
-    let numFound: Int
-    let start: Int
-    let docs: [ItemMetadata]
+    public let numFound: Int
+    public let start: Int
+    public let docs: [ItemMetadata]
   }
 
   public struct SearchResponse: Decodable {
-    let responseHeader: ResponseHeader
-    let response: Response
+    public let responseHeader: ResponseHeader
+    public let response: Response
   }
 
 }

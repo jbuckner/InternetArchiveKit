@@ -10,21 +10,21 @@ import Foundation
 
 extension InternetArchive {
   public struct File: Decodable {
-    let name: String?
-    let source: String?
-    let format: String?
-    let original: String?
-    let title: String?
-    let creator: String?
-    let album: String?
-    let track: String?
-    let md5: String?
-    let mtime: String?
-    let size: String?
-    let crc32: String?
-    let sha1: String?
-    let length: String?
-    let height: String?
-    let width: String?
+    public let name: String?
+    public let source: String?
+    public let format: String?
+    public let original: String?
+    public let title: String?
+    public let creator: String?
+    public let album: String?
+    public let track: String?
+    public let md5: String?
+    public let mtime: String?
+    public let size: String?
+    public let crc32: String?
+    public let sha1: String?
+    public let length: String?
+    public let height: String?
+    public let width: String?
   }
 }

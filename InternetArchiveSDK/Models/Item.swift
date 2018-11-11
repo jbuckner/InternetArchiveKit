@@ -10,19 +10,19 @@ import Foundation
 
 extension InternetArchive {
   public struct Item: Decodable {
-    let created: Int?
-    let collection: [String]?
-    let creator: String?
-    let metadata: ItemMetadata?
-    let d1: String?
-    let d2: String?
-    let dir: String?
-    let isCollection: Bool?
-    let filesCount: Int?
-    let itemSize: Int?
-    let server: String?
-    let uniq: Int?
-    let workableServers: [String]?
-    let files: [File]?
+    public let created: Int?
+    public let collection: [String]?
+    public let creator: String?
+    public let metadata: ItemMetadata?
+    public let d1: String?
+    public let d2: String?
+    public let dir: String?
+    public let isCollection: Bool?
+    public let filesCount: Int?
+    public let itemSize: Int?
+    public let server: String?
+    public let uniq: Int?
+    public let workableServers: [String]?
+    public let files: [File]?
   }
 }
