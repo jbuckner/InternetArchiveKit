@@ -10,12 +10,9 @@ import Foundation
 
 extension InternetArchive {
   public class APIController {
-    private let host: String
-    private let scheme: String
-
     public init(host: String = "archive.org", scheme: String = "https") {
-      self.host = host
-      self.scheme = scheme
+      urlComponents.scheme = scheme
+      urlComponents.host = host
     }
 
     public func generateSearchUrl(query: String, fields: [String], start: Int, rows: Int) -> URL? {
@@ -27,21 +24,21 @@ extension InternetArchive {
         URLQueryItem(name: "start", value: "\(start)"),
       ]
 
-      var urlComponents = URLComponents()
-      urlComponents.scheme = self.scheme
-      urlComponents.host = self.host
       urlComponents.path = "/advancedsearch.php"
       urlComponents.queryItems = params
-
       return urlComponents.url
     }
 
     public func generateMetadataUrl(identifier: String) -> URL? {
-      var urlComponents = URLComponents()
-      urlComponents.scheme = self.scheme
-      urlComponents.host = self.host
       urlComponents.path = "/metadata/\(identifier)"
       return urlComponents.url
     }
+
+    public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
+      urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
+      return urlComponents.url
+    }
+
+    private var urlComponents: URLComponents = URLComponents()
   }
 }
