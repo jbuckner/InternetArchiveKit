@@ -67,6 +67,7 @@ public class InternetArchive {
         let results: T = try decoder.decode(T.self, from: data)
         completion(results, error)
       } catch {
+        debugPrint("makeRequest error decoding", error.localizedDescription)
         completion(nil, error)
       }
     }
