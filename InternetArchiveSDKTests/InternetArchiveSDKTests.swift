@@ -50,7 +50,7 @@ class InternetArchiveSDKTests: XCTestCase {
       }
 
       if let response = response {
-        if let firstDoc: ItemMetadata = response.response.docs.first {
+        if let firstDoc: InternetArchive.ItemMetadata = response.response.docs.first {
           XCTAssertNotNil(firstDoc.title)
           XCTAssertNil(firstDoc.addeddate)
         } else {
@@ -87,7 +87,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testItemDetail() {
     let expectation = XCTestExpectation(description: "Test Item Detail")
-    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") { (item: Item?, error: Error?) in
+    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") { (item: InternetArchive.Item?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()

@@ -8,33 +8,40 @@
 
 import Foundation
 
-class APIController {
-  private let host: String = "archive.org"
-  private let scheme: String = "https"
+extension InternetArchive {
+  public class APIController {
+    private let host: String
+    private let scheme: String
 
-  func generateSearchUrl(query: String, fields: [String], start: Int, rows: Int) -> URL? {
-    let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
-    let params: [URLQueryItem] = fieldParams + [
-      URLQueryItem(name: "q", value: query),
-      URLQueryItem(name: "output", value: "json"),
-      URLQueryItem(name: "rows", value: "\(rows)"),
-      URLQueryItem(name: "start", value: "\(start)"),
-    ]
+    public init(host: String = "archive.org", scheme: String = "https") {
+      self.host = host
+      self.scheme = scheme
+    }
 
-    var urlComponents = URLComponents()
-    urlComponents.scheme = self.scheme
-    urlComponents.host = self.host
-    urlComponents.path = "/advancedsearch.php"
-    urlComponents.queryItems = params
+    public func generateSearchUrl(query: String, fields: [String], start: Int, rows: Int) -> URL? {
+      let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
+      let params: [URLQueryItem] = fieldParams + [
+        URLQueryItem(name: "q", value: query),
+        URLQueryItem(name: "output", value: "json"),
+        URLQueryItem(name: "rows", value: "\(rows)"),
+        URLQueryItem(name: "start", value: "\(start)"),
+      ]
 
-    return urlComponents.url
-  }
+      var urlComponents = URLComponents()
+      urlComponents.scheme = self.scheme
+      urlComponents.host = self.host
+      urlComponents.path = "/advancedsearch.php"
+      urlComponents.queryItems = params
 
-  func generateMetadataUrl(identifier: String) -> URL? {
-    var urlComponents = URLComponents()
-    urlComponents.scheme = self.scheme
-    urlComponents.host = self.host
-    urlComponents.path = "/metadata/\(identifier)"
-    return urlComponents.url
+      return urlComponents.url
+    }
+
+    public func generateMetadataUrl(identifier: String) -> URL? {
+      var urlComponents = URLComponents()
+      urlComponents.scheme = self.scheme
+      urlComponents.host = self.host
+      urlComponents.path = "/metadata/\(identifier)"
+      return urlComponents.url
+    }
   }
 }
