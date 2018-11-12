@@ -23,17 +23,19 @@ class EtreeCollectionViewController: UITableViewController {
       detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? ArtistDetailViewController
     }
 
-    internetArchive.getCollection(
-      identifier: "etree",
+    let query: String = "collection:(etree)+AND+mediatype:(collection)"
+    internetArchive.search(
+      query: query,
       fields: ["identifier", "title"],
       start: 0,
-      rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
+      rows: 10,
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         self.artists = response?.response.docs ?? []
 
         DispatchQueue.main.async {
           self.tableView.reloadData()
         }
-    }
+    })
   }
 
   override func viewWillAppear(_ animated: Bool) {

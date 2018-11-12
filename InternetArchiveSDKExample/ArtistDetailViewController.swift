@@ -12,14 +12,14 @@ import InternetArchiveSDK
 class ArtistDetailViewController: UIViewController {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
-
+  private weak var albumsViewController: AlbumsViewController?
 
   func configureView() {
     // Update the user interface for the detail item.
     if let detail = detailItem {
-        if let label = detailDescriptionLabel {
-            label.text = detail.title ?? "No title"
-        }
+      if let label = detailDescriptionLabel {
+        label.text = detail.title ?? "No title"
+      }
     }
   }
 
@@ -31,11 +31,16 @@ class ArtistDetailViewController: UIViewController {
 
   var detailItem: InternetArchive.ItemMetadata? {
     didSet {
-        // Update the view.
-        configureView()
+      // Update the view.
+      configureView()
     }
   }
 
-
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "albums", let destination = segue.destination as? AlbumsViewController {
+      destination.artist = self.detailItem
+      self.albumsViewController = destination
+    }
+  }
 }
 
