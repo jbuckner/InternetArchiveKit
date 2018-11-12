@@ -17,7 +17,7 @@ public class InternetArchive {
 
   // hits the advancedsearch url,
   // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&output=json
-  public func search(query: String,
+  public func search(query: Query,
                      start: Int,
                      rows: Int,
                      fields: [String] = [],

@@ -13,27 +13,31 @@ import InternetArchiveSDK
 class AlbumsViewController: UITableViewController {
   var artist: InternetArchive.ItemMetadata? {
     didSet {
-      guard let artist = artist else { return }
-      let query: String = "collection:(\(artist.identifier))"
-      internetArchive.search(
-        query: query,
-        start: 0,
-        rows: 10,
-        fields: ["identifier", "title"],
-        sortFields: [InternetArchive.SortField(field: "date", direction: .asc)],
-        completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-          self.albums = response?.response.docs ?? []
-
-          DispatchQueue.main.async {
-            self.tableView.reloadData()
-          }
-      })
+      reloadAlbums()
     }
   }
 
   var internetArchive: InternetArchive = InternetArchive()
 
   var albums: [InternetArchive.ItemMetadata] = []
+
+  private func reloadAlbums() {
+    guard let artist = artist else { return }
+    let query: String = "collection:(\(artist.identifier))"
+    internetArchive.search(
+      query: query,
+      start: 0,
+      rows: 10,
+      fields: ["identifier", "title"],
+      sortFields: [InternetArchive.SortField(field: "date", direction: .asc)],
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+        self.albums = response?.response.docs ?? []
+
+        DispatchQueue.main.async {
+          self.tableView.reloadData()
+        }
+    })
+  }
 }
 
 extension AlbumsViewController {

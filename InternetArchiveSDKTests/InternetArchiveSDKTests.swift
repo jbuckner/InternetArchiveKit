@@ -21,7 +21,8 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testSearchQuery() {
     let expectation = XCTestExpectation(description: "Test Search Query")
-    InternetArchive().search(query: "collection:(etree)+AND+mediatype:(collection)",
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().search(query: query,
                              start: 0,
                              rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
@@ -43,7 +44,8 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testSearchFields() {
     let expectation = XCTestExpectation(description: "Test Search Fields")
-    InternetArchive().search(query: "collection:(etree)+AND+mediatype:(collection)",
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().search(query: query,
                              start: 0,
                              rows: 10,
                              fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
@@ -71,8 +73,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Get Collection")
-
-    let query: String = "collection:(etree)+AND+mediatype:(collection)"
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(
       query: query,
       start: 0,
