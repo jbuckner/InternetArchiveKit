@@ -8,24 +8,45 @@
 
 import Foundation
 
+public protocol InternetArchiveAPIControllerProtocol {
+  func generateSearchUrl(query: InternetArchiveAPIURLStringProtocol,
+                         start: Int,
+                         rows: Int,
+                         fields: [String],
+                         sortFields: [InternetArchiveAPIURLQueryItemProtocol],
+                         additionalQueryParams: [URLQueryItem]) -> URL?
+  func generateMetadataUrl(identifier: String) -> URL?
+  func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
+}
+
+public protocol InternetArchiveAPIURLStringProtocol {
+  var asURLString: String { get }
+}
+
+public protocol InternetArchiveAPIURLQueryItemProtocol {
+  var asQueryItem: URLQueryItem { get }
+}
+
+
 extension InternetArchive {
-  public class APIController {
+
+  public class InternetArchiveAPIController: InternetArchiveAPIControllerProtocol {
     public init(host: String = "archive.org", scheme: String = "https") {
       urlComponents.scheme = scheme
       urlComponents.host = host
     }
 
-    public func generateSearchUrl(query: Query,
+    public func generateSearchUrl(query: InternetArchiveAPIURLStringProtocol,
                                   start: Int,
                                   rows: Int,
                                   fields: [String],
-                                  sortFields: [SortField],
-                                  queryParams: [URLQueryItem] = []) -> URL? {
+                                  sortFields: [InternetArchiveAPIURLQueryItemProtocol],
+                                  additionalQueryParams: [URLQueryItem]) -> URL? {
 
       let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
-      let sortParams: [URLQueryItem] = sortFields.compactMap { $0.asURLQueryItem }
-      let params: [URLQueryItem] = sortParams + fieldParams + [
-        URLQueryItem(name: "q", value: query.asURLQuery),
+      let sortParams: [URLQueryItem] = sortFields.compactMap { $0.asQueryItem }
+      let params: [URLQueryItem] = sortParams + fieldParams + additionalQueryParams + [
+        URLQueryItem(name: "q", value: query.asURLString),
         URLQueryItem(name: "output", value: "json"),
         URLQueryItem(name: "rows", value: "\(rows)"),
         URLQueryItem(name: "start", value: "\(start)"),
@@ -52,10 +73,10 @@ extension InternetArchive {
 
 // Querying
 extension InternetArchive {
-  public struct Query {
+  public struct Query: InternetArchiveAPIURLStringProtocol {
     public var params: [QueryParam]
-    public var asURLQuery: String { // eg `collection:(etree) AND -title:(foo)`
-      let paramStrings: [String] = params.compactMap { $0.asURLParam }
+    public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
+      let paramStrings: [String] = params.compactMap { $0.asURLString }
       return paramStrings.joined(separator: " AND ")
     }
 
@@ -72,11 +93,11 @@ extension InternetArchive {
     }
   }
 
-  public struct QueryParam {
+  public struct QueryParam: InternetArchiveAPIURLStringProtocol {
     public let key: String
     public let value: String
     public let booleanOperator: BooleanOperator
-    public var asURLParam: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`
+    public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`
       let urlKey: String = key.count > 0 ? "\(key):" : ""
       return "\(booleanOperator.rawValue)\(urlKey)(\(value))"
     }
@@ -97,10 +118,10 @@ extension InternetArchive {
 
 // Sorting
 extension InternetArchive {
-  public struct SortField {
+  public struct SortField: InternetArchiveAPIURLQueryItemProtocol {
     public let field: String
     public let direction: SortDirection
-    public var asURLQueryItem: URLQueryItem {
+    public var asQueryItem: URLQueryItem {
       return URLQueryItem(name: "sort[]", value: "\(self.field) \(self.direction)")
     }
 

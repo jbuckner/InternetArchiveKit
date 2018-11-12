@@ -9,14 +9,14 @@
 import Foundation
 
 public class InternetArchive {
-  let apiController: APIController
+  let apiController: InternetArchiveAPIControllerProtocol
 
-  public init(apiController: APIController = APIController()) {
+  public init(apiController: InternetArchiveAPIControllerProtocol = InternetArchiveAPIController()) {
     self.apiController = apiController
   }
 
   // hits the advancedsearch url,
-  // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&output=json
+  // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&outpt=json
   public func search(query: Query,
                      start: Int,
                      rows: Int,
@@ -24,7 +24,12 @@ public class InternetArchive {
                      sortFields: [SortField] = [],
                      completion: @escaping (SearchResponse?, Error?) -> ()) {
 
-    guard let searchUrl: URL = self.apiController.generateSearchUrl(query: query, start: start, rows: rows, fields: fields, sortFields: sortFields) else {
+    guard let searchUrl: URL = self.apiController.generateSearchUrl(query: query,
+                                                                    start: start,
+                                                                    rows: rows,
+                                                                    fields: fields,
+                                                                    sortFields: sortFields,
+                                                                    additionalQueryParams: []) else {
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }

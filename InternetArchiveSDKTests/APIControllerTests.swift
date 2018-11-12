@@ -20,12 +20,17 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateSearchUrl() {
-    let apiController: InternetArchive.APIController = InternetArchive.APIController(
+    let apiController: InternetArchive.InternetArchiveAPIController = InternetArchive.InternetArchiveAPIController(
       host: "foohost.org", scheme: "gopher")
 
     let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo": "bar", "baz": "boop"])
     let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
-    if let url: URL = apiController.generateSearchUrl(query: query, start: 0, rows: 10, fields: ["foo", "bar"], sortFields: [sortField]) {
+    if let url: URL = apiController.generateSearchUrl(query: query,
+                                                      start: 0,
+                                                      rows: 10,
+                                                      fields: ["foo", "bar"],
+                                                      sortFields: [sortField],
+                                                      additionalQueryParams: []) {
       let absoluteUrl: String = url.absoluteString
       debugPrint(absoluteUrl)
       // these are not necessarily always in the same order so just search
@@ -42,7 +47,7 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateDownloadUrl() {
-    let apiController: InternetArchive.APIController = InternetArchive.APIController(
+    let apiController: InternetArchive.InternetArchiveAPIController = InternetArchive.InternetArchiveAPIController(
       host: "foohost.org", scheme: "gopher")
     if let url: URL = apiController.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {
       XCTAssertEqual(url.absoluteString, "gopher://foohost.org/download/foo/bar")
@@ -53,11 +58,11 @@ class APIControllerTests: XCTestCase {
 
   func testQueryParamString() {
     let param1: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "foo", value: "bar", booleanOperator: .and)
-    XCTAssertEqual(param1.asURLParam, "foo:(bar)")
+    XCTAssertEqual(param1.asURLString, "foo:(bar)")
     let param2: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "foo", value: "bar", booleanOperator: .not)
-    XCTAssertEqual(param2.asURLParam, "-foo:(bar)")
+    XCTAssertEqual(param2.asURLString, "-foo:(bar)")
     let param3: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "", value: "bar", booleanOperator: .and)
-    XCTAssertEqual(param3.asURLParam, "(bar)")
+    XCTAssertEqual(param3.asURLString, "(bar)")
   }
 
   func testQueryString() {
@@ -66,15 +71,16 @@ class APIControllerTests: XCTestCase {
     let param3: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "", value: "boop")
     let query: InternetArchive.Query = InternetArchive.Query(params: [param1, param2, param3])
 
-    XCTAssertEqual(query.asURLQuery, "foo:(bar) AND -baz:(boop) AND (boop)")
+    XCTAssertEqual(query.asURLString, "foo:(bar) AND -baz:(boop) AND (boop)")
   }
 
   func testQueryStringConvenience() {
     let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo": "bar", "baz": "boop"])
-    let queryAsUrl: String = query.asURLQuery
-    XCTAssertTrue(queryAsUrl == "foo:(bar) AND baz:(boop)" || queryAsUrl == "(bar) AND baz:(boop)")
+    let queryAsUrl: String = query.asURLString
+    debugPrint(queryAsUrl)
+    XCTAssertTrue(queryAsUrl == "foo:(bar) AND baz:(boop)" || queryAsUrl == "baz:(boop) AND foo:(bar)")
     let query2: InternetArchive.Query = InternetArchive.Query(fields: ["": "bar", "baz": "boop"])
-    let query2AsUrl: String = query2.asURLQuery
+    let query2AsUrl: String = query2.asURLString
     XCTAssertTrue(query2AsUrl == "(bar) AND baz:(boop)" || query2AsUrl == "baz:(boop) AND (bar)")
   }
 

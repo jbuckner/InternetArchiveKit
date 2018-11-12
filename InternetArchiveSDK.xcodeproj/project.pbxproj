@@ -26,7 +26,7 @@
 		96ECE0F82191585300A0C8A6 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F72191585300A0C8A6 /* File.swift */; };
 		96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */; };
 		96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */; };
-		96ECE103219400A100A0C8A6 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE102219400A100A0C8A6 /* APIController.swift */; };
+		96ECE103219400A100A0C8A6 /* InternetArchiveAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE102219400A100A0C8A6 /* InternetArchiveAPIController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +63,7 @@
 		96ECE0F72191585300A0C8A6 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchive.swift; sourceTree = "<group>"; };
 		96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveResponse.swift; sourceTree = "<group>"; };
-		96ECE102219400A100A0C8A6 /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		96ECE102219400A100A0C8A6 /* InternetArchiveAPIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveAPIController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +153,7 @@
 				96ECE0DC21913AE100A0C8A6 /* Info.plist */,
 				96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */,
 				96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */,
-				96ECE102219400A100A0C8A6 /* APIController.swift */,
+				96ECE102219400A100A0C8A6 /* InternetArchiveAPIController.swift */,
 			);
 			path = InternetArchiveSDK;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96ECE103219400A100A0C8A6 /* APIController.swift in Sources */,
+				96ECE103219400A100A0C8A6 /* InternetArchiveAPIController.swift in Sources */,
 				96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */,
 				96ECE0F421913D2F00A0C8A6 /* Item.swift in Sources */,
 				96ECE0F82191585300A0C8A6 /* File.swift in Sources */,

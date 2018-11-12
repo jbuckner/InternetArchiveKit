@@ -117,5 +117,35 @@ class InternetArchiveSDKTests: XCTestCase {
     wait(for: [expectation], timeout: 20.0)
   }
 
+  func testInvalidUrlError() {
+    class InvalidUrlAPIController: InternetArchiveAPIControllerProtocol {
+      func generateSearchUrl(query: InternetArchiveAPIURLStringProtocol,
+                             start: Int,
+                             rows: Int,
+                             fields: [String],
+                             sortFields: [InternetArchiveAPIURLQueryItemProtocol],
+                             additionalQueryParams: [URLQueryItem]) -> URL? {
+        return nil
+      }
 
+      func generateMetadataUrl(identifier: String) -> URL? {
+        return nil
+      }
+
+      func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
+        return nil
+      }
+    }
+
+    let internetArchive: InternetArchive = InternetArchive(apiController: InvalidUrlAPIController())
+    let expectation = XCTestExpectation(description: "Test Invalid Url")
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo" : "bar"])
+
+    internetArchive.search(query: query, start: 0, rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
+      XCTAssertNotNil(error)
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 20.0)
+  }
 }
