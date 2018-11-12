@@ -9,8 +9,6 @@
 import Foundation
 
 public class InternetArchive {
-  let apiController: InternetArchiveAPIControllerProtocol
-
   public init(apiController: InternetArchiveAPIControllerProtocol = InternetArchiveAPIController()) {
     self.apiController = apiController
   }
@@ -70,6 +68,8 @@ public class InternetArchive {
 
     task.resume()
   }
+
+  private let apiController: InternetArchiveAPIControllerProtocol
 }
 
 extension InternetArchive {

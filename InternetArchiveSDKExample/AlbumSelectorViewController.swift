@@ -23,7 +23,8 @@ class AlbumSelectorViewController: UITableViewController {
 
   private func reloadAlbums() {
     guard let artist = artist else { return }
-    let query: String = "collection:(\(artist.identifier))"
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : artist.identifier])
+
     internetArchive.search(
       query: query,
       start: 0,

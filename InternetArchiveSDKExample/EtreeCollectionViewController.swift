@@ -23,7 +23,7 @@ class EtreeCollectionViewController: UITableViewController {
       detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? ArtistDetailViewController
     }
 
-    let query: String = "collection:(etree)+AND+mediatype:(collection)"
+    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection": "etree", "mediatype": "collection"])
     internetArchive.search(
       query: query,
       start: 0,

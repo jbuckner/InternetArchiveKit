@@ -12,7 +12,7 @@ import InternetArchiveSDK
 class ArtistDetailViewController: UIViewController {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
-  private weak var albumsViewController: AlbumsViewController?
+  private weak var albumsViewController: AlbumSelectorViewController?
 
   func configureView() {
     // Update the user interface for the detail item.
@@ -37,7 +37,7 @@ class ArtistDetailViewController: UIViewController {
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "albums", let destination = segue.destination as? AlbumsViewController {
+    if segue.identifier == "albums", let destination = segue.destination as? AlbumSelectorViewController {
       destination.artist = self.detailItem
       self.albumsViewController = destination
     }

@@ -70,10 +70,10 @@
             </objects>
             <point key="canvasLocation" x="708" y="128.18590704647679"/>
         </scene>
-        <!--Albums View Controller-->
+        <!--Album Selector View Controller-->
         <scene sceneID="ebI-zA-O3x">
             <objects>
-                <tableViewController id="e8q-GR-RvL" customClass="AlbumsViewController" customModule="InternetArchiveSDKExample" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="e8q-GR-RvL" customClass="AlbumSelectorViewController" customModule="InternetArchiveSDKExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="q5r-hx-vX4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -97,21 +97,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e3K-NM-LaG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1476" y="128"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="sen-uF-jp7">
-            <objects>
-                <viewController id="pcd-aR-BrB" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="pE5-Pr-DQz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Buo-N1-JhO"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ydt-BU-cC1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2260" y="128"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
