@@ -18,12 +18,13 @@ public class InternetArchive {
   // hits the advancedsearch url,
   // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&output=json
   public func search(query: String,
-                     fields: [String] = [],
                      start: Int,
                      rows: Int,
+                     fields: [String] = [],
+                     sortFields: [SortField] = [],
                      completion: @escaping (SearchResponse?, Error?) -> ()) {
 
-    guard let searchUrl: URL = self.apiController.generateSearchUrl(query: query, fields: fields, start: start, rows: rows) else {
+    guard let searchUrl: URL = self.apiController.generateSearchUrl(query: query, start: start, rows: rows, fields: fields, sortFields: sortFields) else {
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }

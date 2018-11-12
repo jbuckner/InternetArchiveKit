@@ -44,9 +44,9 @@ class InternetArchiveSDKTests: XCTestCase {
   func testSearchFields() {
     let expectation = XCTestExpectation(description: "Test Search Fields")
     InternetArchive().search(query: "collection:(etree)+AND+mediatype:(collection)",
-                             fields: ["identifier", "title"],
                              start: 0,
-                             rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
+                             rows: 10,
+                             fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()
@@ -75,9 +75,9 @@ class InternetArchiveSDKTests: XCTestCase {
     let query: String = "collection:(etree)+AND+mediatype:(collection)"
     InternetArchive().search(
       query: query,
-      fields: ["identifier", "title"],
       start: 0,
       rows: 10,
+      fields: ["identifier", "title"],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         if let error: Error = error {
           XCTFail("error, \(error.localizedDescription)")

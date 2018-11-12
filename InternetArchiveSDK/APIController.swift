@@ -15,9 +15,15 @@ extension InternetArchive {
       urlComponents.host = host
     }
 
-    public func generateSearchUrl(query: String, fields: [String], start: Int, rows: Int) -> URL? {
+    public func generateSearchUrl(query: String,
+                                  start: Int,
+                                  rows: Int,
+                                  fields: [String],
+                                  sortFields: [SortField],
+                                  queryParams: [URLQueryItem] = []) -> URL? {
       let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
-      let params: [URLQueryItem] = fieldParams + [
+      let sortParams: [URLQueryItem] = sortFields.compactMap { URLQueryItem(name: "sort[]", value: "\($0.field) \($0.direction)") }
+      let params: [URLQueryItem] = sortParams + fieldParams + [
         URLQueryItem(name: "q", value: query),
         URLQueryItem(name: "output", value: "json"),
         URLQueryItem(name: "rows", value: "\(rows)"),
@@ -40,5 +46,22 @@ extension InternetArchive {
     }
 
     private var urlComponents: URLComponents = URLComponents()
+  }
+}
+
+extension InternetArchive {
+  public struct SortField {
+    public let field: String
+    public let direction: SortDirection
+
+    public init(field: String, direction: SortDirection) {
+      self.field = field
+      self.direction = direction
+    }
+  }
+
+  public enum SortDirection: String {
+    case asc
+    case desc
   }
 }

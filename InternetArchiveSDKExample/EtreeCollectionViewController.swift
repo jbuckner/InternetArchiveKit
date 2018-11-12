@@ -26,9 +26,10 @@ class EtreeCollectionViewController: UITableViewController {
     let query: String = "collection:(etree)+AND+mediatype:(collection)"
     internetArchive.search(
       query: query,
-      fields: ["identifier", "title"],
       start: 0,
       rows: 10,
+      fields: ["identifier", "title"],
+      sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         self.artists = response?.response.docs ?? []
 
