@@ -71,22 +71,27 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Get Collection")
-    InternetArchive().getCollection(identifier: "etree",
-                                    start: 0,
-                                    rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
-      if let error: Error = error {
-        XCTFail("error, \(error.localizedDescription)")
-        expectation.fulfill()
-        return
-      }
 
-      if let response = response {
-        XCTAssertTrue(response.response.numFound > 7000)  // the etree archive has 7400+ artists so just sanity check
-      } else {
-        XCTFail("no response")
-      }
-      expectation.fulfill()
-    }
+    let query: String = "collection:(etree)+AND+mediatype:(collection)"
+    InternetArchive().search(
+      query: query,
+      fields: ["identifier", "title"],
+      start: 0,
+      rows: 10,
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+        if let error: Error = error {
+          XCTFail("error, \(error.localizedDescription)")
+          expectation.fulfill()
+          return
+        }
+
+        if let response = response {
+          XCTAssertTrue(response.response.numFound > 7000)  // the etree archive has 7400+ artists so just sanity check
+        } else {
+          XCTFail("no response")
+        }
+        expectation.fulfill()
+    })
 
     wait(for: [expectation], timeout: 10.0)
   }

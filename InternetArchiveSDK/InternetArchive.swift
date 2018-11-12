@@ -42,16 +42,6 @@ public class InternetArchive {
     self.makeRequest(url: metadataUrl, completion: completion)
   }
 
-  // a convenience method to get a collection
-  public func getCollection(identifier: String,
-                            fields: [String] = [],
-                            start: Int,
-                            rows: Int,
-                            completion: @escaping (SearchResponse?, Error?) -> ()) {
-    let query: String = "collection:(\(identifier))+AND+mediatype:(collection)"
-    self.search(query: query, fields: fields, start: start, rows: rows, completion: completion)
-  }
-
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
     debugPrint("APIController.makeRequest", url.absoluteString)
     let task = URLSession.shared.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
