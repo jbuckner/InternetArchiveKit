@@ -21,7 +21,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testSearchQuery() {
     let expectation = XCTestExpectation(description: "Test Search Query")
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(query: query,
                              start: 0,
                              rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
@@ -44,7 +44,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testSearchFields() {
     let expectation = XCTestExpectation(description: "Test Search Fields")
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(query: query,
                              start: 0,
                              rows: 10,
@@ -73,7 +73,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Get Collection")
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(
       query: query,
       start: 0,
@@ -139,7 +139,7 @@ class InternetArchiveSDKTests: XCTestCase {
 
     let internetArchive: InternetArchive = InternetArchive(apiController: InvalidUrlAPIController())
     let expectation = XCTestExpectation(description: "Test Invalid Url")
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo" : "bar"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo" : "bar"])
 
     internetArchive.search(query: query, start: 0, rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
       XCTAssertNotNil(error)

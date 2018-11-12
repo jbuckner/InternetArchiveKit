@@ -71,40 +71,40 @@ extension InternetArchive {
   }
 }
 
-// Querying
+// MARK: Querying
 extension InternetArchive {
   public struct Query: InternetArchiveAPIURLStringProtocol {
-    public var params: [QueryParam]
+    public var clauses: [QueryClause]
     public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
-      let paramStrings: [String] = params.compactMap { $0.asURLString }
+      let paramStrings: [String] = clauses.compactMap { $0.asURLString }
       return paramStrings.joined(separator: " AND ")
     }
 
     // Convenience initializer to just pass in a bunch of key:values. Only handles boolean AND cases
-    public init(fields: [String: String]) {
-      let params: [QueryParam] = fields.compactMap { (param: (key: String, value: String)) -> QueryParam? in
-        return QueryParam(key: param.key, value: param.value)
+    public init(clauses: [String: String]) {
+      let params: [QueryClause] = clauses.compactMap { (param: (field: String, value: String)) -> QueryClause? in
+        return QueryClause(field: param.field, value: param.value)
       }
-      self.init(params: params)
+      self.init(clauses: params)
     }
 
-    public init(params: [QueryParam]) {
-      self.params = params
+    public init(clauses: [QueryClause]) {
+      self.clauses = clauses
     }
   }
 
-  public struct QueryParam: InternetArchiveAPIURLStringProtocol {
-    public let key: String
+  public struct QueryClause: InternetArchiveAPIURLStringProtocol {
+    public let field: String
     public let value: String
     public let booleanOperator: BooleanOperator
     public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`
-      let urlKey: String = key.count > 0 ? "\(key):" : ""
+      let urlKey: String = field.count > 0 ? "\(field):" : ""
       return "\(booleanOperator.rawValue)\(urlKey)(\(value))"
     }
 
-    // key can be empty if you just want to search
-    public init(key: String, value: String, booleanOperator: BooleanOperator = .and) {
-      self.key = key
+    // field can be empty if you just want to search
+    public init(field: String, value: String, booleanOperator: BooleanOperator = .and) {
+      self.field = field
       self.value = value
       self.booleanOperator = booleanOperator
     }
@@ -112,11 +112,11 @@ extension InternetArchive {
 
   public enum BooleanOperator: String {
     case and = ""
-    case not = "-"
+    case not = "-" // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
   }
 }
 
-// Sorting
+// MARK: Query Result Sorting
 extension InternetArchive {
   public struct SortField: InternetArchiveAPIURLQueryItemProtocol {
     public let field: String

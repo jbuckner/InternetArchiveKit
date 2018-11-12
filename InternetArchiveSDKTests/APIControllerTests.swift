@@ -23,7 +23,7 @@ class APIControllerTests: XCTestCase {
     let apiController: InternetArchive.InternetArchiveAPIController = InternetArchive.InternetArchiveAPIController(
       host: "foohost.org", scheme: "gopher")
 
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo": "bar", "baz": "boop"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
     if let url: URL = apiController.generateSearchUrl(query: query,
                                                       start: 0,
@@ -57,29 +57,29 @@ class APIControllerTests: XCTestCase {
   }
 
   func testQueryParamString() {
-    let param1: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "foo", value: "bar", booleanOperator: .and)
+    let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and)
     XCTAssertEqual(param1.asURLString, "foo:(bar)")
-    let param2: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "foo", value: "bar", booleanOperator: .not)
+    let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .not)
     XCTAssertEqual(param2.asURLString, "-foo:(bar)")
-    let param3: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "", value: "bar", booleanOperator: .and)
+    let param3: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "", value: "bar", booleanOperator: .and)
     XCTAssertEqual(param3.asURLString, "(bar)")
   }
 
   func testQueryString() {
-    let param1: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "foo", value: "bar", booleanOperator: .and)
-    let param2: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "baz", value: "boop", booleanOperator: .not)
-    let param3: InternetArchive.QueryParam = InternetArchive.QueryParam(key: "", value: "boop")
-    let query: InternetArchive.Query = InternetArchive.Query(params: [param1, param2, param3])
+    let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and)
+    let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "boop", booleanOperator: .not)
+    let param3: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "", value: "boop")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [param1, param2, param3])
 
     XCTAssertEqual(query.asURLString, "foo:(bar) AND -baz:(boop) AND (boop)")
   }
 
   func testQueryStringConvenience() {
-    let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo": "bar", "baz": "boop"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let queryAsUrl: String = query.asURLString
     debugPrint(queryAsUrl)
     XCTAssertTrue(queryAsUrl == "foo:(bar) AND baz:(boop)" || queryAsUrl == "baz:(boop) AND foo:(bar)")
-    let query2: InternetArchive.Query = InternetArchive.Query(fields: ["": "bar", "baz": "boop"])
+    let query2: InternetArchive.Query = InternetArchive.Query(clauses: ["": "bar", "baz": "boop"])
     let query2AsUrl: String = query2.asURLString
     XCTAssertTrue(query2AsUrl == "(bar) AND baz:(boop)" || query2AsUrl == "baz:(boop) AND (bar)")
   }
