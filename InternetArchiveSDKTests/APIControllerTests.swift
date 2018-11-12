@@ -71,9 +71,11 @@ class APIControllerTests: XCTestCase {
 
   func testQueryStringConvenience() {
     let query: InternetArchive.Query = InternetArchive.Query(fields: ["foo": "bar", "baz": "boop"])
-    XCTAssertEqual(query.asURLQuery, "foo:(bar) AND baz:(boop)")
+    let queryAsUrl: String = query.asURLQuery
+    XCTAssertTrue(queryAsUrl == "foo:(bar) AND baz:(boop)" || queryAsUrl == "(bar) AND baz:(boop)")
     let query2: InternetArchive.Query = InternetArchive.Query(fields: ["": "bar", "baz": "boop"])
-    XCTAssertEqual(query2.asURLQuery, "(bar) AND baz:(boop)")
+    let query2AsUrl: String = query2.asURLQuery
+    XCTAssertTrue(query2AsUrl == "(bar) AND baz:(boop)" || query2AsUrl == "baz:(boop) AND (bar)")
   }
 
 }

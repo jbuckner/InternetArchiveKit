@@ -39,7 +39,7 @@ class InternetArchiveSDKTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 10.0)
+    wait(for: [expectation], timeout: 20.0)
   }
 
   func testSearchFields() {
@@ -68,7 +68,7 @@ class InternetArchiveSDKTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 10.0)
+    wait(for: [expectation], timeout: 20.0)
   }
 
   func testGetCollection() {
@@ -94,7 +94,7 @@ class InternetArchiveSDKTests: XCTestCase {
         expectation.fulfill()
     })
 
-    wait(for: [expectation], timeout: 10.0)
+    wait(for: [expectation], timeout: 20.0)
   }
 
   func testItemDetail() {
@@ -114,7 +114,7 @@ class InternetArchiveSDKTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 10.0)
+    wait(for: [expectation], timeout: 20.0)
   }
 
 
