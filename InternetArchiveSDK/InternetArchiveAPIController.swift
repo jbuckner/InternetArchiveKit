@@ -17,6 +17,7 @@ public protocol InternetArchiveAPIControllerProtocol {
                          additionalQueryParams: [URLQueryItem]) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
+  func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable
 }
 
 public protocol InternetArchiveAPIURLStringProtocol {
@@ -65,6 +66,29 @@ extension InternetArchive {
     public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
       urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
       return urlComponents.url
+    }
+
+    public func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
+      debugPrint("APIController.makeRequest", url.absoluteString)
+      let task = URLSession.shared.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
+        guard let data = data else {
+          completion(nil, error)
+          return
+        }
+
+        do {
+          let decoder: JSONDecoder = JSONDecoder()
+          decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+          let results: T = try decoder.decode(T.self, from: data)
+          completion(results, error)
+        } catch {
+          debugPrint("makeRequest error decoding", error.localizedDescription, error)
+          completion(nil, error)
+        }
+      }
+
+      task.resume()
     }
 
     private var urlComponents: URLComponents = URLComponents()

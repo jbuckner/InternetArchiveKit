@@ -135,6 +135,10 @@ class InternetArchiveSDKTests: XCTestCase {
       func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
         return nil
       }
+
+      func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T : Decodable {
+        completion(nil, nil)
+      }
     }
 
     let internetArchive: InternetArchive = InternetArchive(apiController: InvalidUrlAPIController())

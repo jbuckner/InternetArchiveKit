@@ -32,7 +32,7 @@ public class InternetArchive {
       return
     }
 
-    self.makeRequest(url: searchUrl, completion: completion)
+    self.apiController.makeRequest(url: searchUrl, completion: completion)
   }
 
   // hits the metadata url for a particular item,
@@ -44,30 +44,7 @@ public class InternetArchive {
       return
     }
 
-    self.makeRequest(url: metadataUrl, completion: completion)
-  }
-
-  private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
-    debugPrint("APIController.makeRequest", url.absoluteString)
-    let task = URLSession.shared.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
-      guard let data = data else {
-        completion(nil, error)
-        return
-      }
-
-      do {
-        let decoder: JSONDecoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        let results: T = try decoder.decode(T.self, from: data)
-        completion(results, error)
-      } catch {
-        debugPrint("makeRequest error decoding", error.localizedDescription, error)
-        completion(nil, error)
-      }
-    }
-
-    task.resume()
+    self.apiController.makeRequest(url: metadataUrl, completion: completion)
   }
 
   private let apiController: InternetArchiveAPIControllerProtocol
