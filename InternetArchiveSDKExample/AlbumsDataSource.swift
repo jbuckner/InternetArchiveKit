@@ -10,28 +10,29 @@ import Foundation
 import UIKit
 import InternetArchiveSDK
 
-protocol AlbumDataSourceDelegate: class {
+protocol AlbumsDataSourceDelegate: class {
   func albumsLoaded()
 }
 
 class AlbumsDataSource: NSObject {
-  weak var delegate: AlbumDataSourceDelegate?
-  var artist: InternetArchive.ItemMetadata {
+  weak var delegate: AlbumsDataSourceDelegate?
+  var artist: InternetArchive.ItemMetadata? {
     didSet {
       self.loadAlbums()
     }
   }
+  var albums: [InternetArchive.ItemMetadata] = []
   private let internetArchive: InternetArchive
-  private var albums: [InternetArchive.ItemMetadata] = []
 
-  init(artist: InternetArchive.ItemMetadata, internetArchive: InternetArchive = InternetArchive()) {
+  init(artist: InternetArchive.ItemMetadata? = nil, internetArchive: InternetArchive = InternetArchive()) {
     self.artist = artist
     self.internetArchive = internetArchive
     super.init()
     self.loadAlbums()
   }
 
-  private func loadAlbums() {
+  func loadAlbums() {
+    guard let artist = artist else { return }
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : artist.identifier])
 
     internetArchive.search(

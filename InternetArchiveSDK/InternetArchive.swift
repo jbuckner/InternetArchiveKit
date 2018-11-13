@@ -39,6 +39,7 @@ public class InternetArchive {
   // eg https://archive.org/metadata/ymsb2006-07-03.flac16
   public func itemDetail(identifier: String, completion: @escaping (Item?, Error?) -> () ) {
     guard let metadataUrl: URL = self.apiController.generateMetadataUrl(identifier: identifier) else {
+      debugPrint("itemDetail error generating metadata url, identifier", identifier)
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }
@@ -61,7 +62,7 @@ public class InternetArchive {
         let results: T = try decoder.decode(T.self, from: data)
         completion(results, error)
       } catch {
-        debugPrint("makeRequest error decoding", error.localizedDescription)
+        debugPrint("makeRequest error decoding", error.localizedDescription, error)
         completion(nil, error)
       }
     }

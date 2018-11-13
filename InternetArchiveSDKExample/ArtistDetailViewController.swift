@@ -13,7 +13,6 @@ class ArtistDetailViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView?
   @IBOutlet weak var detailDescriptionLabel: UILabel?
-  private weak var albumsViewController: AlbumSelectorViewController?
   var dataSource: AlbumsDataSource?
 
   func configureView() {
@@ -23,19 +22,15 @@ class ArtistDetailViewController: UIViewController {
       label.text = detail.title ?? "No title"
     }
 
-    self.dataSource = AlbumsDataSource(artist: detail)
-    self.dataSource?.delegate = self
-    self.tableView?.dataSource = self.dataSource
+    self.dataSource?.artist = detail
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-
-
+    self.dataSource = AlbumsDataSource()
+    self.dataSource?.delegate = self
+    self.tableView?.dataSource = self.dataSource
     configureView()
-//    debugPrint("didLoad", tableView)
-
   }
 
   var detailItem: InternetArchive.ItemMetadata? {
@@ -45,14 +40,18 @@ class ArtistDetailViewController: UIViewController {
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "albums", let destination = segue.destination as? AlbumSelectorViewController {
-      destination.artist = self.detailItem
-      self.albumsViewController = destination
-    }
+    guard segue.identifier == "albumSegue",
+      let destination = (segue.destination as? UINavigationController)?.topViewController as? AlbumViewController,
+      let indexPath = tableView?.indexPathForSelectedRow,
+      let album = self.dataSource?.albums[indexPath.row] else { return }
+
+    destination.albumIdentifier = album.identifier
+    destination.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+    destination.navigationItem.leftItemsSupplementBackButton = true
   }
 }
 
-extension ArtistDetailViewController: AlbumDataSourceDelegate {
+extension ArtistDetailViewController: AlbumsDataSourceDelegate {
   func albumsLoaded() {
     DispatchQueue.main.async {
       self.tableView?.reloadData()

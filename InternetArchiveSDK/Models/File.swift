@@ -13,7 +13,7 @@ extension InternetArchive {
     public let name: String?
     public let source: String?
     public let format: String?
-    public let original: String?
+    public let original: StringOrArray?
     public let title: String?
     public let creator: String?
     public let album: String?
