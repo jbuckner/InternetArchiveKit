@@ -11,27 +11,35 @@ import InternetArchiveSDK
 
 class ArtistDetailViewController: UIViewController {
 
-  @IBOutlet weak var detailDescriptionLabel: UILabel!
+  @IBOutlet weak var tableView: UITableView?
+  @IBOutlet weak var detailDescriptionLabel: UILabel?
   private weak var albumsViewController: AlbumSelectorViewController?
+  var dataSource: AlbumsDataSource?
 
   func configureView() {
     // Update the user interface for the detail item.
-    if let detail = detailItem {
-      if let label = detailDescriptionLabel {
-        label.text = detail.title ?? "No title"
-      }
+    guard let detail = detailItem else { return }
+    if let label = detailDescriptionLabel {
+      label.text = detail.title ?? "No title"
     }
+
+    self.dataSource = AlbumsDataSource(artist: detail)
+    self.dataSource?.delegate = self
+    self.tableView?.dataSource = self.dataSource
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+
+
     configureView()
+//    debugPrint("didLoad", tableView)
+
   }
 
   var detailItem: InternetArchive.ItemMetadata? {
     didSet {
-      // Update the view.
       configureView()
     }
   }
@@ -44,3 +52,10 @@ class ArtistDetailViewController: UIViewController {
   }
 }
 
+extension ArtistDetailViewController: AlbumDataSourceDelegate {
+  func albumsLoaded() {
+    DispatchQueue.main.async {
+      self.tableView?.reloadData()
+    }
+  }
+}

@@ -16,8 +16,8 @@
 		9669B0302197B91600E7CE2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9669B02E2197B91600E7CE2A /* LaunchScreen.storyboard */; };
 		9669B0362197BAAE00E7CE2A /* InternetArchiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */; };
 		9669B0382197C03E00E7CE2A /* GratefulDead.json in Resources */ = {isa = PBXBuildFile; fileRef = 9669B0372197C03E00E7CE2A /* GratefulDead.json */; };
+		9694E66A219A6F3E00F6D26B /* AlbumsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694E669219A6F3E00F6D26B /* AlbumsDataSource.swift */; };
 		96E54CEB2198054F000B9B75 /* APIControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E54CEA2198054F000B9B75 /* APIControllerTests.swift */; };
-		96E54CED21980ECF000B9B75 /* AlbumSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E54CEC21980ECF000B9B75 /* AlbumSelectorViewController.swift */; };
 		96ECE0E221913AE200A0C8A6 /* InternetArchiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */; };
 		96ECE0E721913AE200A0C8A6 /* InternetArchiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0E621913AE200A0C8A6 /* InternetArchiveSDKTests.swift */; };
 		96ECE0E921913AE200A0C8A6 /* InternetArchiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 96ECE0DB21913AE100A0C8A6 /* InternetArchiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,8 +50,8 @@
 		9669B02F2197B91600E7CE2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9669B0312197B91600E7CE2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9669B0372197C03E00E7CE2A /* GratefulDead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GratefulDead.json; sourceTree = "<group>"; };
+		9694E669219A6F3E00F6D26B /* AlbumsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsDataSource.swift; sourceTree = "<group>"; };
 		96E54CEA2198054F000B9B75 /* APIControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIControllerTests.swift; sourceTree = "<group>"; };
-		96E54CEC21980ECF000B9B75 /* AlbumSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectorViewController.swift; sourceTree = "<group>"; };
 		96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InternetArchiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96ECE0DB21913AE100A0C8A6 /* InternetArchiveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternetArchiveSDK.h; sourceTree = "<group>"; };
 		96ECE0DC21913AE100A0C8A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 				9669B0232197B91200E7CE2A /* AppDelegate.swift */,
 				9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */,
 				9669B0272197B91200E7CE2A /* ArtistDetailViewController.swift */,
-				96E54CEC21980ECF000B9B75 /* AlbumSelectorViewController.swift */,
+				9694E669219A6F3E00F6D26B /* AlbumsDataSource.swift */,
 				9669B0292197B91200E7CE2A /* Main.storyboard */,
 				9669B02C2197B91600E7CE2A /* Assets.xcassets */,
 				9669B02E2197B91600E7CE2A /* LaunchScreen.storyboard */,
@@ -322,7 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96E54CED21980ECF000B9B75 /* AlbumSelectorViewController.swift in Sources */,
+				9694E66A219A6F3E00F6D26B /* AlbumsDataSource.swift in Sources */,
 				9669B0282197B91200E7CE2A /* ArtistDetailViewController.swift in Sources */,
 				9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */,
 				9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */,
