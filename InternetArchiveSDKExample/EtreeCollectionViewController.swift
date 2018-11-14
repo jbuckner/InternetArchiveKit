@@ -60,15 +60,20 @@ class EtreeCollectionViewController: UITableViewController {
   // MARK: - Segues
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "showDetail" {
-      if let indexPath = tableView.indexPathForSelectedRow {
-        let object = artists[indexPath.row]
-        let controller = (segue.destination as! UINavigationController).topViewController as! ArtistDetailViewController
-        controller.detailItem = object
-        controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-        controller.navigationItem.leftItemsSupplementBackButton = true
-      }
+    guard
+      segue.identifier == "showDetail",
+      let indexPath = tableView.indexPathForSelectedRow else { return }
+    let object: InternetArchive.ItemMetadata
+    if isFiltering() {
+      object = filteredArtists[indexPath.row]
+    } else {
+      object = artists[indexPath.row]
     }
+
+    let controller = (segue.destination as! UINavigationController).topViewController as! ArtistDetailViewController
+    controller.detailItem = object
+    controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+    controller.navigationItem.leftItemsSupplementBackButton = true
   }
 
   // MARK: - Table View
@@ -112,6 +117,28 @@ extension EtreeCollectionViewController {
       return artist.title?.lowercased().contains(searchText.lowercased()) ?? false // & doesCategoryMatch
 //      }
     })
+
+    if filteredArtists.count > 0 {
+      self.tableView.reloadData()
+    } else {
+      let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree",
+                                                                         "mediatype": "collection",
+                                                                         "": "yonder"])
+      internetArchive.search(
+        query: query,
+        start: 0,
+        rows: 10,
+        fields: ["identifier", "title"],
+        sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
+        completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+          self.filteredArtists = response?.response.docs ?? []
+
+          DispatchQueue.main.async {
+            self.tableView.reloadData()
+          }
+      })
+    }
+
     tableView.reloadData()
   }
 
