@@ -110,8 +110,6 @@ class EtreeCollectionViewController: UITableViewController {
 
 extension EtreeCollectionViewController {
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-    guard searchText.count > 0 else { return }
-
     // first try to filter by artists already loaded
     filteredArtists = artists.filter({(artist : InternetArchive.ItemMetadata) -> Bool in
 //      let doesCategoryMatch = (scope == "All") || (candy.category == scope)
@@ -127,6 +125,10 @@ extension EtreeCollectionViewController {
     if filteredArtists.count > 0 {
       self.tableView.reloadData()
     } else {
+      guard searchText.count > 0 else {
+        self.tableView.reloadData()
+        return
+      }
       self.searchDebouncer.callback = {
         self.debounceSearch(searchText: searchText)
       }
