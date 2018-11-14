@@ -43,6 +43,10 @@ class ConcertDataSource: NSObject {
     }
   }
 
+  var trackCount: Int {
+    return concert?.sortedSongs.count ?? 0
+  }
+
   func getTrack(at index: Int) -> InternetArchive.File? {
     return concert?.sortedSongs[safe: index]
   }
