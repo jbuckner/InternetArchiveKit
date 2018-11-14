@@ -13,7 +13,7 @@ class ArtistDetailViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView?
   @IBOutlet weak var detailDescriptionLabel: UILabel?
-  var dataSource: AlbumsDataSource?
+  var dataSource: ConcertsDataSource?
 
   func configureView() {
     // Update the user interface for the detail item.
@@ -27,7 +27,7 @@ class ArtistDetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.dataSource = AlbumsDataSource()
+    self.dataSource = ConcertsDataSource()
     self.dataSource?.delegate = self
     self.tableView?.dataSource = self.dataSource
     configureView()
@@ -48,19 +48,19 @@ class ArtistDetailViewController: UIViewController {
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    guard segue.identifier == "albumSegue",
-      let destination = (segue.destination as? UINavigationController)?.topViewController as? AlbumViewController,
+    guard segue.identifier == "concertSegue",
+      let destination = (segue.destination as? UINavigationController)?.topViewController as? ConcertViewController,
       let indexPath = tableView?.indexPathForSelectedRow,
-      let album = self.dataSource?.albums[indexPath.row] else { return }
+      let concert = self.dataSource?.concerts[indexPath.row] else { return }
 
-    destination.albumIdentifier = album.identifier
+    destination.concertIdentifier = concert.identifier
     destination.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
     destination.navigationItem.leftItemsSupplementBackButton = true
   }
 }
 
-extension ArtistDetailViewController: AlbumsDataSourceDelegate {
-  func albumsLoaded(albums: [InternetArchive.ItemMetadata]) {
+extension ArtistDetailViewController: ConcertsDataSourceDelegate {
+  func concertsLoaded(concerts: [InternetArchive.ItemMetadata]) {
     DispatchQueue.main.async {
       self.tableView?.reloadData()
     }

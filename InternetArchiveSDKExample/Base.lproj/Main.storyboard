@@ -45,7 +45,7 @@
                                 <rect key="frame" x="0.0" y="107" width="375" height="560"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="albumCell" id="TGF-hF-LTe">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="concertCell" id="TGF-hF-LTe">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TGF-hF-LTe" id="Ob6-MI-5DT">
@@ -53,7 +53,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="K0p-A2-Fb2" kind="showDetail" identifier="albumSegue" id="wyt-C4-QrT"/>
+                                            <segue destination="K0p-A2-Fb2" kind="showDetail" identifier="concertSegue" id="wyt-C4-QrT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -82,10 +82,10 @@
             </objects>
             <point key="canvasLocation" x="708" y="127.28635682158921"/>
         </scene>
-        <!--Album-->
+        <!--Concert-->
         <scene sceneID="PWL-OW-J53">
             <objects>
-                <tableViewController id="iyd-tM-JK0" customClass="AlbumViewController" customModule="InternetArchiveSDKExample" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iyd-tM-JK0" customClass="ConcertViewController" customModule="InternetArchiveSDKExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="txR-FL-Dfk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -105,7 +105,7 @@
                             <outlet property="delegate" destination="iyd-tM-JK0" id="y7d-Ue-JHc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Album" id="j1x-yd-QqW"/>
+                    <navigationItem key="navigationItem" title="Concert" id="j1x-yd-QqW"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Afu-0z-jJN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
