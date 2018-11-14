@@ -104,12 +104,15 @@ class EtreeCollectionViewController: UITableViewController {
     cell.textLabel!.text = artist.title ?? "No title"
     return cell
   }
+
+  private let searchDebouncer: Debouncer = Debouncer(delay: 1.0, callback: {})
 }
 
 extension EtreeCollectionViewController {
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
     guard searchText.count > 0 else { return }
 
+    // first try to filter by artists already loaded
     filteredArtists = artists.filter({(artist : InternetArchive.ItemMetadata) -> Bool in
 //      let doesCategoryMatch = (scope == "All") || (candy.category == scope)
 
@@ -120,15 +123,15 @@ extension EtreeCollectionViewController {
 //      }
     })
 
+    // if search results found, reload, otherwise start an online search
     if filteredArtists.count > 0 {
       self.tableView.reloadData()
     } else {
-
-      let search: Debouncer = Debouncer(delay: 1.0) {
+      self.searchDebouncer.callback = {
         self.debounceSearch(searchText: searchText)
       }
 
-      search.call()
+      searchDebouncer.call()
     }
   }
 
