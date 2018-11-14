@@ -26,6 +26,7 @@
 		96BAF7D4219BD4F7004B512D /* InternetArchiveProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D3219BD4F7004B512D /* InternetArchiveProtocols.swift */; };
 		96BAF7D6219BD518004B512D /* InternetArchiveErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D5219BD518004B512D /* InternetArchiveErrors.swift */; };
 		96BAF7D8219BD6FE004B512D /* Collection+InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */; };
+		96BAF7DA219BF148004B512D /* InternetArchiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		96E54CEB2198054F000B9B75 /* APIControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E54CEA2198054F000B9B75 /* APIControllerTests.swift */; };
 		96ECE0E221913AE200A0C8A6 /* InternetArchiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveSDK.framework */; };
 		96ECE0E721913AE200A0C8A6 /* InternetArchiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0E621913AE200A0C8A6 /* InternetArchiveSDKTests.swift */; };
@@ -38,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		96BAF7DB219BF148004B512D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96ECE0CF21913AE100A0C8A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96ECE0D721913AE100A0C8A6;
+			remoteInfo = InternetArchiveSDK;
+		};
 		96ECE0E321913AE200A0C8A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 96ECE0CF21913AE100A0C8A6 /* Project object */;
@@ -46,6 +54,20 @@
 			remoteInfo = InternetArchiveSDK;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		96BAF7DD219BF148004B512D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				96BAF7DA219BF148004B512D /* InternetArchiveSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9669B01B2197B76D00E7CE2A /* artists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = artists.json; sourceTree = "<group>"; };
@@ -240,10 +262,12 @@
 				9669B01D2197B91200E7CE2A /* Sources */,
 				9669B01E2197B91200E7CE2A /* Frameworks */,
 				9669B01F2197B91200E7CE2A /* Resources */,
+				96BAF7DD219BF148004B512D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96BAF7DC219BF148004B512D /* PBXTargetDependency */,
 			);
 			name = InternetArchiveSDKExample;
 			productName = InternetArchiveSDKExample;
@@ -402,6 +426,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		96BAF7DC219BF148004B512D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96ECE0D721913AE100A0C8A6 /* InternetArchiveSDK */;
+			targetProxy = 96BAF7DB219BF148004B512D /* PBXContainerItemProxy */;
+		};
 		96ECE0E421913AE200A0C8A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 96ECE0D721913AE100A0C8A6 /* InternetArchiveSDK */;
@@ -432,6 +461,7 @@
 		9669B0332197B91600E7CE2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
@@ -450,6 +480,7 @@
 		9669B0342197B91600E7CE2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
