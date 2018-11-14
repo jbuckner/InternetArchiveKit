@@ -20,7 +20,6 @@ public protocol InternetArchiveProtocol {
                          additionalQueryParams: [URLQueryItem]) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
-  func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable
 }
 
 public protocol InternetArchiveURLStringProtocol {

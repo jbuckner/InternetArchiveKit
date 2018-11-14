@@ -20,11 +20,11 @@ class ConcertViewController: UIViewController {
   }
 
   @IBOutlet weak var tableView: UITableView?
-  @IBOutlet weak var playPauseBtn: UIBarButtonItem!
+  @IBOutlet weak var toolbar: UIToolbar!
 
   private var isPlaying: Bool = false
   
-  @IBAction func playPause(_ sender: UIBarButtonItem) {
+  @objc func playPause(_ sender: UIBarButtonItem) {
     if self.isPlaying {
       self.pause()
     } else {
@@ -33,15 +33,32 @@ class ConcertViewController: UIViewController {
   }
 
   func play() {
-    self.player.play()
-    self.playPauseBtn.title = "Pause"
     self.isPlaying = true
+    self.player.play()
+    self.updateToolbar()
   }
 
   func pause() {
-    self.player.pause()
-    self.playPauseBtn.title = "Play"
     self.isPlaying = false
+    self.player.pause()
+    self.updateToolbar()
+  }
+
+  func updateToolbar() {
+    let playPauseType: UIBarButtonItem.SystemItem = isPlaying ? .pause : .play
+
+    let leftSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let rewind: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .rewind, target: nil, action: nil)
+    let space1: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+    let playPause: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: playPauseType, target: self, action: #selector(playPause(_:)))
+    let space2: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+    let fastforward: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fastForward, target: nil, action: nil)
+    let rightSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+    space1.width = 42
+    space2.width = 42
+
+    self.toolbar.items = [leftSpace, rewind, space1, playPause, space2, fastforward, rightSpace]
   }
 
   override func viewDidLoad() {
@@ -51,9 +68,11 @@ class ConcertViewController: UIViewController {
     self.tableView?.delegate = self
     self.dataSource?.delegate = self
     self.dataSource?.concertIdentifier = concertIdentifier
+    self.updateToolbar()
   }
 
   var player: AVPlayer = AVPlayer()
+  var internetArchive: InternetArchive = InternetArchive()
 }
 
 extension ConcertViewController: ConcertDataSourceDelegate {
@@ -77,8 +96,7 @@ extension ConcertViewController: UITableViewDelegate {
       return
     }
 
-    let internetArchive: InternetArchive = InternetArchive()
-    if let url = internetArchive.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName) {
+    if let url = self.internetArchive.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName) {
       debugPrint("downloadUrl", url)
       self.pause()
       self.player = AVPlayer(url: url)

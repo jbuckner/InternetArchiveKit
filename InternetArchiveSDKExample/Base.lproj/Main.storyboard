@@ -108,11 +108,11 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6k2-g8-uy2"/>
-                                    <barButtonItem title="Play" id="j4C-ye-B5f">
-                                        <connections>
-                                            <action selector="playPause:" destination="EmJ-8g-DOf" id="Ttg-wj-bxk"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="rewind" id="SD7-4B-jTg"/>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="9Jk-UM-eFh"/>
+                                    <barButtonItem systemItem="play" id="j4C-ye-B5f"/>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Hb8-gA-z6n"/>
+                                    <barButtonItem style="plain" systemItem="fastForward" id="X9P-Zo-Odq"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="T19-Rc-mw9"/>
                                 </items>
                             </toolbar>
@@ -131,8 +131,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Lzl-7S-HLa"/>
                     <connections>
-                        <outlet property="playPauseBtn" destination="j4C-ye-B5f" id="PQs-VI-KS5"/>
                         <outlet property="tableView" destination="2d3-zN-YJK" id="HIa-lK-aNk"/>
+                        <outlet property="toolbar" destination="vgT-dW-tPl" id="9wD-Aw-5U4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lka-6N-iNs" userLabel="First Responder" sceneMemberID="firstResponder"/>

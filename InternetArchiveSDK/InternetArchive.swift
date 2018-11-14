@@ -80,7 +80,7 @@ public class InternetArchive: InternetArchiveProtocol {
     return urlComponents.url
   }
 
-  public func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
+  private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
     debugPrint("APIController.makeRequest", url.absoluteString)
     let task = URLSession.shared.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
       guard let data = data else {
