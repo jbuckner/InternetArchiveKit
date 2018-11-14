@@ -28,19 +28,6 @@ class ConcertViewController: UITableViewController {
   }
 
   var player: AVPlayer = AVPlayer()
-
-  override func viewDidAppear(_ animated: Bool) {
-    self.test()
-    super.viewDidAppear(animated)
-  }
-
-  func test() {
-    if let url = URL(string: "https://archive.org/download/testmp3testfile/mpthreetest.mp3") {
-      player = AVPlayer(url: url)
-      player.volume = 1.0
-      player.play()
-    }
-  }
 }
 
 extension ConcertViewController: ConcertDataSourceDelegate {
@@ -55,6 +42,22 @@ extension ConcertViewController: ConcertDataSourceDelegate {
 // MARK: UITableViewDelegate
 extension ConcertViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+    guard
+      let itemIdentifier: String = self.concertIdentifier,
+      let file: InternetArchive.File = self.dataSource?.getTrack(at: indexPath.row),
+      let fileName: String = file.name
+    else {
+      tableView.deselectRow(at: indexPath, animated: true)
+      return
+    }
+
+    let internetArchive: InternetArchive = InternetArchive()
+    if let url = internetArchive.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName) {
+      debugPrint("downloadUrl", url)
+      player.pause()
+      player = AVPlayer(url: url)
+      player.volume = 1.0
+      player.play()
+    }
   }
 }

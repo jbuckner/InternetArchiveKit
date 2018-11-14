@@ -29,6 +29,7 @@ public class InternetArchive: InternetArchiveProtocol {
                                                       fields: fields ?? [],
                                                       sortFields: sortFields ?? [],
                                                       additionalQueryParams: []) else {
+      debugPrint("search error generating metadata url", query.asURLString, start, rows, fields ?? "nil", sortFields ?? "nil")
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }

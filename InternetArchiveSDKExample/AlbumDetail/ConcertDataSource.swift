@@ -21,13 +21,13 @@ class ConcertDataSource: NSObject {
       loadConcert()
     }
   }
-  private let internetArchive: InternetArchive
   private var concert: InternetArchive.Item? {
     didSet {
       guard let concert: InternetArchive.Item = self.concert else { return }
       self.delegate?.concertLoaded(concert: concert)
     }
   }
+  private let internetArchive: InternetArchive
 
   init(concertIdentifier: String? = nil, internetArchive: InternetArchive = InternetArchive()) {
     self.concertIdentifier = concertIdentifier
@@ -41,6 +41,10 @@ class ConcertDataSource: NSObject {
     internetArchive.itemDetail(identifier: concertIdentifier) { (concert: InternetArchive.Item?, error: Error?) in
       self.concert = concert
     }
+  }
+
+  func getTrack(at index: Int) -> InternetArchive.File? {
+    return concert?.sortedSongs[safe: index]
   }
 }
 
