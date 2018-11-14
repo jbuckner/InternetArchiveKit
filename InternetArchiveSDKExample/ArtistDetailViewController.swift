@@ -33,6 +33,14 @@ class ArtistDetailViewController: UIViewController {
     configureView()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    if let tableView: UITableView = self.tableView,
+      let selectedIndexPath: IndexPath = self.tableView?.indexPathForSelectedRow {
+      tableView.deselectRow(at: selectedIndexPath, animated: true)
+    }
+    super.viewWillAppear(animated)
+  }
+
   var detailItem: InternetArchive.ItemMetadata? {
     didSet {
       configureView()
