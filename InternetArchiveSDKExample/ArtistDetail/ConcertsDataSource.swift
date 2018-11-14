@@ -38,9 +38,9 @@ class ConcertsDataSource: NSObject {
     internetArchive.search(
       query: query,
       start: 0,
-      rows: 10,
+      rows: 100,
       fields: ["identifier", "title", "creator"],
-      sortFields: [InternetArchive.SortField(field: "date", direction: .asc)],
+      sortFields: [InternetArchive.SortField(field: "date", direction: .desc)],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         guard let concerts: [InternetArchive.ItemMetadata] = response?.response.docs else { return }
         self.concerts = concerts
