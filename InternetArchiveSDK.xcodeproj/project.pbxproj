@@ -21,6 +21,7 @@
 		968C834A219A92FA00B89646 /* StringOrArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C8349219A92FA00B89646 /* StringOrArray.swift */; };
 		968C834C219A987C00B89646 /* StringOrArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C834B219A987C00B89646 /* StringOrArrayTests.swift */; };
 		9694E66A219A6F3E00F6D26B /* ConcertsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694E669219A6F3E00F6D26B /* ConcertsDataSource.swift */; };
+		96AC7279219C64F1007C7910 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC7278219C64F1007C7910 /* Debouncer.swift */; };
 		96BAF7CE219BC016004B512D /* AlbumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7CD219BC016004B512D /* AlbumExtensions.swift */; };
 		96BAF7D2219BD0C0004B512D /* InternetArchiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D1219BD0C0004B512D /* InternetArchiveQuery.swift */; };
 		96BAF7D4219BD4F7004B512D /* InternetArchiveProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D3219BD4F7004B512D /* InternetArchiveProtocols.swift */; };
@@ -85,6 +86,7 @@
 		968C8349219A92FA00B89646 /* StringOrArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrArray.swift; sourceTree = "<group>"; };
 		968C834B219A987C00B89646 /* StringOrArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrArrayTests.swift; sourceTree = "<group>"; };
 		9694E669219A6F3E00F6D26B /* ConcertsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsDataSource.swift; sourceTree = "<group>"; };
+		96AC7278219C64F1007C7910 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		96BAF7CD219BC016004B512D /* AlbumExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumExtensions.swift; sourceTree = "<group>"; };
 		96BAF7D1219BD0C0004B512D /* InternetArchiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveQuery.swift; sourceTree = "<group>"; };
 		96BAF7D3219BD4F7004B512D /* InternetArchiveProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveProtocols.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				9669B0232197B91200E7CE2A /* AppDelegate.swift */,
 				9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */,
+				96AC7278219C64F1007C7910 /* Debouncer.swift */,
 				96BAF7CF219BC9C7004B512D /* ArtistDetail */,
 				96BAF7D0219BC9DD004B512D /* AlbumDetail */,
 				96BAF7CD219BC016004B512D /* AlbumExtensions.swift */,
@@ -388,6 +391,7 @@
 			files = (
 				968C8348219A817800B89646 /* ConcertViewController.swift in Sources */,
 				968C8346219A7F1100B89646 /* ConcertDataSource.swift in Sources */,
+				96AC7279219C64F1007C7910 /* Debouncer.swift in Sources */,
 				96BAF7D8219BD6FE004B512D /* Collection+InternetArchive.swift in Sources */,
 				96BAF7CE219BC016004B512D /* AlbumExtensions.swift in Sources */,
 				9694E66A219A6F3E00F6D26B /* ConcertsDataSource.swift in Sources */,

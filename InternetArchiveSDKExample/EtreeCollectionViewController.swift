@@ -108,6 +108,8 @@ class EtreeCollectionViewController: UITableViewController {
 
 extension EtreeCollectionViewController {
   func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+    guard searchText.count > 0 else { return }
+
     filteredArtists = artists.filter({(artist : InternetArchive.ItemMetadata) -> Bool in
 //      let doesCategoryMatch = (scope == "All") || (candy.category == scope)
 
@@ -121,25 +123,34 @@ extension EtreeCollectionViewController {
     if filteredArtists.count > 0 {
       self.tableView.reloadData()
     } else {
-      let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree",
-                                                                         "mediatype": "collection",
-                                                                         "": "yonder"])
-      internetArchive.search(
-        query: query,
-        start: 0,
-        rows: 10,
-        fields: ["identifier", "title"],
-        sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
-        completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-          self.filteredArtists = response?.response.docs ?? []
 
-          DispatchQueue.main.async {
-            self.tableView.reloadData()
-          }
-      })
+      let search: Debouncer = Debouncer(delay: 1.0) {
+        self.debounceSearch(searchText: searchText)
+      }
+
+      search.call()
     }
+  }
 
-    tableView.reloadData()
+  func debounceSearch(searchText: String) {
+    debugPrint("starting debounced search", searchText)
+
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree",
+                                                                       "mediatype": "collection",
+                                                                       "": searchText])
+    internetArchive.search(
+      query: query,
+      start: 0,
+      rows: 50,
+      fields: ["identifier", "title"],
+      sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+        self.filteredArtists = response?.response.docs ?? []
+
+        DispatchQueue.main.async {
+          self.tableView.reloadData()
+        }
+    })
   }
 
   func searchBarIsEmpty() -> Bool {
