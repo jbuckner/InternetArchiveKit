@@ -11,7 +11,7 @@ import UIKit
 import InternetArchiveSDK
 
 protocol AlbumsDataSourceDelegate: class {
-  func albumsLoaded()
+  func albumsLoaded(albums: [InternetArchive.ItemMetadata])
 }
 
 class AlbumsDataSource: NSObject {
@@ -39,11 +39,12 @@ class AlbumsDataSource: NSObject {
       query: query,
       start: 0,
       rows: 10,
-      fields: ["identifier", "title"],
+      fields: ["identifier", "title", "creator"],
       sortFields: [InternetArchive.SortField(field: "date", direction: .asc)],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-        self.albums = response?.response.docs ?? []
-        self.delegate?.albumsLoaded()
+        guard let albums: [InternetArchive.ItemMetadata] = response?.response.docs else { return }
+        self.albums = albums
+        self.delegate?.albumsLoaded(albums: albums)
     })
   }
 }
@@ -61,7 +62,7 @@ extension AlbumsDataSource: UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(withIdentifier: "albumCell", for: indexPath)
 
     let album: InternetArchive.ItemMetadata = albums[indexPath.row]
-    cell.textLabel!.text = album.title ?? "No title"
+    cell.textLabel!.text = album.normalizedTitle
     return cell
   }
 

@@ -82,7 +82,7 @@
             </objects>
             <point key="canvasLocation" x="708" y="127.28635682158921"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Album-->
         <scene sceneID="PWL-OW-J53">
             <objects>
                 <tableViewController id="iyd-tM-JK0" customClass="AlbumViewController" customModule="InternetArchiveSDKExample" customModuleProvider="target" sceneMemberID="viewController">
@@ -105,7 +105,7 @@
                             <outlet property="delegate" destination="iyd-tM-JK0" id="y7d-Ue-JHc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="j1x-yd-QqW"/>
+                    <navigationItem key="navigationItem" title="Album" id="j1x-yd-QqW"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Afu-0z-jJN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

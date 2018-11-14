@@ -19,7 +19,7 @@ class ArtistDetailViewController: UIViewController {
     // Update the user interface for the detail item.
     guard let detail = detailItem else { return }
     if let label = detailDescriptionLabel {
-      label.text = detail.title ?? "No title"
+      label.text = detail.normalizedTitle
     }
 
     self.dataSource?.artist = detail
@@ -52,7 +52,7 @@ class ArtistDetailViewController: UIViewController {
 }
 
 extension ArtistDetailViewController: AlbumsDataSourceDelegate {
-  func albumsLoaded() {
+  func albumsLoaded(albums: [InternetArchive.ItemMetadata]) {
     DispatchQueue.main.async {
       self.tableView?.reloadData()
     }

@@ -28,8 +28,9 @@ class AlbumViewController: UITableViewController {
 }
 
 extension AlbumViewController: AlbumDataSourceDelegate {
-  func albumLoaded() {
+  func albumLoaded(album: InternetArchive.Item) {
     DispatchQueue.main.async {
+      self.navigationItem.title = album.normalizedTitle
       self.tableView?.reloadData()
     }
   }
