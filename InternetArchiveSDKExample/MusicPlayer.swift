@@ -91,6 +91,7 @@ class MusicPlayer: NSObject {
   func play() {
     self.isPlaying = true
     self.player.play()
+//    MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist: "bar"]
     self.delegate?.didStartPlaying()
   }
 
