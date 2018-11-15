@@ -87,6 +87,7 @@ class ConcertViewController: UIViewController {
 
   @objc func trackDidFinishPlaying() {
     debugPrint("trackDidFinishPlaying")
+    self.updateCurrentItemSelection()
   }
 
   func populateMusicPlayerWithItems() {
