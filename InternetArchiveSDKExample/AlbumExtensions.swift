@@ -11,9 +11,9 @@ import InternetArchiveSDK
 
 extension InternetArchive.Item {
   // this goes through all of the files in an item, filters by `VBR MP3` format, then sorts by `track`
-  var sortedSongs: [InternetArchive.File] {
-    let onlySongs: [InternetArchive.File] = self.files?.filter { $0.format == "VBR MP3" } ?? []
-    let sortedSongs: [InternetArchive.File] = onlySongs.sorted { (song: InternetArchive.File, song2: InternetArchive.File) -> Bool in
+  var sortedTracks: [InternetArchive.File] {
+    let onlyTracks: [InternetArchive.File] = self.files?.filter { $0.format == "VBR MP3" } ?? []
+    let sortedTracks: [InternetArchive.File] = onlyTracks.sorted { (song: InternetArchive.File, song2: InternetArchive.File) -> Bool in
       guard
         let track1: Int = Int(song.track ?? "0"),
         let track2: Int = Int(song2.track ?? "0") else { return false }
@@ -26,7 +26,7 @@ extension InternetArchive.Item {
         return track1 < track2
       }
     }
-    return sortedSongs
+    return sortedTracks
   }
 
   var normalizedTitle: String {

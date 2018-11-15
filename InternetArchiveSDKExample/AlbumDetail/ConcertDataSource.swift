@@ -44,11 +44,11 @@ class ConcertDataSource: NSObject {
   }
 
   var trackCount: Int {
-    return concert?.sortedSongs.count ?? 0
+    return concert?.sortedTracks.count ?? 0
   }
 
   func getTrack(at index: Int) -> InternetArchive.File? {
-    return concert?.sortedSongs[safe: index]
+    return concert?.sortedTracks[safe: index]
   }
 }
 
@@ -58,13 +58,13 @@ extension ConcertDataSource: UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return concert?.sortedSongs.count ?? 0
+    return concert?.sortedTracks.count ?? 0
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
 
-    guard let song: InternetArchive.File = concert?.sortedSongs[indexPath.row] else { return cell }
+    guard let song: InternetArchive.File = concert?.sortedTracks[indexPath.row] else { return cell }
     let track = song.track ?? "?"
     let title = song.title ?? "No title"
     cell.textLabel!.text = "\(track) \(title)"

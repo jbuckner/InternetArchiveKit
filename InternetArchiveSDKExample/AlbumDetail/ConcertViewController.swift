@@ -22,47 +22,36 @@ class ConcertViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView?
   @IBOutlet weak var toolbar: UIToolbar!
 
-  private var isPlaying: Bool = false
-  var currentlyPlayingIndex: Int?
-  
   @objc func playPause(_ sender: UIBarButtonItem) {
-    if self.isPlaying {
-      self.pause()
+    if self.musicPlayer.isPlaying {
+      self.musicPlayer.pause()
     } else {
-      self.play()
+      self.musicPlayer.play()
     }
   }
 
   @objc func skip(_ sender: UIBarButtonItem) {
-    self.playSong(index: (currentlyPlayingIndex ?? -1) + 1)
+    debugPrint("skip")
+    self.musicPlayer.next()
   }
 
   @objc func back(_ sender: UIBarButtonItem) {
-    let trackCount: Int = self.dataSource?.trackCount ?? 0
-    self.playSong(index: (currentlyPlayingIndex ?? trackCount) - 1)
+    debugPrint("back")
+    if self.musicPlayer.player.currentTime().seconds > 5 {
+      debugPrint("jump to beginning")
+      self.musicPlayer.player.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+    } else {
+      debugPrint("jump to previous track")
+      self.musicPlayer.prev()
+    }
   }
 
   @objc func jumpNearEnd(_ sender: UIBarButtonItem) {
-    guard let duration: CMTime = self.player.currentItem?.asset.duration else { return }
-    let secondsNearEnd: CMTime = CMTime(seconds: 5.0, preferredTimescale: 1)
-    let nearEnd: CMTime = CMTimeSubtract(duration, secondsNearEnd)
-    self.player.seek(to: nearEnd)
-  }
-
-  func play() {
-    self.isPlaying = true
-    self.player.play()
-    self.updateToolbar()
-  }
-
-  func pause() {
-    self.isPlaying = false
-    self.player.pause()
-    self.updateToolbar()
+    self.musicPlayer.jumpNearEnd()
   }
 
   func updateToolbar() {
-    let playPauseType: UIBarButtonItem.SystemItem = isPlaying ? .pause : .play
+    let playPauseType: UIBarButtonItem.SystemItem = self.musicPlayer.isPlaying ? .pause : .play
 
     let leftSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let rewind: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(back(_:)))
@@ -79,6 +68,12 @@ class ConcertViewController: UIViewController {
     self.toolbar.items = [leftSpace, rewind, space1, playPause, space2, fastforward, rightSpace, fastforward2]
   }
 
+  func updateCurrentItemSelection() {
+    guard let currentTrackIndex: Int = self.musicPlayer.currentTrackIndex else { return }
+    let indexPath: IndexPath = IndexPath(row: currentTrackIndex, section: 0)
+    self.tableView?.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.dataSource = ConcertDataSource()
@@ -87,22 +82,37 @@ class ConcertViewController: UIViewController {
     self.dataSource?.delegate = self
     self.dataSource?.concertIdentifier = concertIdentifier
     self.updateToolbar()
-
-    NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying),
-                                           name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                           object: player.currentItem)
+    self.musicPlayer.delegate = self
   }
 
-  @objc func playerDidFinishPlaying() {
-    self.playSong(index: (currentlyPlayingIndex ?? 0) + 1)
+  @objc func trackDidFinishPlaying() {
+    debugPrint("trackDidFinishPlaying")
   }
 
-  var player: AVPlayer = AVPlayer()
+  func populateMusicPlayerWithItems() {
+    self.musicPlayer.pause()
+    self.musicPlayer.playerItems = self.playerItems
+  }
+
+  var musicPlayer: MusicPlayer = MusicPlayer.shared
   var internetArchive: InternetArchive = InternetArchive()
+  var playerItems: [AVPlayerItem] = []
 }
 
 extension ConcertViewController: ConcertDataSourceDelegate {
   func concertLoaded(concert: InternetArchive.Item) {
+    guard let concertIdentifier: String = concert.metadata?.identifier else { return }
+
+    for track: InternetArchive.File in concert.sortedTracks {
+      guard
+        let fileName: String = track.name,
+        let url: URL = self.internetArchive.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: fileName)
+        else { continue }
+
+      let playerItem: AVPlayerItem = AVPlayerItem(url: url)
+      self.playerItems.append(playerItem)
+    }
+
     DispatchQueue.main.async {
       self.navigationItem.title = concert.normalizedTitle
       self.tableView?.reloadData()
@@ -110,34 +120,38 @@ extension ConcertViewController: ConcertDataSourceDelegate {
   }
 }
 
-extension ConcertViewController {
-  func playSong(index: Int) {
-    let indexPath: IndexPath = IndexPath(row: index, section: 0)
-
-    guard
-      let itemIdentifier: String = self.concertIdentifier,
-      let file: InternetArchive.File = self.dataSource?.getTrack(at: index),
-      let fileName: String = file.name
-      else {
-        self.tableView?.deselectRow(at: indexPath, animated: true)
-        return
-    }
-
-    if let url = self.internetArchive.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName) {
-      debugPrint("downloadUrl", url)
-      self.pause()
-      self.player = AVPlayer(url: url)
-      self.player.volume = 1.0
-      self.currentlyPlayingIndex = index
-      self.play()
-      self.tableView?.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
-    }
-  }
-}
-
 // MARK: UITableViewDelegate
 extension ConcertViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    self.playSong(index: indexPath.row)
+    debugPrint("didSelectRow", indexPath.row)
+    self.populateMusicPlayerWithItems()
+    self.musicPlayer.playTrack(index: indexPath.row)
+  }
+}
+
+extension ConcertViewController: MusicPlayerProtocol {
+  func trackDidChange() {
+    self.updateCurrentItemSelection()
+  }
+
+  func didStartPlaying() {
+    self.updateToolbar()
+  }
+
+  func didPausePlaying() {
+    self.updateToolbar()
+  }
+
+  func didSkipTrack() {
+
+  }
+
+  func didGoBackTrack() {
+
+  }
+
+  func didPlayTrack(at index: Int) {
+    self.updateCurrentItemSelection()
+    self.updateToolbar()
   }
 }
