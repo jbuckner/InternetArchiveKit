@@ -42,7 +42,7 @@ class EtreeCollectionViewController: UITableViewController {
       start: 0,
       rows: 10,
       fields: ["identifier", "title"],
-      sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
+      sortFields: [InternetArchive.SortField(field: "downloads", direction: .desc)],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         self.artists = response?.response.docs ?? []
 
@@ -121,10 +121,10 @@ extension EtreeCollectionViewController {
 //      }
     })
 
+    self.tableView.reloadData()
+
     // if search results found, reload, otherwise start an online search
-    if filteredArtists.count > 0 {
-      self.tableView.reloadData()
-    } else {
+    if filteredArtists.count == 0 {
       guard searchText.count > 0 else {
         self.tableView.reloadData()
         return
@@ -142,7 +142,7 @@ extension EtreeCollectionViewController {
 
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree",
                                                                        "mediatype": "collection",
-                                                                       "": searchText])
+                                                                       "creator": "*\(searchText)*"])
     internetArchive.search(
       query: query,
       start: 0,

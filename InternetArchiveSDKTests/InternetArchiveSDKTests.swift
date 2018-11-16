@@ -71,6 +71,54 @@ class InternetArchiveSDKTests: XCTestCase {
     wait(for: [expectation], timeout: 20.0)
   }
 
+  func testSearchDateRange() {
+    let expectation = XCTestExpectation(description: "Test Search Fields")
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+
+    let startDateString: String = "2018-04-19"
+    let endDateString: String = "2018-04-21"
+
+    guard
+      let startDate: Date = dateFormatter.date(from: startDateString),
+      let endDate: Date = dateFormatter.date(from: endDateString) else {
+        XCTFail("date generation failed")
+        return
+    }
+    let dateInterval: DateInterval = DateInterval(start: startDate, end: endDate)
+    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(dateRange: dateInterval)
+    let collectionClause: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "collection", value: "etree")
+
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [dateRange, collectionClause])
+
+    InternetArchive().search(query: query,
+                             start: 0,
+                             rows: 10,
+                             fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
+                              if let error: Error = error {
+                                XCTFail("error, \(error.localizedDescription)")
+                                expectation.fulfill()
+                                return
+                              }
+
+                              if let response = response {
+                                if let firstDoc: InternetArchive.ItemMetadata = response.response.docs.first {
+                                  XCTAssertNotNil(firstDoc.title)
+                                  XCTAssertNil(firstDoc.addeddate)
+                                } else {
+                                  XCTFail("no item found")
+                                }
+                              } else {
+                                XCTFail("no response")
+                              }
+                              expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Get Collection")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])

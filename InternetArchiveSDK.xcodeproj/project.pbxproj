@@ -240,8 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				96ECE0F321913D2F00A0C8A6 /* Item.swift */,
-				96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */,
 				96ECE0F72191585300A0C8A6 /* File.swift */,
+				96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */,
 				968C8349219A92FA00B89646 /* StringOrArray.swift */,
 			);
 			path = Models;

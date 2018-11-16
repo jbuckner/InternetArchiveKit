@@ -10,7 +10,7 @@ import Foundation
 
 extension InternetArchive {
   public struct Query: InternetArchiveURLStringProtocol {
-    public var clauses: [QueryClause]
+    public var clauses: [InternetArchiveURLStringProtocol]
     public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
       let paramStrings: [String] = clauses.compactMap { $0.asURLString }
       return paramStrings.joined(separator: " AND ")
@@ -24,7 +24,7 @@ extension InternetArchive {
       self.init(clauses: params)
     }
 
-    public init(clauses: [QueryClause]) {
+    public init(clauses: [InternetArchiveURLStringProtocol]) {
       self.clauses = clauses
     }
   }
@@ -43,6 +43,19 @@ extension InternetArchive {
       self.field = field
       self.value = value
       self.booleanOperator = booleanOperator
+    }
+  }
+
+  public struct QueryDateRange: InternetArchiveURLStringProtocol {
+    public let dateRange: DateInterval
+    public var asURLString: String { // eg `date:[2018-01-01 TO 2018-04-01]`
+      let startDate: Date = dateRange.start
+      let endDate: Date = dateRange.end
+      let dateFormatter: DateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd"
+      let startDateString: String = dateFormatter.string(from: startDate)
+      let endDateString: String = dateFormatter.string(from: endDate)
+      return "date:[\(startDateString) TO \(endDateString)]"
     }
   }
 

@@ -9,9 +9,14 @@
 import Foundation
 
 public protocol InternetArchiveProtocol {
-  func search(query: InternetArchiveURLStringProtocol, start: Int, rows: Int, fields: [String]?,
-              sortFields: [InternetArchiveURLQueryItemProtocol]?, completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ())
-  func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> ())
+  func search(query: InternetArchiveURLStringProtocol,
+              start: Int,
+              rows: Int,
+              fields: [String]?,
+              sortFields: [InternetArchiveURLQueryItemProtocol]?,
+              completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ())
+  func itemDetail(identifier: String,
+                  completion: @escaping (InternetArchive.Item?, Error?) -> ())
   func generateSearchUrl(query: InternetArchiveURLStringProtocol,
                          start: Int,
                          rows: Int,
