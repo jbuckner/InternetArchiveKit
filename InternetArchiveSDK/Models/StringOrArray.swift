@@ -12,7 +12,7 @@ extension InternetArchive {
   // some properties from the InternetArchive can be stored as strings or an array of strings
   // this struct handles both cases and normalizes them to an array of strings
   public struct StringOrArray: Decodable {
-    let values: [String]
+    public let values: [String]
 
     public init(from decoder: Decoder) throws {
 

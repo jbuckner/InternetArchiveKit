@@ -28,22 +28,12 @@ extension InternetArchive.Item {
     }
     return sortedTracks
   }
-
-  var normalizedTitle: String {
-    return self.metadata?.normalizedTitle ?? "No title"
-  }
 }
 
 extension InternetArchive.ItemMetadata {
-  // the title usually includes the name of the band, such as "Yonder Mountain String Band Live at Red Rocks"
-  // we just want to show "Live at Red Rocks" so this just strips the `creator` from `title`
-  var normalizedTitle: String {
-    guard
-      let creator: String = self.creator,
-      let title: String = self.title else {
-        return self.title ?? "No title"
-    }
-
-    return title.replacingOccurrences(of: creator, with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+  var normalizedDate: Date? {
+    return dateParser.date(from: self.date ?? "")
   }
 }
+
+private let dateParser: ISO8601DateFormatter = ISO8601DateFormatter()

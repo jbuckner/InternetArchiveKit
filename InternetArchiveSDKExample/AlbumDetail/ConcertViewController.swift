@@ -114,7 +114,7 @@ extension ConcertViewController: ConcertDataSourceDelegate {
     }
 
     DispatchQueue.main.async {
-      self.navigationItem.title = concert.normalizedTitle
+      self.navigationItem.title = concert.metadata?.venue ?? "No venue"
       self.tableView?.reloadData()
     }
   }

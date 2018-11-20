@@ -19,7 +19,7 @@ class ArtistDetailViewController: UIViewController {
     // Update the user interface for the detail item.
     guard let detail = detailItem else { return }
     if let label = detailDescriptionLabel {
-      label.text = detail.normalizedTitle
+      label.text = detail.title ?? "No title"
     }
 
     self.dataSource?.artist = detail

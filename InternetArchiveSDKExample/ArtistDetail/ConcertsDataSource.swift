@@ -29,6 +29,7 @@ class ConcertsDataSource: NSObject {
     self.internetArchive = internetArchive
     super.init()
     self.loadConcerts()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
   }
 
   func loadConcerts() {
@@ -39,7 +40,7 @@ class ConcertsDataSource: NSObject {
       query: query,
       start: 0,
       rows: 100,
-      fields: ["identifier", "title", "creator"],
+      fields: ["identifier", "title", "creator", "venue", "date"],
       sortFields: [InternetArchive.SortField(field: "date", direction: .desc)],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
         guard let concerts: [InternetArchive.ItemMetadata] = response?.response.docs else { return }
@@ -47,6 +48,8 @@ class ConcertsDataSource: NSObject {
         self.delegate?.concertsLoaded(concerts: concerts)
     })
   }
+
+  private let dateFormatter: DateFormatter = DateFormatter()
 }
 
 extension ConcertsDataSource: UITableViewDataSource {
@@ -62,7 +65,17 @@ extension ConcertsDataSource: UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(withIdentifier: "concertCell", for: indexPath)
 
     let concert: InternetArchive.ItemMetadata = concerts[indexPath.row]
-    cell.textLabel!.text = concert.normalizedTitle
+
+    let datePrefix: String
+    if let concertDate: Date = concert.normalizedDate {
+      datePrefix = "\(dateFormatter.string(from: concertDate)): "
+    } else {
+      datePrefix = ""
+    }
+
+    let venue: String = concert.venue ?? "Unknown venue"
+
+    cell.textLabel!.text = "\(datePrefix)\(venue)"
     return cell
   }
 
