@@ -29,11 +29,3 @@ extension InternetArchive.Item {
     return sortedTracks
   }
 }
-
-extension InternetArchive.ItemMetadata {
-  var normalizedDate: Date? {
-    return dateParser.date(from: self.date ?? "")
-  }
-}
-
-private let dateParser: ISO8601DateFormatter = ISO8601DateFormatter()

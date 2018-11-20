@@ -67,7 +67,7 @@ extension ConcertsDataSource: UITableViewDataSource {
     let concert: InternetArchive.ItemMetadata = concerts[indexPath.row]
 
     let datePrefix: String
-    if let concertDate: Date = concert.normalizedDate {
+    if let concertDate: Date = concert.date {
       datePrefix = "\(dateFormatter.string(from: concertDate)): "
     } else {
       datePrefix = ""
