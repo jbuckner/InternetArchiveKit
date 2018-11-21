@@ -11,15 +11,17 @@ import Foundation
 extension InternetArchive {
   // some properties from the InternetArchive can be stored as strings or an array of strings
   // this struct handles both cases and normalizes them to an array of strings
-  public struct StringOrArray: Decodable {
-    public let values: [String]
+  public struct StringOrArrayField: Decodable {
+    public let value: [String]
+    public let rawValue: Any?
 
     public init(from decoder: Decoder) throws {
 
       do {
         let container = try decoder.singleValueContainer()
         let decodedString: String = try container.decode(String.self)
-        self.values = [decodedString]
+        self.rawValue = decodedString
+        self.value = [decodedString]
       } catch {
         var container = try decoder.unkeyedContainer()
         var strings: [String] = []
@@ -27,7 +29,8 @@ extension InternetArchive {
           let decodedString: String = try container.decode(String.self)
           strings.append(decodedString)
         }
-        self.values = strings
+        self.rawValue = strings
+        self.value = strings
       }
     }
   }

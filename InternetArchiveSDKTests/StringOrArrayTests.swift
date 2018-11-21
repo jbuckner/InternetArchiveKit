@@ -21,7 +21,7 @@ class StringOrArrayTests: XCTestCase {
 
   func testStringValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.StringOrArray
+      let foo: InternetArchive.StringOrArrayField
     }
 
     let json: String = """
@@ -34,7 +34,7 @@ class StringOrArrayTests: XCTestCase {
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-      XCTAssertEqual(results.foo.values, ["bar"])
+      XCTAssertEqual(results.foo.value, ["bar"])
     } catch {
       XCTFail("error decoding")
     }
@@ -42,7 +42,7 @@ class StringOrArrayTests: XCTestCase {
 
   func testArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.StringOrArray
+      let foo: InternetArchive.StringOrArrayField
     }
 
     let json: String = """
@@ -55,7 +55,7 @@ class StringOrArrayTests: XCTestCase {
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-      XCTAssertEqual(results.foo.values, ["bar", "boop"])
+      XCTAssertEqual(results.foo.value, ["bar", "boop"])
     } catch {
       XCTFail("error decoding")
     }
@@ -63,7 +63,7 @@ class StringOrArrayTests: XCTestCase {
 
   func testIntFailure() {
     struct Foo: Decodable {
-      let foo: InternetArchive.StringOrArray
+      let foo: InternetArchive.StringOrArrayField
     }
 
     let json: String = """
@@ -84,7 +84,7 @@ class StringOrArrayTests: XCTestCase {
 
   func testIntArrayFailure() {
     struct Foo: Decodable {
-      let foo: InternetArchive.StringOrArray
+      let foo: InternetArchive.StringOrArrayField
     }
 
     let json: String = """

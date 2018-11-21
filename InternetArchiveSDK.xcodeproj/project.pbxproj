@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9656DE4D21A4C5EB0016392A /* ISODateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE4C21A4C5EB0016392A /* ISODateFormatter.swift */; };
+		9656DE5E21A4FCDA0016392A /* DateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE5D21A4FCDA0016392A /* DateField.swift */; };
+		9656DE6121A4FFCB0016392A /* IntField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE6021A4FFCB0016392A /* IntField.swift */; };
+		9656DE6321A501CE0016392A /* DoubleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE6221A501CE0016392A /* DoubleField.swift */; };
 		9669B01C2197B76D00E7CE2A /* artists.json in Resources */ = {isa = PBXBuildFile; fileRef = 9669B01B2197B76D00E7CE2A /* artists.json */; };
 		9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0232197B91200E7CE2A /* AppDelegate.swift */; };
 		9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */; };
@@ -19,7 +22,7 @@
 		9669B0382197C03E00E7CE2A /* GratefulDead.json in Resources */ = {isa = PBXBuildFile; fileRef = 9669B0372197C03E00E7CE2A /* GratefulDead.json */; };
 		968C8346219A7F1100B89646 /* ConcertDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C8345219A7F1100B89646 /* ConcertDataSource.swift */; };
 		968C8348219A817800B89646 /* ConcertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C8347219A817800B89646 /* ConcertViewController.swift */; };
-		968C834A219A92FA00B89646 /* StringOrArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C8349219A92FA00B89646 /* StringOrArray.swift */; };
+		968C834A219A92FA00B89646 /* StringOrArrayField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C8349219A92FA00B89646 /* StringOrArrayField.swift */; };
 		968C834C219A987C00B89646 /* StringOrArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C834B219A987C00B89646 /* StringOrArrayTests.swift */; };
 		9694E66A219A6F3E00F6D26B /* ConcertsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694E669219A6F3E00F6D26B /* ConcertsDataSource.swift */; };
 		96AC7279219C64F1007C7910 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC7278219C64F1007C7910 /* Debouncer.swift */; };
@@ -74,6 +77,9 @@
 
 /* Begin PBXFileReference section */
 		9656DE4C21A4C5EB0016392A /* ISODateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISODateFormatter.swift; sourceTree = "<group>"; };
+		9656DE5D21A4FCDA0016392A /* DateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateField.swift; sourceTree = "<group>"; };
+		9656DE6021A4FFCB0016392A /* IntField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntField.swift; sourceTree = "<group>"; };
+		9656DE6221A501CE0016392A /* DoubleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleField.swift; sourceTree = "<group>"; };
 		9669B01B2197B76D00E7CE2A /* artists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = artists.json; sourceTree = "<group>"; };
 		9669B0212197B91200E7CE2A /* InternetArchiveSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternetArchiveSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9669B0232197B91200E7CE2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +92,7 @@
 		9669B0372197C03E00E7CE2A /* GratefulDead.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GratefulDead.json; sourceTree = "<group>"; };
 		968C8345219A7F1100B89646 /* ConcertDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertDataSource.swift; sourceTree = "<group>"; };
 		968C8347219A817800B89646 /* ConcertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertViewController.swift; sourceTree = "<group>"; };
-		968C8349219A92FA00B89646 /* StringOrArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrArray.swift; sourceTree = "<group>"; };
+		968C8349219A92FA00B89646 /* StringOrArrayField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrArrayField.swift; sourceTree = "<group>"; };
 		968C834B219A987C00B89646 /* StringOrArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrArrayTests.swift; sourceTree = "<group>"; };
 		9694E669219A6F3E00F6D26B /* ConcertsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsDataSource.swift; sourceTree = "<group>"; };
 		96AC7278219C64F1007C7910 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
@@ -137,6 +143,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9656DE5F21A4FDB10016392A /* Fields */ = {
+			isa = PBXGroup;
+			children = (
+				968C8349219A92FA00B89646 /* StringOrArrayField.swift */,
+				9656DE5D21A4FCDA0016392A /* DateField.swift */,
+				9656DE6021A4FFCB0016392A /* IntField.swift */,
+				9656DE6221A501CE0016392A /* DoubleField.swift */,
+			);
+			path = Fields;
+			sourceTree = "<group>";
+		};
 		9669B0162197B44300E7CE2A /* MockResponse */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,7 +261,7 @@
 				96ECE0F321913D2F00A0C8A6 /* Item.swift */,
 				96ECE0F72191585300A0C8A6 /* File.swift */,
 				96ECE0F52191584000A0C8A6 /* ItemMetadata.swift */,
-				968C8349219A92FA00B89646 /* StringOrArray.swift */,
+				9656DE5F21A4FDB10016392A /* Fields */,
 				9656DE4C21A4C5EB0016392A /* ISODateFormatter.swift */,
 			);
 			path = Models;
@@ -417,15 +434,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9656DE5E21A4FCDA0016392A /* DateField.swift in Sources */,
 				96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */,
 				96BAF7D6219BD518004B512D /* InternetArchiveErrors.swift in Sources */,
 				96BAF7D4219BD4F7004B512D /* InternetArchiveProtocols.swift in Sources */,
+				9656DE6121A4FFCB0016392A /* IntField.swift in Sources */,
 				96ECE0F421913D2F00A0C8A6 /* Item.swift in Sources */,
 				96ECE0F82191585300A0C8A6 /* File.swift in Sources */,
 				96ECE0F62191584000A0C8A6 /* ItemMetadata.swift in Sources */,
 				96BAF7D2219BD0C0004B512D /* InternetArchiveQuery.swift in Sources */,
 				96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */,
-				968C834A219A92FA00B89646 /* StringOrArray.swift in Sources */,
+				9656DE6321A501CE0016392A /* DoubleField.swift in Sources */,
+				968C834A219A92FA00B89646 /* StringOrArrayField.swift in Sources */,
 				9656DE4D21A4C5EB0016392A /* ISODateFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

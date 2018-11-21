@@ -65,7 +65,7 @@ extension ConcertDataSource: UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
 
     guard let song: InternetArchive.File = concert?.sortedTracks[indexPath.row] else { return cell }
-    let track = song.track ?? "?"
+    let track: Int = song.track?.value ?? 0
     let title = song.title ?? "No title"
     cell.textLabel!.text = "\(track) \(title)"
     return cell
