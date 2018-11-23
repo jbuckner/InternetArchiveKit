@@ -75,6 +75,11 @@ public class InternetArchive: InternetArchiveProtocol {
     return urlComponents.url
   }
 
+  public func generateItemImageUrl(itemIdentifier: String) -> URL? {
+    urlComponents.path = "/services/img/\(itemIdentifier)"
+    return urlComponents.url
+  }
+
   public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
     urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
     return urlComponents.url
