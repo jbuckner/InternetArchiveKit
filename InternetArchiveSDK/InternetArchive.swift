@@ -9,9 +9,14 @@
 import Foundation
 
 public class InternetArchive: InternetArchiveProtocol {
-  public init(host: String = "archive.org", scheme: String = "https") {
-    urlComponents.scheme = scheme
-    urlComponents.host = host
+  public convenience init() {
+    self.init(host: "archive.org", scheme: "https", urlSession: URLSession.shared)
+  }
+
+  public init(host: String, scheme: String, urlSession: URLSession) {
+    self.urlComponents.scheme = scheme
+    self.urlComponents.host = host
+    self.urlSession = urlSession
   }
 
   // hits the advancedsearch url,
@@ -87,7 +92,7 @@ public class InternetArchive: InternetArchiveProtocol {
 
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
     debugPrint("APIController.makeRequest", url.absoluteString)
-    let task = URLSession.shared.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
+    let task = urlSession.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
       guard let data = data else {
         completion(nil, error)
         return
@@ -109,4 +114,5 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   private var urlComponents: URLComponents = URLComponents()
+  private var urlSession: URLSession
 }

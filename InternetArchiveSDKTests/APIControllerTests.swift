@@ -20,7 +20,7 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateSearchUrl() {
-    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher")
+    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
     if let url: URL = internetArchive.generateSearchUrl(query: query,
@@ -45,7 +45,7 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateDownloadUrl() {
-    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher")
+    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
     if let url: URL = internetArchive.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {
       XCTAssertEqual(url.absoluteString, "gopher://foohost.org/download/foo/bar")
     } else {
