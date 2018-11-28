@@ -47,6 +47,7 @@ extension InternetArchive {
   }
 
   public struct QueryDateRange: InternetArchiveURLStringProtocol {
+    public let queryField: String
     public let dateRange: DateInterval
     public var asURLString: String { // eg `date:[2018-01-01 TO 2018-04-01]`
       let startDate: Date = dateRange.start
@@ -55,7 +56,7 @@ extension InternetArchive {
       dateFormatter.dateFormat = "yyyy-MM-dd"
       let startDateString: String = dateFormatter.string(from: startDate)
       let endDateString: String = dateFormatter.string(from: endDate)
-      return "date:[\(startDateString) TO \(endDateString)]"
+      return "\(queryField):[\(startDateString) TO \(endDateString)]"
     }
   }
 

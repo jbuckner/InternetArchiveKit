@@ -87,7 +87,8 @@ class InternetArchiveSDKTests: XCTestCase {
         return
     }
     let dateInterval: DateInterval = DateInterval(start: startDate, end: endDate)
-    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(dateRange: dateInterval)
+    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(queryField: "date",
+                                                                                   dateRange: dateInterval)
     let collectionClause: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "collection", value: "etree")
 
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [dateRange, collectionClause])

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		960BE3DC21AE5D170044C142 /* InternetArchiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */; };
 		9656DE4D21A4C5EB0016392A /* ISODateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE4C21A4C5EB0016392A /* ISODateFormatter.swift */; };
 		9656DE5E21A4FCDA0016392A /* DateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE5D21A4FCDA0016392A /* DateField.swift */; };
 		9656DE6121A4FFCB0016392A /* IntField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9656DE6021A4FFCB0016392A /* IntField.swift */; };
@@ -76,6 +77,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveQueryTests.swift; sourceTree = "<group>"; };
 		9656DE4C21A4C5EB0016392A /* ISODateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISODateFormatter.swift; sourceTree = "<group>"; };
 		9656DE5D21A4FCDA0016392A /* DateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateField.swift; sourceTree = "<group>"; };
 		9656DE6021A4FFCB0016392A /* IntField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntField.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			children = (
 				9669B0162197B44300E7CE2A /* MockResponse */,
 				96ECE0E621913AE200A0C8A6 /* InternetArchiveSDKTests.swift */,
+				960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */,
 				96E54CEA2198054F000B9B75 /* APIControllerTests.swift */,
 				968C834B219A987C00B89646 /* StringOrArrayTests.swift */,
 				96ECE0E821913AE200A0C8A6 /* Info.plist */,
@@ -456,6 +459,7 @@
 			files = (
 				968C834C219A987C00B89646 /* StringOrArrayTests.swift in Sources */,
 				96E54CEB2198054F000B9B75 /* APIControllerTests.swift in Sources */,
+				960BE3DC21AE5D170044C142 /* InternetArchiveQueryTests.swift in Sources */,
 				96ECE0E721913AE200A0C8A6 /* InternetArchiveSDKTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
