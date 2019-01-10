@@ -58,6 +58,11 @@ extension InternetArchive {
       let endDateString: String = dateFormatter.string(from: endDate)
       return "\(queryField):[\(startDateString) TO \(endDateString)]"
     }
+
+    public init(queryField: String, dateRange: DateInterval) {
+      self.queryField = queryField
+      self.dateRange = dateRange
+    }
   }
 
   public enum BooleanOperator: String {
