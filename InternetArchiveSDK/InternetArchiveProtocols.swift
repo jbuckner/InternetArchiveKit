@@ -34,3 +34,5 @@ public protocol InternetArchiveURLStringProtocol {
 public protocol InternetArchiveURLQueryItemProtocol {
   var asQueryItem: URLQueryItem { get }
 }
+
+public protocol InternetArchiveQueryClauseProtocol: InternetArchiveURLStringProtocol {}
