@@ -101,7 +101,7 @@ class EtreeCollectionViewController: UITableViewController {
       artist = artists[indexPath.row]
     }
 
-    cell.textLabel!.text = artist.title ?? "No title"
+    cell.textLabel!.text = artist.title?.value ?? "No title"
     return cell
   }
 
@@ -117,7 +117,7 @@ extension EtreeCollectionViewController {
 //      if searchBarIsEmpty() {
 //        return doesCategoryMatch
 //      } else {
-      return artist.title?.lowercased().contains(searchText.lowercased()) ?? false // & doesCategoryMatch
+      return artist.title?.value?.lowercased().contains(searchText.lowercased()) ?? false // & doesCategoryMatch
 //      }
     })
 

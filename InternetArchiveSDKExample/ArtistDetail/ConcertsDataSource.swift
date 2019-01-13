@@ -73,7 +73,7 @@ extension ConcertsDataSource: UITableViewDataSource {
       datePrefix = ""
     }
 
-    let venue: String = concert.venue ?? "Unknown venue"
+    let venue: String = concert.venue?.value ?? "Unknown venue"
 
     cell.textLabel!.text = "\(datePrefix)\(venue)"
     return cell

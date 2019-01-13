@@ -105,7 +105,7 @@ extension ConcertViewController: ConcertDataSourceDelegate {
 
     for track: InternetArchive.File in concert.sortedTracks {
       guard
-        let fileName: String = track.name,
+        let fileName: String = track.name?.value,
         let url: URL = self.internetArchive.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: fileName)
         else { continue }
 
@@ -114,7 +114,7 @@ extension ConcertViewController: ConcertDataSourceDelegate {
     }
 
     DispatchQueue.main.async {
-      self.navigationItem.title = concert.metadata?.venue ?? "No venue"
+      self.navigationItem.title = concert.metadata?.venue?.value ?? "No venue"
       self.tableView?.reloadData()
     }
   }
