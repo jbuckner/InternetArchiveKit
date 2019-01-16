@@ -10,7 +10,7 @@ import Foundation
 
 extension InternetArchive {
   public struct ItemMetadata: Decodable {
-    public let addeddate: ModelField<String>?
+    public let addeddate: ModelField<Date>?
     public let adder: ModelField<String>?
     public let avgRating: ModelField<Double>?
     public let backupLocation: ModelField<String>?
@@ -44,7 +44,7 @@ extension InternetArchive {
     public let oaiUpdatedate: ModelField<Date>?
     public let pick: ModelField<String>?
     public let `public`: ModelField<String>?
-    public let publicdate: ModelField<String>?
+    public let publicdate: ModelField<Date>?
     public let publisher: ModelField<String>?
     public let rights: ModelField<String>?
     public let runtime: ModelField<String>?
@@ -60,7 +60,7 @@ extension InternetArchive {
     public let transferer: ModelField<String>?
     public let type: ModelField<String>?
     public let updated: ModelField<String>?
-    public let updatedate: ModelField<String>?
+    public let updatedate: ModelField<Date>?
     public let updater: ModelField<String>?
     public let uploader: ModelField<String>?
     public let venue: ModelField<String>?
