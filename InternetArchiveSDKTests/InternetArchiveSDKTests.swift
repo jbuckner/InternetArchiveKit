@@ -23,7 +23,7 @@ class InternetArchiveSDKTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Test Search Query")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(query: query,
-                             start: 0,
+                             page: 0,
                              rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
@@ -46,7 +46,7 @@ class InternetArchiveSDKTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Test Search Fields")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(query: query,
-                             start: 0,
+                             page: 0,
                              rows: 10,
                              fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
@@ -94,7 +94,7 @@ class InternetArchiveSDKTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [dateRange, collectionClause])
 
     InternetArchive().search(query: query,
-                             start: 0,
+                             page: 0,
                              rows: 10,
                              fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
                               if let error: Error = error {
@@ -125,7 +125,7 @@ class InternetArchiveSDKTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     InternetArchive().search(
       query: query,
-      start: 0,
+      page: 0,
       rows: 10,
       fields: ["identifier", "title"],
       completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
@@ -165,4 +165,60 @@ class InternetArchiveSDKTests: XCTestCase {
 
     wait(for: [expectation], timeout: 20.0)
   }
+
+  // To test pagination, I first make a request to internet archive and get the number of documents in the response
+  // I then make another request to get the last page of results, which should be contain less than or equal to the
+  // number of rows requested and the response document count should match that number.
+  // The remaining count is calculatable from the response with `numFound - start`
+  // eg 2638 total results, start at 2630, there should be 8 results returned when requesting 10 at a time
+  func testPagination() {
+    let expectation = XCTestExpectation(description: "Test Pagination")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let rowsPerPage: Int = 10
+
+    InternetArchive().search(
+      query: query,
+      page: 0,
+      rows: rowsPerPage,
+      fields: ["identifier", "title"],
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+        if let error: Error = error {
+          XCTFail("error, \(error.localizedDescription)")
+          expectation.fulfill()
+          return
+        }
+
+        if let response = response {
+          let total = response.response.numFound
+          let lastPage = Int(Double(total) / Double(10)) + 1
+
+          InternetArchive().search(
+            query: query,
+            page: lastPage,
+            rows: rowsPerPage,
+            fields: ["identifier", "title"],
+            completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+
+              if let response = response {
+                let numFound = response.response.numFound
+                let start = response.response.start
+                let remaining = numFound - start
+                debugPrint(numFound, start, remaining)
+                XCTAssertTrue(remaining <= rowsPerPage)
+                XCTAssertEqual(remaining, response.response.docs.count)
+              } else {
+                XCTFail("no response")
+              }
+
+              expectation.fulfill()
+          })
+        } else {
+          XCTFail("no response")
+          expectation.fulfill()
+        }
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
 }

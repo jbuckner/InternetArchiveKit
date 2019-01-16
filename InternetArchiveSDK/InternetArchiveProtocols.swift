@@ -10,7 +10,7 @@ import Foundation
 
 public protocol InternetArchiveProtocol {
   func search(query: InternetArchiveURLStringProtocol,
-              start: Int,
+              page: Int,
               rows: Int,
               fields: [String]?,
               sortFields: [InternetArchiveURLQueryItemProtocol]?,
@@ -18,7 +18,7 @@ public protocol InternetArchiveProtocol {
   func itemDetail(identifier: String,
                   completion: @escaping (InternetArchive.Item?, Error?) -> ())
   func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                         start: Int,
+                         page: Int,
                          rows: Int,
                          fields: [String],
                          sortFields: [InternetArchiveURLQueryItemProtocol],

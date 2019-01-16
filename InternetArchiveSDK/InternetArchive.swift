@@ -22,19 +22,19 @@ public class InternetArchive: InternetArchiveProtocol {
   // hits the advancedsearch url,
   // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&outpt=json
   public func search(query: InternetArchiveURLStringProtocol,
-                     start: Int,
+                     page: Int,
                      rows: Int,
                      fields: [String]? = nil,
                      sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
                      completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ()) {
 
     guard let searchUrl: URL = self.generateSearchUrl(query: query,
-                                                      start: start,
+                                                      page: page,
                                                       rows: rows,
                                                       fields: fields ?? [],
                                                       sortFields: sortFields ?? [],
                                                       additionalQueryParams: []) else {
-      debugPrint("search error generating metadata url", query.asURLString, start, rows, fields ?? "nil", sortFields ?? "nil")
+      debugPrint("search error generating metadata url", query.asURLString, page, rows, fields ?? "nil", sortFields ?? "nil")
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }
@@ -55,7 +55,7 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   public func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                                start: Int,
+                                page: Int,
                                 rows: Int,
                                 fields: [String],
                                 sortFields: [InternetArchiveURLQueryItemProtocol],
@@ -67,7 +67,7 @@ public class InternetArchive: InternetArchiveProtocol {
       URLQueryItem(name: "q", value: query.asURLString),
       URLQueryItem(name: "output", value: "json"),
       URLQueryItem(name: "rows", value: "\(rows)"),
-      URLQueryItem(name: "start", value: "\(start)"),
+      URLQueryItem(name: "page", value: "\(page)"),
     ]
 
     urlComponents.path = "/advancedsearch.php"

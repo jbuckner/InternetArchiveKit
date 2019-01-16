@@ -24,7 +24,7 @@ class APIControllerTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
     if let url: URL = internetArchive.generateSearchUrl(query: query,
-                                                      start: 0,
+                                                      page: 0,
                                                       rows: 10,
                                                       fields: ["foo", "bar"],
                                                       sortFields: [sortField],
@@ -38,7 +38,7 @@ class APIControllerTests: XCTestCase {
       XCTAssertTrue(absoluteUrl.contains("q=foo:(bar)%20AND%20baz:(boop)") || absoluteUrl.contains("q=baz:(boop)%20AND%20foo:(bar)"))
       XCTAssertTrue(absoluteUrl.contains("output=json"))
       XCTAssertTrue(absoluteUrl.contains("rows=10"))
-      XCTAssertTrue(absoluteUrl.contains("start=0"))
+      XCTAssertTrue(absoluteUrl.contains("page=0"))
     } else {
       XCTFail("Error generating search URL")
     }

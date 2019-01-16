@@ -39,7 +39,7 @@ class EtreeCollectionViewController: UITableViewController {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree", "mediatype": "collection"])
     internetArchive.search(
       query: query,
-      start: 0,
+      page: 0,
       rows: 10,
       fields: ["identifier", "title"],
       sortFields: [InternetArchive.SortField(field: "downloads", direction: .desc)],
@@ -145,7 +145,7 @@ extension EtreeCollectionViewController {
                                                                        "creator": "*\(searchText)*"])
     internetArchive.search(
       query: query,
-      start: 0,
+      page: 0,
       rows: 50,
       fields: ["identifier", "title"],
       sortFields: [InternetArchive.SortField(field: "title", direction: .asc)],
