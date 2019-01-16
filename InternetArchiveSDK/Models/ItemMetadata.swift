@@ -27,6 +27,7 @@ extension InternetArchive {
     public let hidden: ModelField<Bool>?
     public let homepage: ModelField<URL>?
     public let identifier: String
+    public let indexdate: ModelField<Date>?
     public let indexflag: ModelField<String>?
     public let isDark: ModelField<String>?
     public let itemSize: ModelField<Int>?
@@ -40,6 +41,7 @@ extension InternetArchive {
     public let numRecentReviews: ModelField<Int>?
     public let numTopBa: ModelField<Int>?
     public let numTopDl: ModelField<Int>?
+    public let oaiUpdatedate: ModelField<Date>?
     public let pick: ModelField<String>?
     public let `public`: ModelField<String>?
     public let publicdate: ModelField<String>?

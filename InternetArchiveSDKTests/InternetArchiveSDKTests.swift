@@ -170,7 +170,7 @@ class InternetArchiveSDKTests: XCTestCase {
   // I then make another request to get the last page of results, which should be contain less than or equal to the
   // number of rows requested and the response document count should match that number.
   // The remaining count is calculatable from the response with `numFound - start`
-  // eg 2638 total results, start at 2630, there should be 8 results returned when requesting 10 at a time
+  // eg 2638 total results, start at 2630, page 264 (0-indexed) there should be 8 results returned when requesting 10 at a time
   func testPagination() {
     let expectation = XCTestExpectation(description: "Test Pagination")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
@@ -219,6 +219,34 @@ class InternetArchiveSDKTests: XCTestCase {
     })
 
     wait(for: [expectation], timeout: 20.0)
+  }
+
+  func testOaiUpdated() {
+    let expectation = XCTestExpectation(description: "Test OaiUpdated")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().search(
+      query: query,
+      page: 0,
+      rows: 10,
+      fields: ["identifier", "title", "oai_updatedate"],
+      sortFields: [InternetArchive.SortField(field: "oai_updatedate", direction: .desc)],
+      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+        if let error: Error = error {
+          XCTFail("error, \(error.localizedDescription)")
+          expectation.fulfill()
+          return
+        }
+
+        if let response = response {
+          XCTAssertNotNil(response.response.docs.first?.oaiUpdatedate?.value)
+        } else {
+          XCTFail("no response")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+
   }
 
 }
