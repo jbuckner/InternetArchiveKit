@@ -42,6 +42,7 @@ class InternetArchiveQueryTests: XCTestCase {
   func testDateRangeQuery() {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
     let startDateString: String = "2018-04-19"
     let endDateString: String = "2018-04-21"
@@ -56,7 +57,7 @@ class InternetArchiveQueryTests: XCTestCase {
     let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(queryField: "date",
                                                                                    dateRange: dateInterval)
 
-    XCTAssertEqual(dateRange.asURLString, "date:[2018-04-19 TO 2018-04-21]")
+    XCTAssertEqual(dateRange.asURLString, "date:[2018-04-19T00:00:00Z TO 2018-04-21T00:00:00Z]")
   }
 
   func testSortFieldAscending() {

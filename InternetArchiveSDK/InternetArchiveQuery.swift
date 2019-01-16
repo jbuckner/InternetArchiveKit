@@ -49,11 +49,15 @@ extension InternetArchive {
   public struct QueryDateRange: InternetArchiveQueryClauseProtocol {
     public let queryField: String
     public let dateRange: DateInterval
-    public var asURLString: String { // eg `date:[2018-01-01 TO 2018-04-01]`
+    public var asURLString: String { // eg `date:[2018-01-01T07:23:12Z TO 2018-04-01T17:53:34Z]`
       let startDate: Date = dateRange.start
       let endDate: Date = dateRange.end
       let dateFormatter: DateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd"
+
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
       let startDateString: String = dateFormatter.string(from: startDate)
       let endDateString: String = dateFormatter.string(from: endDate)
       return "\(queryField):[\(startDateString) TO \(endDateString)]"
