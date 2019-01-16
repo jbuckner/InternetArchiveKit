@@ -46,6 +46,7 @@ extension InternetArchive {
     public let `public`: ModelField<String>?
     public let publicdate: ModelField<Date>?
     public let publisher: ModelField<String>?
+    public let reviewdate: ModelField<Date>?
     public let rights: ModelField<String>?
     public let runtime: ModelField<String>?
     public let shndiscs: ModelField<String>?
