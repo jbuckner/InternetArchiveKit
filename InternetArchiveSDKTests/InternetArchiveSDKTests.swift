@@ -221,32 +221,4 @@ class InternetArchiveSDKTests: XCTestCase {
     wait(for: [expectation], timeout: 20.0)
   }
 
-  func testOaiUpdated() {
-    let expectation = XCTestExpectation(description: "Test OaiUpdated")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
-    InternetArchive().search(
-      query: query,
-      page: 0,
-      rows: 10,
-      fields: ["identifier", "title", "oai_updatedate"],
-      sortFields: [InternetArchive.SortField(field: "oai_updatedate", direction: .desc)],
-      completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-        if let error: Error = error {
-          XCTFail("error, \(error.localizedDescription)")
-          expectation.fulfill()
-          return
-        }
-
-        if let response = response {
-          XCTAssertNotNil(response.response.docs.first?.oaiUpdatedate?.value)
-        } else {
-          XCTFail("no response")
-        }
-        expectation.fulfill()
-    })
-
-    wait(for: [expectation], timeout: 20.0)
-
-  }
-
 }
