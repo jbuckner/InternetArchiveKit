@@ -10,20 +10,20 @@ import Foundation
 
 extension InternetArchive {
   public struct Item: Decodable {
-    public let created: ModelField<Int>?
-    public let collection: ModelField<String>?
-    public let creator: ModelField<String>?
+    public let created: ModelField<IAInt>?
+    public let collection: ModelField<IAString>?
+    public let creator: ModelField<IAString>?
     public let metadata: ItemMetadata?
-    public let d1: ModelField<String>?
-    public let d2: ModelField<String>?
-    public let dir: ModelField<String>?
-    public let isCollection: ModelField<Bool>?
+    public let d1: ModelField<IAString>?
+    public let d2: ModelField<IAString>?
+    public let dir: ModelField<IAString>?
+    public let isCollection: ModelField<IABool>?
     public let isDark: Bool?
-    public let filesCount: ModelField<Int>?
-    public let itemSize: ModelField<Int>?
-    public let server: ModelField<String>?
-    public let uniq: ModelField<Int>?
-    public let workableServers: ModelField<String>?
+    public let filesCount: ModelField<IAInt>?
+    public let itemSize: ModelField<IAInt>?
+    public let server: ModelField<IAString>?
+    public let uniq: ModelField<IAInt>?
+    public let workableServers: ModelField<IAString>?
     public let files: [File]?
   }
 }

@@ -11,52 +11,88 @@ import Foundation
 // This protocol allows us to convert strings to scalar values through
 // a common initializer. If we need to add additional metadata field type converters,
 // we just have to provide the new type with an `init?(string: String)` initializer
-public protocol StringParsable {
+public protocol ModelFieldProtocol: Decodable {
+  associatedtype FieldType: Decodable
   init?(fromString string: String)
+  var value: FieldType? { get }
 }
 
-extension Int: StringParsable {
-  public init?(fromString string: String) {
-    self.init(string)
+extension InternetArchive {
+  public class IAInt: ModelFieldProtocol {
+    public typealias FieldType = Int
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = FieldType.init(string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
   }
-}
 
-extension String: StringParsable {
-  public init?(fromString string: String) {
-    self.init(string)
+  public class IAString: ModelFieldProtocol {
+    public typealias FieldType = String
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = string
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
   }
-}
 
-extension Double: StringParsable {
-  public init?(fromString string: String) {
-    self.init(string)
+  public class IADouble: ModelFieldProtocol {
+    public typealias FieldType = Double
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = FieldType.init(string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
   }
-}
 
-extension Bool: StringParsable {
-  public init?(fromString string: String) {
-    self.init(string)
+  public class IABool: ModelFieldProtocol {
+    public typealias FieldType = Bool
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = FieldType.init(string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
   }
-}
 
-extension URL: StringParsable {
-  public init?(fromString string: String) {
-    self.init(string: string)
+  public class IAURL: ModelFieldProtocol {
+    public typealias FieldType = URL
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = FieldType.init(string: string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
   }
-}
 
-extension Date: StringParsable {
-  public init?(fromString string: String) {
+  public class IADate: ModelFieldProtocol {
+    public typealias FieldType = Date
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = parseString(string: string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
+    private func parseString(string: String) -> Date? {
+      // try parsing date (yyyy-mm-dd), datetime (yyyy-mm-dd hh:mm:ss), or ISO8601 format
+      let date: Date? = DateFormatters.dateFormatter.date(from: string) ??
+        DateFormatters.dateTimeFormatter.date(from: string) ??
+        DateFormatters.isoFormatter.date(from: string)
 
-    // try parsing date (yyyy-mm-dd), datetime (yyyy-mm-dd hh:mm:ss), or ISO8601 format
-    let date: Date? = DateFormatters.dateFormatter.date(from: string) ??
-                      DateFormatters.dateTimeFormatter.date(from: string) ??
-                      DateFormatters.isoFormatter.date(from: string)
-
-    if let timeInterval: TimeInterval = date?.timeIntervalSinceReferenceDate {
-      self.init(timeIntervalSinceReferenceDate: timeInterval)
-    } else {
-      return nil
+      if let timeInterval: TimeInterval = date?.timeIntervalSinceReferenceDate {
+        return Date.init(timeIntervalSinceReferenceDate: timeInterval)
+      } else {
+        return nil
+      }
     }
   }
 }
@@ -69,19 +105,20 @@ extension InternetArchive {
   // - it converts them to the specified type
   // - as a convenience, since _most_ fields are a single value, there is a convenience `value` accessor to get the
   //   first value returned, which will usually be the only value
-  public struct ModelField<T>: Decodable where T: Decodable, T: StringParsable {
-    public var value: T? { return self.values.first }
-    public var values: [T] = []
+  public struct ModelField<T>: Decodable where T: ModelFieldProtocol {
+    public var value: T.FieldType? { return self.values.first }
+    public var values: [T.FieldType] = []
 
     public init(from decoder: Decoder) throws {
 
       // first try decoding a single value, next try decoding an array of values
       do {
-        if let decodedValue: T = try self.decodeSingleValue(decoder: decoder) {
-          self.values = [decodedValue]
+        if let decodedValue: T = try self.decodeSingleValue(decoder: decoder),
+          let value: T.FieldType = decodedValue.value {
+          self.values = [value]
         }
       } catch {
-        self.values = try self.decodeUnkeyedContainer(decoder: decoder)
+        self.values = try self.decodeUnkeyedContainer(decoder: decoder).compactMap({ $0.value })
       }
     }
 

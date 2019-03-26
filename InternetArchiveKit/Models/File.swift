@@ -10,22 +10,22 @@ import Foundation
 
 extension InternetArchive {
   public struct File: Decodable {
-    public let album: ModelField<String>?
-    public let bitrate: ModelField<Int>?
-    public let crc32: ModelField<String>?
-    public let creator: ModelField<String>?
-    public let format: ModelField<String>?
-    public let height: ModelField<Int>?
-    public let length: ModelField<String>?
-    public let md5: ModelField<String>?
-    public let mtime: ModelField<String>?
-    public let name: ModelField<String>?
-    public let original: ModelField<String>?
-    public let sha1: ModelField<String>?
-    public let size: ModelField<Int>?
-    public let source: ModelField<String>?
-    public let title: ModelField<String>?
-    public let track: ModelField<Int>?
-    public let width: ModelField<Int>?
+    public let album: ModelField<IAString>?
+    public let bitrate: ModelField<IAInt>?
+    public let crc32: ModelField<IAString>?
+    public let creator: ModelField<IAString>?
+    public let format: ModelField<IAString>?
+    public let height: ModelField<IAInt>?
+    public let length: ModelField<IAString>?
+    public let md5: ModelField<IAString>?
+    public let mtime: ModelField<IAString>?
+    public let name: ModelField<IAString>?
+    public let original: ModelField<IAString>?
+    public let sha1: ModelField<IAString>?
+    public let size: ModelField<IAInt>?
+    public let source: ModelField<IAString>?
+    public let title: ModelField<IAString>?
+    public let track: ModelField<IAInt>?
+    public let width: ModelField<IAInt>?
   }
 }

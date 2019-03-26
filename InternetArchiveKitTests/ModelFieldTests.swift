@@ -21,7 +21,7 @@ class ModelFieldTests: XCTestCase {
 
   func testStringValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -43,7 +43,7 @@ class ModelFieldTests: XCTestCase {
 
   func testArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -65,7 +65,7 @@ class ModelFieldTests: XCTestCase {
 
   func testTypeMismatchFailureSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -86,7 +86,7 @@ class ModelFieldTests: XCTestCase {
 
   func testTypeMismatchFailureArrayOfValues() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -107,7 +107,7 @@ class ModelFieldTests: XCTestCase {
 
   func testIntSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Int>
+      let foo: InternetArchive.ModelField<InternetArchive.IAInt>
     }
 
     let json: String = """
@@ -129,7 +129,7 @@ class ModelFieldTests: XCTestCase {
 
   func testIntArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Int>
+      let foo: InternetArchive.ModelField<InternetArchive.IAInt>
     }
 
     let json: String = """
@@ -151,7 +151,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -173,7 +173,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -195,7 +195,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolStringArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -218,7 +218,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDoubleSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Double>
+      let foo: InternetArchive.ModelField<InternetArchive.IADouble>
     }
 
     let json: String = """
@@ -240,7 +240,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -268,7 +268,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateArray() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -297,7 +297,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateTime() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -326,7 +326,7 @@ class ModelFieldTests: XCTestCase {
 
   func testISO8601Date() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -352,7 +352,7 @@ class ModelFieldTests: XCTestCase {
 
   func testURL() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<URL>
+      let foo: InternetArchive.ModelField<InternetArchive.IAURL>
     }
 
     let json: String = """
