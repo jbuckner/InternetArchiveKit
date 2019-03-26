@@ -6,7 +6,10 @@
 //  Copyright © 2018 Jason Buckner. All rights reserved.
 //
 
+import os.log
 import Foundation
+
+let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
 public class InternetArchive: InternetArchiveProtocol {
   public convenience init() {
@@ -28,13 +31,10 @@ public class InternetArchive: InternetArchiveProtocol {
                      sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
                      completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ()) {
 
-    guard let searchUrl: URL = self.generateSearchUrl(query: query,
-                                                      page: page,
-                                                      rows: rows,
-                                                      fields: fields ?? [],
-                                                      sortFields: sortFields ?? [],
-                                                      additionalQueryParams: []) else {
-      debugPrint("search error generating metadata url", query.asURLString, page, rows, fields ?? "nil", sortFields ?? "nil")
+    guard let searchUrl: URL = self.generateSearchUrl(
+      query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [], additionalQueryParams: [])
+      else {
+        os_log(.error, log: log, "search error generating metadata url: %{public}@", query.asURLString)
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }
@@ -46,7 +46,7 @@ public class InternetArchive: InternetArchiveProtocol {
   // eg https://archive.org/metadata/ymsb2006-07-03.flac16
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> () ) {
     guard let metadataUrl: URL = self.generateMetadataUrl(identifier: identifier) else {
-      debugPrint("itemDetail error generating metadata url, identifier", identifier)
+      os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }
@@ -91,8 +91,12 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
-    debugPrint("APIController.makeRequest", url.absoluteString)
+    os_log(.info, log: log, "makeRequest start, url: %{public}@", url.absoluteString)
+    let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
     let task = urlSession.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
+      let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
+      os_log(.info, log: self.log, "makeRequest completed in %{public}f s, url: %{public}@", timeElapsed, url.absoluteString)
+
       guard let data = data else {
         completion(nil, error)
         return
@@ -105,7 +109,7 @@ public class InternetArchive: InternetArchiveProtocol {
         let results: T = try decoder.decode(T.self, from: data)
         completion(results, error)
       } catch {
-        debugPrint("makeRequest error decoding", error.localizedDescription, error)
+        os_log(.error, log: self.log, "makeRequest, errorDecoding: %{public}@", error.localizedDescription)
         completion(nil, error)
       }
     }
@@ -115,4 +119,6 @@ public class InternetArchive: InternetArchiveProtocol {
 
   private var urlComponents: URLComponents = URLComponents()
   private var urlSession: URLSession
+
+  private let log: OSLog = OSLog(subsystem: logSubsystemId, category: "InternetArchive")
 }
