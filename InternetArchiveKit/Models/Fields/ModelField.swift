@@ -12,41 +12,41 @@ import Foundation
 // a common initializer. If we need to add additional metadata field type converters,
 // we just have to provide the new type with an `init?(string: String)` initializer
 public protocol StringParsable {
-  init?(string: String)
+  init?(fromString string: String)
 }
 
 extension Int: StringParsable {
-  public init?(string: String) {
+  public init?(fromString string: String) {
     self.init(string)
   }
 }
 
 extension String: StringParsable {
-  public init?(string: String) {
+  public init?(fromString string: String) {
     self.init(string)
   }
 }
 
 extension Double: StringParsable {
-  public init?(string: String) {
+  public init?(fromString string: String) {
     self.init(string)
   }
 }
 
 extension Bool: StringParsable {
-  public init?(string: String) {
+  public init?(fromString string: String) {
     self.init(string)
   }
 }
 
 extension URL: StringParsable {
-  public init?(string: String) {
-    self.init(string: string, relativeTo: nil)
+  public init?(fromString string: String) {
+    self.init(string: string)
   }
 }
 
 extension Date: StringParsable {
-  public init?(string: String) {
+  public init?(fromString string: String) {
 
     // try parsing date (yyyy-mm-dd), datetime (yyyy-mm-dd hh:mm:ss), or ISO8601 format
     let date: Date? = DateFormatters.dateFormatter.date(from: string) ??
@@ -93,7 +93,7 @@ extension InternetArchive {
         decodedValue = try container.decode(T.self)
       } catch {
         let decodedString: String = try container.decode(String.self)
-        decodedValue = T(string: decodedString)
+        decodedValue = T(fromString: decodedString)
       }
 
       return decodedValue
@@ -109,7 +109,7 @@ extension InternetArchive {
           decodedValue = try container.decode(T.self)
         } catch {
           let decodedString: String = try container.decode(String.self)
-          decodedValue = T(string: decodedString)
+          decodedValue = T(fromString: decodedString)
         }
 
         if let decodedValue: T = decodedValue {
