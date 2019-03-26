@@ -95,6 +95,33 @@ extension InternetArchive {
       }
     }
   }
+
+  public class IATimeInterval: ModelFieldProtocol {
+    public typealias FieldType = TimeInterval
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = parseString(string: string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
+    private func parseString(string: String) -> TimeInterval? {
+      if let timeInterval: TimeInterval = TimeInterval.init(string) {
+        return timeInterval
+      }
+
+      let componentArray: [String] = string.components(separatedBy: ":")
+      let componentCount: Int = componentArray.count
+      let seconds: Double = componentArray.enumerated().compactMap({ (offset: Int, element: String) -> Double? in
+        guard let componentValue: Double = Double(element) else { return nil }
+        let exponent: Int = (componentCount - 1) - offset
+        let multiplier: Decimal = pow(60, exponent)
+        return componentValue * Double(truncating: multiplier as NSNumber)
+      }).reduce(0) { $0 + $1 }
+      return seconds
+    }
+  }
+
 }
 
 extension InternetArchive {

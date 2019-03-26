@@ -375,5 +375,60 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  func testTimeInterval() {
+    struct Foo: Decodable {
+      let decimal: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let intString: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let int: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let double: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSeconds: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutes: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutesHours: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let badString1: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let badString2: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+    }
 
+    let json: String = """
+      {
+        "decimal": "35.27",
+        "intString": "45",
+        "int": 25,
+        "double": 19.13,
+        "colonSeconds": "00:35",
+        "colonSecondsMinutes": "23:11",
+        "colonSecondsMinutesHours": "3:37:22",
+        "badString1": "foo",
+        "badString2": "a:b"
+      }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    let comparisonDecimal = TimeInterval(35.27)
+    let comparisonIntString = TimeInterval(45)
+    let comparisonInt = TimeInterval(25)
+    let comparisonDouble = TimeInterval(19.13)
+    let comparisonColonSeconds = TimeInterval(35)
+    let comparisonColonSecondsMinutes = TimeInterval((23 * 60) + 11)
+    let comparisonColonSecondsMinutesHours = TimeInterval((3 * 3600) + (37 * 60) + 22)
+    let comparisonBadString = TimeInterval(0)
+
+    do {
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+
+      XCTAssertEqual(results.decimal.value, comparisonDecimal)
+      XCTAssertEqual(results.intString.value, comparisonIntString)
+      XCTAssertEqual(results.int.value, comparisonInt)
+      XCTAssertEqual(results.double.value, comparisonDouble)
+      XCTAssertEqual(results.colonSeconds.value, comparisonColonSeconds)
+      XCTAssertEqual(results.colonSecondsMinutes.value, comparisonColonSecondsMinutes)
+      XCTAssertEqual(results.colonSecondsMinutesHours.value, comparisonColonSecondsMinutesHours)
+      XCTAssertEqual(results.badString1.value, comparisonBadString)
+      XCTAssertEqual(results.badString2.value, comparisonBadString)
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
 }
