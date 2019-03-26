@@ -84,7 +84,8 @@ extension InternetArchive {
     }
     private func parseString(string: String) -> Date? {
       // try parsing date (yyyy-mm-dd), datetime (yyyy-mm-dd hh:mm:ss), or ISO8601 format
-      let date: Date? = DateFormatters.dateFormatter.date(from: string) ??
+      let date: Date? =
+        DateFormatters.dateFormatter.date(from: string) ??
         DateFormatters.dateTimeFormatter.date(from: string) ??
         DateFormatters.isoFormatter.date(from: string)
 

@@ -19,6 +19,14 @@ class ModelFieldTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
+  func testIAStringInit() {
+    if let iaString: InternetArchive.IAString = InternetArchive.IAString(fromString: "foo") {
+      XCTAssertEqual(iaString.value, "foo")
+    } else {
+      XCTFail("error initializing IAString")
+    }
+  }
+
   func testStringValue() {
     struct Foo: Decodable {
       let foo: InternetArchive.ModelField<InternetArchive.IAString>
@@ -215,14 +223,16 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
-
-  func testDoubleSingleValue() {
+  func testIADouble() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADouble>
+      let good: InternetArchive.ModelField<InternetArchive.IADouble>
+      let bad: InternetArchive.ModelField<InternetArchive.IADouble>
     }
 
     let json: String = """
-      { "foo": [1.2, 2.3] }
+      { "good": [1.2, 2.3],
+        "bad": "foo"
+      }
     """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
@@ -231,8 +241,10 @@ class ModelFieldTests: XCTestCase {
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-      XCTAssertEqual(results.foo.values, [1.2, 2.3])
-      XCTAssertEqual(results.foo.value, 1.2)
+      XCTAssertEqual(results.good.values, [1.2, 2.3])
+      XCTAssertEqual(results.good.value, 1.2)
+
+      XCTAssertNil(results.bad.value)
     } catch {
       XCTFail("error decoding")
     }
@@ -345,6 +357,28 @@ class ModelFieldTests: XCTestCase {
 
       XCTAssertEqual(results.foo.values, [comparisonDate1])
       XCTAssertEqual(results.foo.value, comparisonDate1)
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
+
+  func testBadDate() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
+    }
+
+    let json: String = """
+      { "foo": "baddate" }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    do {
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+
+      XCTAssertNil(results.foo.value)
     } catch {
       XCTFail("error decoding")
     }
