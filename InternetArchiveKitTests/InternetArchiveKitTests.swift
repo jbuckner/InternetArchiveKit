@@ -166,6 +166,39 @@ class InternetArchiveKitTests: XCTestCase {
     wait(for: [expectation], timeout: 20.0)
   }
 
+  func testTrackLength() {
+    let expectation = XCTestExpectation(description: "Test Item Files")
+    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") { (item: InternetArchive.Item?, error: Error?) in
+      if let error: Error = error {
+        XCTFail("error, \(error.localizedDescription)")
+        expectation.fulfill()
+        return
+      }
+
+      if let item = item {
+        // these two files have different length formats:
+        // length: "03:12"
+        if let file = item.files?.first(where: { $0.name?.value ?? "" == "ymsb2006-07-03d1t04.mp3" }) {
+          XCTAssertEqual(file.length?.value, 192)
+        } else {
+          XCTFail("file not found")
+        }
+
+        // length: "333.98"
+        if let file = item.files?.first(where: { $0.name?.value ?? "" == "ymsb2006-07-03d2t09.flac" }) {
+          XCTAssertEqual(file.length?.value, 333.98)
+        } else {
+          XCTFail("file not found")
+        }
+      } else {
+        XCTFail("no response")
+      }
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
   // To test pagination, I first make a request to internet archive and get the number of documents in the response
   // I then make another request to get the last page of results, which should be contain less than or equal to the
   // number of rows requested and the response document count should match that number.

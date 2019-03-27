@@ -16,7 +16,7 @@ extension InternetArchive {
     public let creator: ModelField<IAString>?
     public let format: ModelField<IAString>?
     public let height: ModelField<IAInt>?
-    public let length: ModelField<IAString>?
+    public let length: ModelField<IATimeInterval>?
     public let md5: ModelField<IAString>?
     public let mtime: ModelField<IAString>?
     public let name: ModelField<IAString>?
