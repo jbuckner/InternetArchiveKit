@@ -19,9 +19,17 @@ class ModelFieldTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
+  func testIAStringInit() {
+    if let iaString: InternetArchive.IAString = InternetArchive.IAString(fromString: "foo") {
+      XCTAssertEqual(iaString.value, "foo")
+    } else {
+      XCTFail("error initializing IAString")
+    }
+  }
+
   func testStringValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -43,7 +51,7 @@ class ModelFieldTests: XCTestCase {
 
   func testArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -65,7 +73,7 @@ class ModelFieldTests: XCTestCase {
 
   func testTypeMismatchFailureSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -86,7 +94,7 @@ class ModelFieldTests: XCTestCase {
 
   func testTypeMismatchFailureArrayOfValues() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<String>
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
@@ -107,7 +115,7 @@ class ModelFieldTests: XCTestCase {
 
   func testIntSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Int>
+      let foo: InternetArchive.ModelField<InternetArchive.IAInt>
     }
 
     let json: String = """
@@ -129,7 +137,7 @@ class ModelFieldTests: XCTestCase {
 
   func testIntArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Int>
+      let foo: InternetArchive.ModelField<InternetArchive.IAInt>
     }
 
     let json: String = """
@@ -151,7 +159,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -173,7 +181,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -195,7 +203,7 @@ class ModelFieldTests: XCTestCase {
 
   func testBoolStringArrayValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Bool>
+      let foo: InternetArchive.ModelField<InternetArchive.IABool>
     }
 
     let json: String = """
@@ -215,14 +223,16 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
-
-  func testDoubleSingleValue() {
+  func testIADouble() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Double>
+      let good: InternetArchive.ModelField<InternetArchive.IADouble>
+      let bad: InternetArchive.ModelField<InternetArchive.IADouble>
     }
 
     let json: String = """
-      { "foo": [1.2, 2.3] }
+      { "good": [1.2, 2.3],
+        "bad": "foo"
+      }
     """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
@@ -231,8 +241,10 @@ class ModelFieldTests: XCTestCase {
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-      XCTAssertEqual(results.foo.values, [1.2, 2.3])
-      XCTAssertEqual(results.foo.value, 1.2)
+      XCTAssertEqual(results.good.values, [1.2, 2.3])
+      XCTAssertEqual(results.good.value, 1.2)
+
+      XCTAssertNil(results.bad.value)
     } catch {
       XCTFail("error decoding")
     }
@@ -240,7 +252,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateSingleValue() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -268,7 +280,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateArray() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -297,7 +309,7 @@ class ModelFieldTests: XCTestCase {
 
   func testDateTime() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -326,7 +338,7 @@ class ModelFieldTests: XCTestCase {
 
   func testISO8601Date() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<Date>
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
@@ -350,9 +362,31 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  func testBadDate() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
+    }
+
+    let json: String = """
+      { "foo": "baddate" }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    do {
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+
+      XCTAssertNil(results.foo.value)
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
+
   func testURL() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<URL>
+      let foo: InternetArchive.ModelField<InternetArchive.IAURL>
     }
 
     let json: String = """
@@ -375,5 +409,60 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  func testTimeInterval() {
+    struct Foo: Decodable {
+      let decimal: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let intString: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let int: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let double: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSeconds: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutes: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutesHours: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let badString1: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let badString2: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+    }
 
+    let json: String = """
+      {
+        "decimal": "35.27",
+        "intString": "45",
+        "int": 25,
+        "double": 19.13,
+        "colonSeconds": "00:35",
+        "colonSecondsMinutes": "23:11",
+        "colonSecondsMinutesHours": "3:37:22",
+        "badString1": "foo",
+        "badString2": "a:b"
+      }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    let comparisonDecimal = TimeInterval(35.27)
+    let comparisonIntString = TimeInterval(45)
+    let comparisonInt = TimeInterval(25)
+    let comparisonDouble = TimeInterval(19.13)
+    let comparisonColonSeconds = TimeInterval(35)
+    let comparisonColonSecondsMinutes = TimeInterval((23 * 60) + 11)
+    let comparisonColonSecondsMinutesHours = TimeInterval((3 * 3600) + (37 * 60) + 22)
+    let comparisonBadString = TimeInterval(0)
+
+    do {
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+
+      XCTAssertEqual(results.decimal.value, comparisonDecimal)
+      XCTAssertEqual(results.intString.value, comparisonIntString)
+      XCTAssertEqual(results.int.value, comparisonInt)
+      XCTAssertEqual(results.double.value, comparisonDouble)
+      XCTAssertEqual(results.colonSeconds.value, comparisonColonSeconds)
+      XCTAssertEqual(results.colonSecondsMinutes.value, comparisonColonSecondsMinutes)
+      XCTAssertEqual(results.colonSecondsMinutesHours.value, comparisonColonSecondsMinutesHours)
+      XCTAssertEqual(results.badString1.value, comparisonBadString)
+      XCTAssertEqual(results.badString2.value, comparisonBadString)
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
 }

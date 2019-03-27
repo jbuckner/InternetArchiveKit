@@ -52,4 +52,13 @@ class APIControllerTests: XCTestCase {
       XCTFail("Error generating download URL")
     }
   }
+
+  func testGenerateImageUrl() {
+    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
+    if let url: URL = internetArchive.generateItemImageUrl(itemIdentifier: "foo") {
+      XCTAssertEqual(url.absoluteString, "gopher://foohost.org/services/img/foo")
+    } else {
+      XCTFail("Error generating download URL")
+    }
+  }
 }
