@@ -42,42 +42,45 @@ class FastISO8601DateParser {
   private static let hourOffset = UnsafeMutablePointer<Int>.allocate(capacity: 1)
   private static let minuteOffset = UnsafeMutablePointer<Int>.allocate(capacity: 1)
 
-  static func parse(_ dateString: String) -> Date? {
+  private static let parseQueue = DispatchQueue(label: "FastISO8601DateParseQueue")
 
+  static func parse(_ dateString: String) -> Date? {
     guard dateString.contains("T") else { return nil }
 
-    let parseCount = withVaList([year, month, day, hour, minute,
-                                 second, hourOffset, minuteOffset], { pointer in
-                                  vsscanf(dateString, "%d-%d-%dT%d:%d:%f%d:%dZ", pointer)
-    })
+    return FastISO8601DateParser.parseQueue.sync {
+      let parseCount = withVaList([year, month, day, hour, minute,
+                                   second, hourOffset, minuteOffset], { pointer in
+                                    vsscanf(dateString, "%d-%d-%dT%d:%d:%f%d:%dZ", pointer)
+      })
 
-    components.year = year.pointee
-    components.minute = minute.pointee
-    components.day = day.pointee
-    components.hour = hour.pointee
-    components.month = month.pointee
-    components.second = Int(second.pointee)
+      components.year = year.pointee
+      components.minute = minute.pointee
+      components.day = day.pointee
+      components.hour = hour.pointee
+      components.month = month.pointee
+      components.second = Int(second.pointee)
 
-    // Work out the timezone offset
+      // Work out the timezone offset
 
-    if hourOffset.pointee < 0 {
-      minuteOffset.pointee = -minuteOffset.pointee
-    }
+      if hourOffset.pointee < 0 {
+        minuteOffset.pointee = -minuteOffset.pointee
+      }
 
-    let offset = parseCount <= 6 ? 0 :
-      hourOffset.pointee * 3600 + minuteOffset.pointee * 60
+      let offset = parseCount <= 6 ? 0 :
+        hourOffset.pointee * 3600 + minuteOffset.pointee * 60
 
-    // Cache calendars per timezone
-    // (setting it each date conversion is not performant)
+      // Cache calendars per timezone
+      // (setting it each date conversion is not performant)
 
-    if let calendar = calendarCache[offset] {
+      if let calendar = calendarCache[offset] {
+        return calendar.date(from: components)
+      }
+
+      var calendar = Calendar(identifier: .gregorian)
+      guard let timeZone = TimeZone(secondsFromGMT: offset) else { return nil }
+      calendar.timeZone =  timeZone
+      calendarCache[offset] = calendar
       return calendar.date(from: components)
     }
-
-    var calendar = Calendar(identifier: .gregorian)
-    guard let timeZone = TimeZone(secondsFromGMT: offset) else { return nil }
-    calendar.timeZone =  timeZone
-    calendarCache[offset] = calendar
-    return calendar.date(from: components)
   }
 }
