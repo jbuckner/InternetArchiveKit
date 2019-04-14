@@ -11,6 +11,30 @@ import Foundation
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
+/**
+ Interact with the InternetArchive API
+
+ ### Example Usage
+ ```
+ let query = InternetArchive.Query(
+   clauses: ["collection": "etree", "mediatype": "collection"])
+ let archive = InternetArchive()
+
+ archive.search(
+   query: query,
+   page: 0,
+   rows: 10,
+   completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
+   // handle response
+ })
+
+ archive.itemDetail(
+   identifier: "sci2007-07-28.Schoeps",
+   completion: { (item: InternetArchive.Item?, error: Error?) in
+   // handle item
+ })
+ ```
+ */
 public class InternetArchive: InternetArchiveProtocol {
   public convenience init() {
     self.init(host: "archive.org", scheme: "https", urlSession: URLSession.shared)
@@ -22,8 +46,17 @@ public class InternetArchive: InternetArchiveProtocol {
     self.urlSession = urlSession
   }
 
-  // hits the advancedsearch url,
-  // eg https://archive.org/advancedsearch.php?q=collection:(etree)+AND+mediatype:(collection)&outpt=json
+  /**
+   Search the Internet Archive
+
+   - parameters:
+     - query: The search query as an `InternetArchiveURLStringProtocol` object
+     - page: The results pagination page number
+     - rows: The number of results to return per page
+     - fields: An array of strings specifying the metadata entries you want returned. The default is `nil`, which return all metadata fields
+     - sortFields: The fields by which you want to sort the results as an `InternetArchiveURLQueryItemProtocol` object
+     - completion: Returns optional `InternetArchive.SearchResponse` and `Error` objects
+   */
   public func search(query: InternetArchiveURLStringProtocol,
                      page: Int,
                      rows: Int,
@@ -42,8 +75,15 @@ public class InternetArchive: InternetArchiveProtocol {
     self.makeRequest(url: searchUrl, completion: completion)
   }
 
-  // hits the metadata url for a particular item,
-  // eg https://archive.org/metadata/ymsb2006-07-03.flac16
+  /**
+   Fetch a single item from the Internet Archive
+
+   - parameters:
+     - identifier: The item identifier
+     - completion: Returns optional `InternetArchive.Item` and `Error` objects
+
+   - returns: No value
+   */
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> () ) {
     guard let metadataUrl: URL = self.generateMetadataUrl(identifier: identifier) else {
       os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
@@ -54,17 +94,43 @@ public class InternetArchive: InternetArchiveProtocol {
     self.makeRequest(url: metadataUrl, completion: completion)
   }
 
+  /**
+   Generate the metadata url for an Internet Archive search
+
+   - parameters:
+     - identifier: The item identifier
+
+   - returns: Optional metadata `URL`
+   */
   public func generateMetadataUrl(identifier: String) -> URL? {
+    var urlComponents: URLComponents = getBaseUrlComponents()
     urlComponents.path = "/metadata/\(identifier)"
     return urlComponents.url
   }
 
+  /**
+   Generate the item image url for an Internet Archive item
+
+   - parameters:
+     - itemIdentifier: The item identifier
+
+   - returns: Optional item image `URL`
+   */
   public func generateItemImageUrl(itemIdentifier: String) -> URL? {
     var urlComponents: URLComponents = getBaseUrlComponents()
     urlComponents.path = "/services/img/\(itemIdentifier)"
     return urlComponents.url
   }
 
+  /**
+   Generate the download url for an Internet Archive file
+
+   - parameters:
+     - itemIdentifier: The item identifier
+     - fileName: The file name
+
+   - returns: Optional file download `URL`
+   */
   public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
     var urlComponents: URLComponents = getBaseUrlComponents()
     urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"

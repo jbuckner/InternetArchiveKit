@@ -9,6 +9,34 @@
 import Foundation
 
 extension InternetArchive {
+  /**
+   The main structure for defining search queries.
+
+   It can be created with `key: value` pairs like `["collection": "etree"] or an array of query clauses.
+   The output is a URL string, such as `"collection:(etree) AND -title:(foo)" in `asURLString`.
+
+   ### Basic Usage:
+   ```
+   // generate a query for items in the etree collection
+   let query = InternetArchive.Query(clauses: ["collection": "etree"])
+
+   // generate a query for items not in the etree collection
+   let query = InternetArchive.Query(clauses: ["-collection": "etree"])
+
+   // generate a query for any field with a value of etree
+   let query = InternetArchive.Query(clauses: ["": "etree"])
+   ```
+
+   ### Advanced Usage:
+   ```
+   let clause1 = InternetArchive.QueryClause(field: "title", value: "String Cheese", booleanOperator: .and)
+   let clause2 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .not)
+   let dateInterval = DateInterval(start: startDate, end: endDate)
+   let dateRangeClause = InternetArchive.QueryDateRange(queryField: "date", dateRange: dateInterval)
+
+   let query = InternetArchive.Query(clauses: [clause1, clause2, dateRangeClause, sortField])
+   ```
+  */
   public struct Query: InternetArchiveURLStringProtocol {
     public var clauses: [InternetArchiveQueryClauseProtocol]
     public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
@@ -29,6 +57,20 @@ extension InternetArchive {
     }
   }
 
+  /**
+   A query clause for use in generating a `Query`.
+
+   This is comprised of a `field`, `value`, and `booleanOperator`.
+   It will generate a search clause like `collection:(etree)`.
+
+   `field` can be empty to search any field
+
+   ### Example Usage:
+   ```
+   let clause1 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and)
+   let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not)
+   ```
+   */
   public struct QueryClause: InternetArchiveQueryClauseProtocol {
     public let field: String
     public let value: String
@@ -46,6 +88,20 @@ extension InternetArchive {
     }
   }
 
+  /**
+   A query clause for use in generating a date range query.
+
+   This is comprised of a `field` and `dateRange`.
+   It will return a query like `date:[2018-01-01T07:23:12Z TO 2018-04-01T17:53:34Z]`
+
+   ### Example Usage:
+   ```
+   let startDate = Date(timeIntervalSince1970: 0)
+   let endDate = Date()
+   let dateInterval = DateInterval(start: startDate, end: endDate)
+   let dateRangeClause = InternetArchive.QueryDateRange(queryField: "date", dateRange: dateInterval)
+   ```
+   */
   public struct QueryDateRange: InternetArchiveQueryClauseProtocol {
     public let queryField: String
     public let dateRange: DateInterval
@@ -77,6 +133,16 @@ extension InternetArchive {
 
 // MARK: Query Result Sorting
 extension InternetArchive {
+  /**
+   A query item for use in generating a sort field.
+
+   This is comprised of a `field` and `direction`. `direction` is either `.asc` or `.desc`
+
+   ### Example Usage:
+   ```
+   let sortField = InternetArchive.SortField(field: "date", direction: .asc)
+   ```
+   */
   public struct SortField: InternetArchiveURLQueryItemProtocol {
     public let field: String
     public let direction: SortDirection
