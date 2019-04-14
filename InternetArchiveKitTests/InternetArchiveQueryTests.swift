@@ -32,11 +32,13 @@ class InternetArchiveQueryTests: XCTestCase {
   func testQueryStringConvenience() {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let queryAsUrl: String = query.asURLString
-    debugPrint(queryAsUrl)
     XCTAssertTrue(queryAsUrl == "foo:(bar) AND baz:(boop)" || queryAsUrl == "baz:(boop) AND foo:(bar)")
     let query2: InternetArchive.Query = InternetArchive.Query(clauses: ["": "bar", "baz": "boop"])
     let query2AsUrl: String = query2.asURLString
     XCTAssertTrue(query2AsUrl == "(bar) AND baz:(boop)" || query2AsUrl == "baz:(boop) AND (bar)")
+    let query3: InternetArchive.Query = InternetArchive.Query(clauses: ["-foo": "bar", "baz": "boop"])
+    let query3AsUrl: String = query3.asURLString
+    XCTAssertTrue(query3AsUrl == "-foo:(bar) AND baz:(boop)" || query3AsUrl == "baz:(boop) AND -foo:(bar)")
   }
 
   func testDateRangeQuery() {

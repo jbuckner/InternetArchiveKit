@@ -384,6 +384,30 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  func testISODateParsePerformance() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IADate>
+    }
+
+    let json: String = """
+      { "foo": "2018-11-15T00:00:00Z" }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    self.measure {
+      for _ in 0..<1000 {
+        do {
+          _ = try JSONDecoder().decode(Foo.self, from: data)
+        } catch {
+          XCTFail("error decoding")
+        }
+      }
+    }
+  }
+
   func testURL() {
     struct Foo: Decodable {
       let foo: InternetArchive.ModelField<InternetArchive.IAURL>
