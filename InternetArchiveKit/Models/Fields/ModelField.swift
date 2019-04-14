@@ -80,10 +80,12 @@ extension InternetArchive {
       self.value = parseString(string: string)
     }
     required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
+      let container = try from.singleValueContainer()
+      let stringValue = try container.decode(String.self)
+      self.value = parseString(string: stringValue)
     }
     private func parseString(string: String) -> Date? {
-      // try parsing date (yyyy-mm-dd), datetime (yyyy-mm-dd hh:mm:ss), or ISO8601 format
+      // try parsing ISO8601, date (yyyy-mm-dd), or datetime (yyyy-mm-dd hh:mm:ss) format
       let date: Date? =
         DateFormatters.isoFormatter.date(from: string) ??
         DateFormatters.dateFormatter.date(from: string) ??
