@@ -17,8 +17,8 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   public init(host: String, scheme: String, urlSession: URLSession) {
-    self.urlComponents.scheme = scheme
-    self.urlComponents.host = host
+    self.scheme = scheme
+    self.host = host
     self.urlSession = urlSession
   }
 
@@ -54,12 +54,29 @@ public class InternetArchive: InternetArchiveProtocol {
     self.makeRequest(url: metadataUrl, completion: completion)
   }
 
-  public func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                                page: Int,
-                                rows: Int,
-                                fields: [String],
-                                sortFields: [InternetArchiveURLQueryItemProtocol],
-                                additionalQueryParams: [URLQueryItem]) -> URL? {
+  public func generateMetadataUrl(identifier: String) -> URL? {
+    urlComponents.path = "/metadata/\(identifier)"
+    return urlComponents.url
+  }
+
+  public func generateItemImageUrl(itemIdentifier: String) -> URL? {
+    var urlComponents: URLComponents = getBaseUrlComponents()
+    urlComponents.path = "/services/img/\(itemIdentifier)"
+    return urlComponents.url
+  }
+
+  public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
+    var urlComponents: URLComponents = getBaseUrlComponents()
+    urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
+    return urlComponents.url
+  }
+
+  internal func generateSearchUrl(query: InternetArchiveURLStringProtocol,
+                                  page: Int,
+                                  rows: Int,
+                                  fields: [String],
+                                  sortFields: [InternetArchiveURLQueryItemProtocol],
+                                  additionalQueryParams: [URLQueryItem]) -> URL? {
 
     let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
     let sortParams: [URLQueryItem] = sortFields.compactMap { $0.asQueryItem }
@@ -70,23 +87,9 @@ public class InternetArchive: InternetArchiveProtocol {
       URLQueryItem(name: "page", value: "\(page)"),
     ]
 
+    var urlComponents: URLComponents = getBaseUrlComponents()
     urlComponents.path = "/advancedsearch.php"
     urlComponents.queryItems = params
-    return urlComponents.url
-  }
-
-  public func generateMetadataUrl(identifier: String) -> URL? {
-    urlComponents.path = "/metadata/\(identifier)"
-    return urlComponents.url
-  }
-
-  public func generateItemImageUrl(itemIdentifier: String) -> URL? {
-    urlComponents.path = "/services/img/\(itemIdentifier)"
-    return urlComponents.url
-  }
-
-  public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
-    urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
     return urlComponents.url
   }
 
@@ -117,8 +120,16 @@ public class InternetArchive: InternetArchiveProtocol {
     task.resume()
   }
 
-  private var urlComponents: URLComponents = URLComponents()
-  private var urlSession: URLSession
+  private func getBaseUrlComponents() -> URLComponents {
+    var urlComponents: URLComponents = URLComponents()
+    urlComponents.scheme = scheme
+    urlComponents.host = host
+    return urlComponents
+  }
+
+  private let urlSession: URLSession
+  private let host: String
+  private let scheme: String
 
   private let log: OSLog = OSLog(subsystem: logSubsystemId, category: "InternetArchive")
 }

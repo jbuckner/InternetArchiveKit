@@ -17,12 +17,6 @@ public protocol InternetArchiveProtocol {
               completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ())
   func itemDetail(identifier: String,
                   completion: @escaping (InternetArchive.Item?, Error?) -> ())
-  func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                         page: Int,
-                         rows: Int,
-                         fields: [String],
-                         sortFields: [InternetArchiveURLQueryItemProtocol],
-                         additionalQueryParams: [URLQueryItem]) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
 }
