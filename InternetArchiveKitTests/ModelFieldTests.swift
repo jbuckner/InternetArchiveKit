@@ -406,7 +406,6 @@ class ModelFieldTests: XCTestCase {
         }
       }
     }
-
   }
 
   func testURL() {
