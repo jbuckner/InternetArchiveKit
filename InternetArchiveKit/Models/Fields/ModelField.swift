@@ -256,7 +256,6 @@ extension InternetArchive {
           self.values = [value]
         }
       } catch {
-        self.rawValues = decodeArrayStringValue(decoder: decoder)
         self.values = try self.decodeUnkeyedContainer(decoder: decoder).compactMap({ $0.value })
       }
     }
