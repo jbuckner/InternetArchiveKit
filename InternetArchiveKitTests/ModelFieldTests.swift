@@ -481,6 +481,7 @@ class ModelFieldTests: XCTestCase {
       let colonSeconds: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let colonSecondsMinutes: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let colonSecondsMinutesHours: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutesHoursDecimal: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let badString1: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let badString2: InternetArchive.ModelField<InternetArchive.IATimeInterval>
     }
@@ -494,6 +495,7 @@ class ModelFieldTests: XCTestCase {
         "colonSeconds": "00:35",
         "colonSecondsMinutes": "23:11",
         "colonSecondsMinutesHours": "3:37:22",
+        "colonSecondsMinutesHoursDecimal": "4:43:21.273",
         "badString1": "foo",
         "badString2": "a:b"
       }
@@ -510,6 +512,7 @@ class ModelFieldTests: XCTestCase {
     let comparisonColonSeconds = TimeInterval(35)
     let comparisonColonSecondsMinutes = TimeInterval((23 * 60) + 11)
     let comparisonColonSecondsMinutesHours = TimeInterval((3 * 3600) + (37 * 60) + 22)
+    let comparisonColonSecondsMinutesHoursDecimal = TimeInterval((4 * 3600) + (43 * 60) + 21.273)
     let comparisonBadString = TimeInterval(0)
 
     do {
@@ -522,6 +525,7 @@ class ModelFieldTests: XCTestCase {
       XCTAssertEqual(results.colonSeconds.value, comparisonColonSeconds)
       XCTAssertEqual(results.colonSecondsMinutes.value, comparisonColonSecondsMinutes)
       XCTAssertEqual(results.colonSecondsMinutesHours.value, comparisonColonSecondsMinutesHours)
+      XCTAssertEqual(results.colonSecondsMinutesHoursDecimal.value, comparisonColonSecondsMinutesHoursDecimal)
       XCTAssertEqual(results.badString1.value, comparisonBadString)
       XCTAssertEqual(results.badString2.value, comparisonBadString)
     } catch {
