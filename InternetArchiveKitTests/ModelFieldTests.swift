@@ -250,13 +250,27 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
-  func testDateSingleValue() {
+  func testIADate() {
     struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
+      let year: InternetArchive.ModelField<InternetArchive.IADate>
+      let yearMonth: InternetArchive.ModelField<InternetArchive.IADate>
+      let yearMonthDay: InternetArchive.ModelField<InternetArchive.IADate>
+      let yearBracket: InternetArchive.ModelField<InternetArchive.IADate>
+      let dateTime: InternetArchive.ModelField<InternetArchive.IADate>
+      let isoDate: InternetArchive.ModelField<InternetArchive.IADate>
+      let badDate: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
     let json: String = """
-      { "foo": "2008-03-25" }
+      {
+        "year": "1957",
+        "yearMonth": "1987-07",
+        "yearMonthDay": "1993-03-14",
+        "yearBracket": "[1968]",
+        "dateTime": "2018-12-30 09:12:32",
+        "isoDate": "2018-11-15T15:23:11Z",
+        "badDate": "baddate"
+      }
     """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
@@ -264,121 +278,36 @@ class ModelFieldTests: XCTestCase {
     }
 
     let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"
     formatter.timeZone = TimeZone(abbreviation: "GMT")
-    let comparisonDate1 = formatter.date(from: "2008-03-25")
 
-    do {
-      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+    formatter.dateFormat = "yyyy"
+    let comparisonYear = formatter.date(from: "1957")
 
-      XCTAssertEqual(results.foo.values, [comparisonDate1])
-      XCTAssertEqual(results.foo.value, comparisonDate1)
-    } catch {
-      XCTFail("error decoding")
-    }
-  }
+    formatter.dateFormat = "yyyy-MM"
+    let comparisonYearMonth = formatter.date(from: "1987-07")
 
-  func testDateArray() {
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    let json: String = """
-      { "foo": ["2008-03-25", "2018-12-30"] }
-    """
-    guard let data: Data = json.data(using: .utf8) else {
-      XCTFail("error encoding json to data")
-      return
-    }
-
-    let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd"
-    formatter.timeZone = TimeZone(abbreviation: "GMT")
-    let comparisonDate1 = formatter.date(from: "2008-03-25")
-    let comparisonDate2 = formatter.date(from: "2018-12-30")
+    let comparisonYearMonthDay = formatter.date(from: "1993-03-14")
 
-    do {
-      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
+    formatter.dateFormat = "'['yyyy']'"
+    let comparisonYearBracket = formatter.date(from: "[1968]")
 
-      XCTAssertEqual(results.foo.values, [comparisonDate1, comparisonDate2])
-      XCTAssertEqual(results.foo.value, comparisonDate1)
-    } catch {
-      XCTFail("error decoding")
-    }
-  }
-
-  func testDateTime() {
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    let json: String = """
-      { "foo": ["2008-03-25 14:51:24", "2018-12-30 09:12:32"] }
-    """
-    guard let data: Data = json.data(using: .utf8) else {
-      XCTFail("error encoding json to data")
-      return
-    }
-
-    let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    formatter.timeZone = TimeZone(abbreviation: "GMT")
-    let comparisonDate1 = formatter.date(from: "2008-03-25 14:51:24")
-    let comparisonDate2 = formatter.date(from: "2018-12-30 09:12:32")
+    let comparisonDateTime = formatter.date(from: "2018-12-30 09:12:32")
+
+    let isoFormatter = ISO8601DateFormatter()
+    let comparisonISODate = isoFormatter.date(from: "2018-11-15T15:23:11Z")
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
 
-      XCTAssertEqual(results.foo.values, [comparisonDate1, comparisonDate2])
-      XCTAssertEqual(results.foo.value, comparisonDate1)
-    } catch {
-      XCTFail("error decoding")
-    }
-  }
-
-  func testISO8601Date() {
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    let json: String = """
-      { "foo": "2018-11-15T00:00:00Z" }
-    """
-    guard let data: Data = json.data(using: .utf8) else {
-      XCTFail("error encoding json to data")
-      return
-    }
-
-    let formatter = ISO8601DateFormatter()
-    let comparisonDate1 = formatter.date(from: "2018-11-15T00:00:00Z")
-
-    do {
-      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-
-      XCTAssertEqual(results.foo.values, [comparisonDate1])
-      XCTAssertEqual(results.foo.value, comparisonDate1)
-    } catch {
-      XCTFail("error decoding")
-    }
-  }
-
-  func testBadDate() {
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    let json: String = """
-      { "foo": "baddate" }
-    """
-    guard let data: Data = json.data(using: .utf8) else {
-      XCTFail("error encoding json to data")
-      return
-    }
-
-    do {
-      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-
-      XCTAssertNil(results.foo.value)
+      XCTAssertEqual(results.year.value, comparisonYear)
+      XCTAssertEqual(results.yearBracket.value, comparisonYearBracket)
+      XCTAssertEqual(results.yearMonth.value, comparisonYearMonth)
+      XCTAssertEqual(results.yearMonthDay.value, comparisonYearMonthDay)
+      XCTAssertEqual(results.dateTime.value, comparisonDateTime)
+      XCTAssertEqual(results.isoDate.value, comparisonISODate)
+      XCTAssertNil(results.badDate.value)
     } catch {
       XCTFail("error decoding")
     }

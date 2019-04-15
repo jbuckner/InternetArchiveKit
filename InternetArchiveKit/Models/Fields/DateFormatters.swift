@@ -9,7 +9,28 @@
 import Foundation
 
 class DateFormatters {
-  static let dateFormatter: DateFormatter = {
+  static let yearFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return dateFormatter
+  }()
+
+  static let yearBracketFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "'['yyyy']'"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return dateFormatter
+  }()
+
+  static let yearMonthFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return dateFormatter
+  }()
+
+  static let yearMonthDayFormatter: DateFormatter = {
     let dateFormatter: DateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
