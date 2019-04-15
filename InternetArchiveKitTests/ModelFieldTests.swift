@@ -256,8 +256,11 @@ class ModelFieldTests: XCTestCase {
       let yearMonth: InternetArchive.ModelField<InternetArchive.IADate>
       let yearMonthDay: InternetArchive.ModelField<InternetArchive.IADate>
       let yearBracket: InternetArchive.ModelField<InternetArchive.IADate>
+      let yearCirca: InternetArchive.ModelField<InternetArchive.IADate>
       let dateTime: InternetArchive.ModelField<InternetArchive.IADate>
       let isoDate: InternetArchive.ModelField<InternetArchive.IADate>
+      let isoDateTimeZoneOffset1: InternetArchive.ModelField<InternetArchive.IADate>
+      let isoDateTimeZoneOffset2: InternetArchive.ModelField<InternetArchive.IADate>
       let badDate: InternetArchive.ModelField<InternetArchive.IADate>
     }
 
@@ -267,8 +270,11 @@ class ModelFieldTests: XCTestCase {
         "yearMonth": "1987-07",
         "yearMonthDay": "1993-03-14",
         "yearBracket": "[1968]",
+        "yearCirca": "c.a. 1973",
         "dateTime": "2018-12-30 09:12:32",
         "isoDate": "2018-11-15T15:23:11Z",
+        "isoDateTimeZoneOffset1": "2018-11-15T15:23:11-02:30",
+        "isoDateTimeZoneOffset2": "2018-11-15T15:23:11+04:00",
         "badDate": "baddate"
       }
     """
@@ -292,24 +298,44 @@ class ModelFieldTests: XCTestCase {
     formatter.dateFormat = "'['yyyy']'"
     let comparisonYearBracket = formatter.date(from: "[1968]")
 
+    formatter.dateFormat = "'c.a.' yyyy"
+    let comparisonYearCirca = formatter.date(from: "c.a. 1973")
+
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     let comparisonDateTime = formatter.date(from: "2018-12-30 09:12:32")
 
     let isoFormatter = ISO8601DateFormatter()
     let comparisonISODate = isoFormatter.date(from: "2018-11-15T15:23:11Z")
+    let comparisonISODateTimeZoneOffset1 = isoFormatter.date(from: "2018-11-15T15:23:11-02:30")
+    let comparisonISODateTimeZoneOffset2 = isoFormatter.date(from: "2018-11-15T15:23:11+04:00")
 
     do {
       let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
 
       XCTAssertEqual(results.year.value, comparisonYear)
       XCTAssertEqual(results.yearBracket.value, comparisonYearBracket)
+      XCTAssertEqual(results.yearCirca.value, comparisonYearCirca)
       XCTAssertEqual(results.yearMonth.value, comparisonYearMonth)
       XCTAssertEqual(results.yearMonthDay.value, comparisonYearMonthDay)
       XCTAssertEqual(results.dateTime.value, comparisonDateTime)
       XCTAssertEqual(results.isoDate.value, comparisonISODate)
+      XCTAssertEqual(results.isoDateTimeZoneOffset1.value, comparisonISODateTimeZoneOffset1)
+      XCTAssertEqual(results.isoDateTimeZoneOffset2.value, comparisonISODateTimeZoneOffset2)
       XCTAssertNil(results.badDate.value)
     } catch {
       XCTFail("error decoding")
+    }
+  }
+
+  func testIADateStringInstantiation() {
+    if let foo: InternetArchive.IADate = InternetArchive.IADate(fromString: "1993-03-14") {
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd"
+      formatter.timeZone = TimeZone(abbreviation: "GMT")
+      let comparisonYearMonthDay = formatter.date(from: "1993-03-14")
+      XCTAssertEqual(foo.value, comparisonYearMonthDay)
+    } else {
+      XCTFail("could not instantiate IADate from string")
     }
   }
 
@@ -319,7 +345,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": "2018-11-15T00:00:00Z" }
+      { "foo": "2018-11-15T13:41:23Z" }
     """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")

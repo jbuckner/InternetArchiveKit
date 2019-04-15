@@ -168,20 +168,7 @@ extension InternetArchive {
       self.value = parseString(string: stringValue)
     }
     private func parseString(string: String) -> Date? {
-      let date: Date? =
-        FastISO8601DateParser.parse(string) ??
-          DateFormatters.dateTimeFormatter.date(from: string) ??
-          DateFormatters.yearMonthDayFormatter.date(from: string) ??
-          DateFormatters.yearMonthFormatter.date(from: string) ??
-          DateFormatters.yearFormatter.date(from: string) ??
-          DateFormatters.yearBracketFormatter.date(from: string) ??
-          DateFormatters.isoFormatter.date(from: string) // fallback to the "real" (slower) ISOFormatter as a final check
-
-      if let timeInterval: TimeInterval = date?.timeIntervalSinceReferenceDate {
-        return Date.init(timeIntervalSinceReferenceDate: timeInterval)
-      } else {
-        return nil
-      }
+      return DateParser.shared.date(from: string)
     }
   }
 
@@ -269,6 +256,7 @@ extension InternetArchive {
           self.values = [value]
         }
       } catch {
+        self.rawValues = decodeArrayStringValue(decoder: decoder)
         self.values = try self.decodeUnkeyedContainer(decoder: decoder).compactMap({ $0.value })
       }
     }
