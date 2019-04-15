@@ -9,6 +9,11 @@
 import Foundation
 
 extension InternetArchive {
+  /**
+   An Internet Archive File
+
+   This will be returned in the `files` property from an `InternetArchive().itemDetail()` request.
+   */
   public struct File: Decodable {
     public let album: ModelField<IAString>?
     public let bitrate: ModelField<IAInt>?

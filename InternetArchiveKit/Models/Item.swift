@@ -9,6 +9,11 @@
 import Foundation
 
 extension InternetArchive {
+  /**
+   An Internet Archive Item, containing `ItemMetadata`, an array of `File` objects, and additional properties.
+
+   This will be returned from an `InternetArchive().itemDetail()` request.
+   */
   public struct Item: Decodable {
     public let created: ModelField<IAInt>?
     public let collection: ModelField<IAString>?

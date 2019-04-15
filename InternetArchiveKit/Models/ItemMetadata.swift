@@ -9,6 +9,11 @@
 import Foundation
 
 extension InternetArchive {
+  /**
+   Internet Archive Item Metadata
+
+   This will be returned from `itemDetail()` and `search()` requests.
+   */
   public struct ItemMetadata: Decodable {
     public let addeddate: ModelField<IADate>?
     public let adder: ModelField<IAString>?
