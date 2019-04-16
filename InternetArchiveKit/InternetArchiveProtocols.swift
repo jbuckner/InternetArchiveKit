@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ A protocol to which the main `InternetArchive` class conforms
+ */
 public protocol InternetArchiveProtocol {
   func search(query: InternetArchiveURLStringProtocol,
               page: Int,
@@ -17,14 +20,23 @@ public protocol InternetArchiveProtocol {
               completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ())
   func itemDetail(identifier: String,
                   completion: @escaping (InternetArchive.Item?, Error?) -> ())
+  func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
 }
 
+/**
+ A protocol for abstracting URL search query strings
+
+ All of the search queries components like Query and DateQuery conform to this
+ */
 public protocol InternetArchiveURLStringProtocol {
   var asURLString: String { get }
 }
 
+/**
+ A protocol for abstracting URL query items for a search
+ */
 public protocol InternetArchiveURLQueryItemProtocol {
   var asQueryItem: URLQueryItem { get }
 }

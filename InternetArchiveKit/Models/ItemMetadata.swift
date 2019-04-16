@@ -13,6 +13,15 @@ extension InternetArchive {
    Internet Archive Item Metadata
 
    This will be returned from `itemDetail()` and `search()` requests.
+
+   The properties are cast to their native Swift types (`Double`, `Int`, `TimeInterval`, `String`, etc)
+
+   See the Internet Archive's
+   [Python API Reference](https://archive.org/services/docs/api/metadata-schema/index.html#metadata-schema)
+   for a description of the properties.
+
+   **Note**: This is not an exhaustive list of metadata properties. If you need some that are missing,
+   please open a pull request.
    */
   public struct ItemMetadata: Decodable {
     public let addeddate: ModelField<IADate>?

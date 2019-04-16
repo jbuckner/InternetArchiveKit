@@ -14,16 +14,24 @@ import Foundation
  This is a very fast ISO8601 date parser derived from [this blog post](http://jordansmith.io/performant-date-parsing/)
  by Jordan Smith. Only use this for the basic ISO8601 GMT format: `yyyy-MM-ddTHH:mm:ssZ`.
 
- # Warning
+ **Warning**
 
  Don't use this unless you are sure your dates are in basic ISO8601 GMT format: `yyyy-MM-ddTHH:mm:ssZ`.
  If you are unsure, use Apple's `ISO8601DateFormatter` instead.
 
  Its speed comes from use of the the low-level `vsscanf` function and minimal error checking.
 
- # Suggestion
+ ### Suggestion
 
  Use a singleton instance of this to maintain top performance. It is thread-safe.
+
+ ### Example Usage
+
+ ```
+ let parser = FastISO8601GMTDateParser()
+ parser.date(from: "2018-11-15T15:23:11Z")
+ => Date object ("2018-11-15T15:23:11Z")
+ ```
  */
 internal class FastISO8601GMTDateParser: DateParserProtocol {
   private var components = DateComponents()

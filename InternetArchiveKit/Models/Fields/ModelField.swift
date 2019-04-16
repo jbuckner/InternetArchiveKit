@@ -17,7 +17,7 @@ import Foundation
 
  A `ModelFieldProtocol` class is instantiated with a `String` and its value accessed through the `value` property.
 
- # Example Usage
+ ### Example Usage
  ```
  let intField: IAInt = IAInt(string: "3")
  intField.value => 3
@@ -41,21 +41,28 @@ extension InternetArchive {
    - Normalizes the response to an array of objects
    - Provides a convenience `value` accessor to get the first value of the array since most fields are single values
 
-   # Example Usage:
+   Native types are wrapped in `ModelFieldProtocol` objects like `IAInt` and `IADate`
+   to handle the string to native conversion.
+
+   ### Example Usage:
    ```
    struct Foo: Decodable {
-     let foo: ModelField<Int>
-     let bar: ModelField<String>
+     let foo: ModelField<IAInt>
+     let bar: ModelField<IAString>
    }
    let json: String = "{ \"foo\": \"3\", \"bar\": ["boop", "bop"] }"
    let data = json.data(using: .utf8)!
    let results: Foo = try! JSONDecoder().decode(Foo.self, from: data)
    results.foo.values => [3]
+   results.foo.value => 3
    results.bar.values => ["boop", "bop"]
+   results.bar.value => "boop"
    ```
    */
   public struct ModelField<T>: Decodable where T: ModelFieldProtocol {
+    /// A convenience accessor for the first value of the `values` array
     public var value: T.FieldType? { return self.values.first }
+    /// An array of values of type `T`
     public var values: [T.FieldType] = []
 
     public init(from decoder: Decoder) throws {
