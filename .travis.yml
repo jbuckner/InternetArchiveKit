@@ -1,0 +1,4 @@
+language: objective-c
+xcode_project: InternetArchiveKit.xcodeproj
+xcode_scheme: InternetArchiveKitTests
+xcode_destination: platform=iOS Simulator,OS=10.1,name=iPhone X
