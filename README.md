@@ -8,7 +8,7 @@ It was built to power [Live Music Archive](https://livemusicarchive.app), an app
 
 ## General Information
 
-The Internet Archive's structure is made up of Items and Files. Items are the top level "things" that contain all of the metadata for the "thing". Items contain files, which are the actual content of the Item. For instance, in a live music recording, the Item is a particular recording of a show with metadata about the show like artist, venue, taper, etc. The Files are the individual audio tracks from that show.
+The Internet Archive's structure is made up of `Items` and `Files`. `Items` are the top level "things", like audio, video, and books, that contain all of the metadata for the "thing". `Items` contain `Files`, which are the actual content of the `Item`. For instance, in a live music recording, the `Item` is a particular recording of a show with metadata about the show like artist, venue, taper, etc. The `Files` are the individual audio tracks from that show.
 
 For more information about the Internet Archive's structure, see their [Python Library Documentation](https://archive.org/services/docs/api/index.html).
 
@@ -30,14 +30,20 @@ archive.search(
   page: 0,
   rows: 10,
   completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-   // handle response
+   let firstItem = response.response.docs.first
+   // handle first item
 })
 
 archive.itemDetail(
   identifier: "sci2007-07-28.Schoeps",
   completion: { (item: InternetArchive.Item?, error: Error?) in
-  // handle item
+  let firstFile = item.files.first
+  // handle first file
 })
 ```
 
 For more advanced usage, see the test suite and the included sample app.
+
+## Limitations
+
+Currently, the API is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!
