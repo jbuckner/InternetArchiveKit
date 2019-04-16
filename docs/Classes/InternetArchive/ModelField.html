@@ -14,7 +14,8 @@
     <a title="ModelField Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> Docs</a> (18% documented)</p>
+        <p><a href="../../index.html"> Docs</a> (23% documented)</p>
+        <p class="header-right"><a href="https://github.com/jbuckner/internetarchivekit"><img src="../../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -55,7 +56,7 @@
                 <a href="../../Classes/InternetArchive/SortDirection.html">– SortDirection</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/InternetArchive/ResponseParams.html">– ResponseParams</a>
+                <a href="../../Classes/InternetArchive/SearchResponse.html">– SearchResponse</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/InternetArchive/ResponseHeader.html">– ResponseHeader</a>
@@ -64,7 +65,7 @@
                 <a href="../../Classes/InternetArchive/Response.html">– Response</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/InternetArchive/SearchResponse.html">– SearchResponse</a>
+                <a href="../../Classes/InternetArchive/ResponseParams.html">– ResponseParams</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/InternetArchive/ModelField.html">– ModelField</a>
@@ -145,16 +146,21 @@ The <code>ModelField</code> struct does a few things to make handling these valu
 <li>Normalizes the response to an array of objects</li>
 <li>Provides a convenience <code>value</code> accessor to get the first value of the array since most fields are single values</li>
 </ul>
-<h1 id='example-usage' class='heading'>Example Usage:</h1>
+
+<p>Native types are wrapped in <code><a href="../../Protocols/ModelFieldProtocol.html">ModelFieldProtocol</a></code> objects like <code><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></code> and <code><a href="../../Classes/InternetArchive/IADate.html">IADate</a></code>
+to handle the string to native conversion.</p>
+<h3 id='example-usage' class='heading'>Example Usage:</h3>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Foo</span><span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
-  <span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
-  <span class="k">let</span> <span class="nv">bar</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span>
+  <span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">IAInt</span><span class="o">&gt;</span>
+  <span class="k">let</span> <span class="nv">bar</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">IAString</span><span class="o">&gt;</span>
 <span class="p">}</span>
 <span class="k">let</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\"</span><span class="s">foo</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">bar</span><span class="se">\"</span><span class="s">: ["</span><span class="n">boop</span><span class="s">", "</span><span class="n">bop</span><span class="s">"] }"</span>
 <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
 <span class="k">let</span> <span class="nv">results</span><span class="p">:</span> <span class="kt">Foo</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Foo</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">results</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">results</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">value</span> <span class="o">=&gt;</span> <span class="mi">3</span>
 <span class="n">results</span><span class="o">.</span><span class="n">bar</span><span class="o">.</span><span class="n">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">"boop"</span><span class="p">,</span> <span class="s">"bop"</span><span class="p">]</span>
+<span class="n">results</span><span class="o">.</span><span class="n">bar</span><span class="o">.</span><span class="n">value</span> <span class="o">=&gt;</span> <span class="s">"boop"</span>
 </code></pre>
 
           </section>
@@ -174,7 +180,7 @@ The <code>ModelField</code> struct does a few things to make handling these valu
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A convenience accessor for the first value of the <code><a href="../../Classes/InternetArchive/ModelField.html#/s:18InternetArchiveKit0aB0C10ModelFieldV6valuesSay0E4TypeQzGvp">values</a></code> array</p>
 
                       </div>
                       <div class="declaration">
@@ -201,7 +207,7 @@ The <code>ModelField</code> struct does a few things to make handling these valu
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>An array of values of type <code>T</code></p>
 
                       </div>
                       <div class="declaration">
@@ -246,7 +252,7 @@ The <code>ModelField</code> struct does a few things to make handling these valu
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-04-15)</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/jbuckner" target="_blank" rel="external">Jason Buckner</a>. All rights reserved. (Last updated: 2019-04-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
