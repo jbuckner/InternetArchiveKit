@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		960BE3DC21AE5D170044C142 /* InternetArchiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */; };
+		9614038D226538E6001B9FB7 /* FastISO8601DateFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9614038C226538E6001B9FB7 /* FastISO8601DateFormatterTests.swift */; };
+		9614038F22653923001B9FB7 /* FastISO8601DateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9614038E22653923001B9FB7 /* FastISO8601DateParser.swift */; };
+		96140390226539EE001B9FB7 /* FastISO8601DateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9614038E22653923001B9FB7 /* FastISO8601DateParser.swift */; };
+		9614039222654AA4001B9FB7 /* ModelFieldTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9614039122654AA4001B9FB7 /* ModelFieldTypes.swift */; };
+		9614039322654BAE001B9FB7 /* ModelFieldTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9614039122654AA4001B9FB7 /* ModelFieldTypes.swift */; };
 		961F158B2249FF4F00D874EE /* ModelField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96665F7921D1A46C00D23477 /* ModelField.swift */; };
 		961F158C2249FF5D00D874EE /* InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */; };
 		961F158D2249FF6500D874EE /* InternetArchiveProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D3219BD4F7004B512D /* InternetArchiveProtocols.swift */; };
@@ -85,6 +90,9 @@
 
 /* Begin PBXFileReference section */
 		960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveQueryTests.swift; sourceTree = "<group>"; };
+		9614038C226538E6001B9FB7 /* FastISO8601DateFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastISO8601DateFormatterTests.swift; sourceTree = "<group>"; };
+		9614038E22653923001B9FB7 /* FastISO8601DateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastISO8601DateParser.swift; sourceTree = "<group>"; };
+		9614039122654AA4001B9FB7 /* ModelFieldTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFieldTypes.swift; sourceTree = "<group>"; };
 		9656DE4C21A4C5EB0016392A /* DateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateParser.swift; sourceTree = "<group>"; };
 		96665F7921D1A46C00D23477 /* ModelField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelField.swift; sourceTree = "<group>"; };
 		9669B01B2197B76D00E7CE2A /* artists.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = artists.json; sourceTree = "<group>"; };
@@ -153,7 +161,9 @@
 			isa = PBXGroup;
 			children = (
 				96665F7921D1A46C00D23477 /* ModelField.swift */,
+				9614039122654AA4001B9FB7 /* ModelFieldTypes.swift */,
 				9656DE4C21A4C5EB0016392A /* DateParser.swift */,
+				9614038E22653923001B9FB7 /* FastISO8601DateParser.swift */,
 			);
 			path = Fields;
 			sourceTree = "<group>";
@@ -255,6 +265,7 @@
 				960BE3DB21AE5D170044C142 /* InternetArchiveQueryTests.swift */,
 				96E54CEA2198054F000B9B75 /* APIControllerTests.swift */,
 				968C834B219A987C00B89646 /* ModelFieldTests.swift */,
+				9614038C226538E6001B9FB7 /* FastISO8601DateFormatterTests.swift */,
 				96ECE0E821913AE200A0C8A6 /* Info.plist */,
 			);
 			path = InternetArchiveKitTests;
@@ -442,10 +453,12 @@
 			files = (
 				96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */,
 				96BAF7D6219BD518004B512D /* InternetArchiveErrors.swift in Sources */,
+				9614039222654AA4001B9FB7 /* ModelFieldTypes.swift in Sources */,
 				96BAF7D4219BD4F7004B512D /* InternetArchiveProtocols.swift in Sources */,
 				96ECE0F421913D2F00A0C8A6 /* Item.swift in Sources */,
 				96665F7A21D1A46C00D23477 /* ModelField.swift in Sources */,
 				96ECE0F82191585300A0C8A6 /* File.swift in Sources */,
+				9614038F22653923001B9FB7 /* FastISO8601DateParser.swift in Sources */,
 				96ECE0F62191584000A0C8A6 /* ItemMetadata.swift in Sources */,
 				96BAF7D2219BD0C0004B512D /* InternetArchiveQuery.swift in Sources */,
 				96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */,
@@ -461,15 +474,18 @@
 				961F158D2249FF6500D874EE /* InternetArchiveProtocols.swift in Sources */,
 				961F158E2249FF7100D874EE /* InternetArchiveResponse.swift in Sources */,
 				961F158F2249FF7A00D874EE /* InternetArchiveQuery.swift in Sources */,
+				9614039322654BAE001B9FB7 /* ModelFieldTypes.swift in Sources */,
 				961F1592224A001D00D874EE /* Item.swift in Sources */,
 				961F1591224A001700D874EE /* DateParser.swift in Sources */,
 				961F158B2249FF4F00D874EE /* ModelField.swift in Sources */,
 				961F15902249FF8400D874EE /* ItemMetadata.swift in Sources */,
 				96E54CEB2198054F000B9B75 /* APIControllerTests.swift in Sources */,
+				96140390226539EE001B9FB7 /* FastISO8601DateParser.swift in Sources */,
 				960BE3DC21AE5D170044C142 /* InternetArchiveQueryTests.swift in Sources */,
 				961F1593224A002A00D874EE /* File.swift in Sources */,
 				96ECE0E721913AE200A0C8A6 /* InternetArchiveKitTests.swift in Sources */,
 				961F1594224A003700D874EE /* InternetArchiveErrors.swift in Sources */,
+				9614038D226538E6001B9FB7 /* FastISO8601DateFormatterTests.swift in Sources */,
 				961F158C2249FF5D00D874EE /* InternetArchive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

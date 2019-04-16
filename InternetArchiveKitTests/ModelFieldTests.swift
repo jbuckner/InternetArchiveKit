@@ -339,69 +339,6 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
-  func testISODateParsePerformance() {
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    let json: String = """
-      { "foo": "2018-11-15T13:41:23Z" }
-    """
-    guard let data: Data = json.data(using: .utf8) else {
-      XCTFail("error encoding json to data")
-      return
-    }
-
-    self.measure {
-      for _ in 0..<1000 {
-        do {
-          _ = try JSONDecoder().decode(Foo.self, from: data)
-        } catch {
-          XCTFail("error decoding")
-        }
-      }
-    }
-  }
-
-  func testFastISODateParseConcurrency() {
-    let concurrentQueue = DispatchQueue(label: "fastParseTestQueue", attributes: .concurrent)
-    struct Foo: Decodable {
-      let foo: InternetArchive.ModelField<InternetArchive.IADate>
-    }
-
-    for _ in 0..<1000 {
-      let expectation = self.expectation(description: "concurrent wait")
-      concurrentQueue.async {
-        let year: Int = Int.random(in: 1000...2020)
-        let month: Int = Int.random(in: 1...12)
-        let day: Int = Int.random(in: 1...28)
-        let hour: Int = Int.random(in: 1...12)
-        let minute: Int = Int.random(in: 0..<60)
-        let second: Int = Int.random(in: 0..<60)
-        let randomISOString: String = "\(year)-\(month)-\(day)T\(hour):\(minute):\(second)Z"
-        let json: String = """
-        { "foo": "\(randomISOString)" }
-        """
-        guard let data: Data = json.data(using: .utf8) else {
-          XCTFail("error encoding json to data")
-          return
-        }
-
-        let formatter = ISO8601DateFormatter()
-        let comparisonDate = formatter.date(from: randomISOString)
-
-        do {
-          let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
-          XCTAssertEqual(results.foo.value, comparisonDate)
-        } catch {
-          XCTFail("error decoding")
-        }
-        expectation.fulfill()
-      }
-    }
-    waitForExpectations(timeout: 10, handler: nil)
-  }
-
   func testURL() {
     struct Foo: Decodable {
       let foo: InternetArchive.ModelField<InternetArchive.IAURL>
