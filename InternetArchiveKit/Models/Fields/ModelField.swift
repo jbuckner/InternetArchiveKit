@@ -8,9 +8,21 @@
 
 import Foundation
 
-// This protocol allows us to convert strings to scalar values through
-// a common initializer. If we need to add additional metadata field type converters,
-// we just have to provide the new type with an `init?(string: String)` initializer
+/**
+ A protocol to abstract Internet Archive properties to native Swift types
+
+ This protocol allows converting different field types to more specific, native Swift types.
+ For example, the Internet Archive metadata `length` field can be represented as a `TimeInterval`
+ so an `IATimeInterval` knows how to convert "323.4" (seconds) or "5:23" (hh:mm:ss) to a `TimeInterval`
+
+ A `ModelFieldProtocol` class is instantiated with a `String` and its value accessed through the `value` property.
+
+ ### Example Usage
+ ```
+ let intField: IAInt = IAInt(string: "3")
+ intField.value => 3
+ ```
+ */
 public protocol ModelFieldProtocol: Decodable {
   associatedtype FieldType: Decodable
   init?(fromString string: String)
@@ -18,125 +30,39 @@ public protocol ModelFieldProtocol: Decodable {
 }
 
 extension InternetArchive {
-  public class IAInt: ModelFieldProtocol {
-    public typealias FieldType = Int
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = FieldType.init(string)
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-  }
+  /**
+   An abstraction for Internet Archive-style metadata fields.
 
-  public class IAString: ModelFieldProtocol {
-    public typealias FieldType = String
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = string
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-  }
+   Internet Archive metadata fields can be stored as strings or an array of strings.
+   Typically we want to use these fields in a native types (`Int`, `Double`, `Date`, `URL`, etc).
+   The `ModelField` struct does a few things to make handling these values more convenient:
+   - Provides a generic interface to any native type that is parsable from a string
+   - Converts the fields from strings to their native type
+   - Normalizes the response to an array of objects
+   - Provides a convenience `value` accessor to get the first value of the array since most fields are single values
 
-  public class IADouble: ModelFieldProtocol {
-    public typealias FieldType = Double
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = FieldType.init(string)
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-  }
+   Native types are wrapped in `ModelFieldProtocol` objects like `IAInt` and `IADate`
+   to handle the string to native conversion.
 
-  public class IABool: ModelFieldProtocol {
-    public typealias FieldType = Bool
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = FieldType.init(string)
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-  }
-
-  public class IAURL: ModelFieldProtocol {
-    public typealias FieldType = URL
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = FieldType.init(string: string)
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-  }
-
-  public class IADate: ModelFieldProtocol {
-    public typealias FieldType = Date
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = parseString(string: string)
-    }
-    required public init(from: Decoder) throws {
-      let container = try from.singleValueContainer()
-      let stringValue = try container.decode(String.self)
-      self.value = parseString(string: stringValue)
-    }
-    private func parseString(string: String) -> Date? {
-      let date: Date? =
-        FastISO8601DateParser.parse(string) ??
-        DateFormatters.dateFormatter.date(from: string) ??
-        DateFormatters.dateTimeFormatter.date(from: string) ??
-        DateFormatters.isoFormatter.date(from: string) // fallback to the "real" (slower) ISOFormatter as a final check
-
-      if let timeInterval: TimeInterval = date?.timeIntervalSinceReferenceDate {
-        return Date.init(timeIntervalSinceReferenceDate: timeInterval)
-      } else {
-        return nil
-      }
-    }
-  }
-
-  public class IATimeInterval: ModelFieldProtocol {
-    public typealias FieldType = TimeInterval
-    public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = parseString(string: string)
-    }
-    required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
-    }
-    private func parseString(string: String) -> TimeInterval? {
-      if let timeInterval: TimeInterval = TimeInterval.init(string) {
-        return timeInterval
-      }
-
-      let componentArray: [String] = string.components(separatedBy: ":")
-      let componentCount: Int = componentArray.count
-      let seconds: Double = componentArray.enumerated().compactMap({ (offset: Int, element: String) -> Double? in
-        guard let componentValue: Double = Double(element) else { return nil }
-        let exponent: Int = (componentCount - 1) - offset
-        let multiplier: Decimal = pow(60, exponent)
-        return componentValue * Double(truncating: multiplier as NSNumber)
-      }).reduce(0) { $0 + $1 }
-      return seconds
-    }
-  }
-
-}
-
-extension InternetArchive {
-  // InternetArchive metadata fields are mostly stored in strings, but sometimes stored as an array of strings
-  // if there are multiple values. We tend to want a casted version of the metadata, ie Int, Date, etc
-  // so this MetadataField handles these cases:
-  // - it normalizes the response to an array of strings
-  // - it converts them to the specified type
-  // - as a convenience, since _most_ fields are a single value, there is a convenience `value` accessor to get the
-  //   first value returned, which will usually be the only value
+   ### Example Usage:
+   ```
+   struct Foo: Decodable {
+     let foo: ModelField<IAInt>
+     let bar: ModelField<IAString>
+   }
+   let json: String = "{ \"foo\": \"3\", \"bar\": ["boop", "bop"] }"
+   let data = json.data(using: .utf8)!
+   let results: Foo = try! JSONDecoder().decode(Foo.self, from: data)
+   results.foo.values => [3]
+   results.foo.value => 3
+   results.bar.values => ["boop", "bop"]
+   results.bar.value => "boop"
+   ```
+   */
   public struct ModelField<T>: Decodable where T: ModelFieldProtocol {
+    /// A convenience accessor for the first value of the `values` array
     public var value: T.FieldType? { return self.values.first }
+    /// An array of values of type `T`
     public var values: [T.FieldType] = []
 
     public init(from decoder: Decoder) throws {

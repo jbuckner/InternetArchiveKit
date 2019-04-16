@@ -9,6 +9,20 @@
 import Foundation
 
 extension InternetArchive {
+  /**
+   An Internet Archive File
+
+   This will be returned in the `files` property from an `InternetArchive().itemDetail()` request.
+
+   The properties are cast to their native Swift types (`Double`, `Int`, `TimeInterval`, `String`, etc)
+
+   See the Internet Archive's
+   [Python API Reference](https://archive.org/services/docs/api/metadata-schema/index.html#file-metadata-schema)
+   for a description of the properties.
+
+   **Note**: This is not an exhaustive list of properties. If you need some that are missing,
+   please open a pull request.
+   */
   public struct File: Decodable {
     public let album: ModelField<IAString>?
     public let bitrate: ModelField<IAInt>?

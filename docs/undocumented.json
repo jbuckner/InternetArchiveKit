@@ -1,0 +1,1132 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
+      "line": 39,
+      "symbol": "InternetArchive.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
+      "line": 43,
+      "symbol": "InternetArchive.init(host:scheme:urlSession:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveErrors.swift",
+      "line": 16,
+      "symbol": "InternetArchive.InternetArchiveError.invalidUrl",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 15,
+      "symbol": "InternetArchiveProtocol.search(query:page:rows:fields:sortFields:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 21,
+      "symbol": "InternetArchiveProtocol.itemDetail(identifier:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 23,
+      "symbol": "InternetArchiveProtocol.generateItemImageUrl(itemIdentifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 24,
+      "symbol": "InternetArchiveProtocol.generateMetadataUrl(identifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 25,
+      "symbol": "InternetArchiveProtocol.generateDownloadUrl(itemIdentifier:fileName:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 34,
+      "symbol": "InternetArchiveURLStringProtocol.asURLString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 41,
+      "symbol": "InternetArchiveURLQueryItemProtocol.asQueryItem",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 44,
+      "symbol": "InternetArchiveQueryClauseProtocol",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 41,
+      "symbol": "InternetArchive.Query.clauses",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 42,
+      "symbol": "InternetArchive.Query.asURLString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 48,
+      "symbol": "InternetArchive.Query.init(clauses:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 55,
+      "symbol": "InternetArchive.Query.init(clauses:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 75,
+      "symbol": "InternetArchive.QueryClause.field",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 76,
+      "symbol": "InternetArchive.QueryClause.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 77,
+      "symbol": "InternetArchive.QueryClause.booleanOperator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 78,
+      "symbol": "InternetArchive.QueryClause.asURLString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 84,
+      "symbol": "InternetArchive.QueryClause.init(field:value:booleanOperator:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 106,
+      "symbol": "InternetArchive.QueryDateRange.queryField",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 107,
+      "symbol": "InternetArchive.QueryDateRange.dateRange",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 108,
+      "symbol": "InternetArchive.QueryDateRange.asURLString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 122,
+      "symbol": "InternetArchive.QueryDateRange.init(queryField:dateRange:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 128,
+      "symbol": "InternetArchive.BooleanOperator",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 129,
+      "symbol": "InternetArchive.BooleanOperator.and",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 130,
+      "symbol": "InternetArchive.BooleanOperator.not",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 147,
+      "symbol": "InternetArchive.SortField.field",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 148,
+      "symbol": "InternetArchive.SortField.direction",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 149,
+      "symbol": "InternetArchive.SortField.asQueryItem",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 153,
+      "symbol": "InternetArchive.SortField.init(field:direction:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 159,
+      "symbol": "InternetArchive.SortDirection",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 160,
+      "symbol": "InternetArchive.SortDirection.asc",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveQuery.swift",
+      "line": 161,
+      "symbol": "InternetArchive.SortDirection.desc",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 17,
+      "symbol": "InternetArchive.SearchResponse.responseHeader",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 18,
+      "symbol": "InternetArchive.SearchResponse.response",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 25,
+      "symbol": "InternetArchive.ResponseHeader.status",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 26,
+      "symbol": "InternetArchive.ResponseHeader.QTime",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 27,
+      "symbol": "InternetArchive.ResponseHeader.params",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 34,
+      "symbol": "InternetArchive.Response.numFound",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 35,
+      "symbol": "InternetArchive.Response.start",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 36,
+      "symbol": "InternetArchive.Response.docs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 45,
+      "symbol": "InternetArchive.ResponseParams.query",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 46,
+      "symbol": "InternetArchive.ResponseParams.qin",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 47,
+      "symbol": "InternetArchive.ResponseParams.fields",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 48,
+      "symbol": "InternetArchive.ResponseParams.wt",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 49,
+      "symbol": "InternetArchive.ResponseParams.rows",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveResponse.swift",
+      "line": 50,
+      "symbol": "InternetArchive.ResponseParams.start",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelField.swift",
+      "line": 27,
+      "symbol": "ModelFieldProtocol.FieldType",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelField.swift",
+      "line": 28,
+      "symbol": "ModelFieldProtocol.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelField.swift",
+      "line": 29,
+      "symbol": "ModelFieldProtocol.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 22,
+      "symbol": "InternetArchive.IAInt.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 23,
+      "symbol": "InternetArchive.IAInt.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 24,
+      "symbol": "InternetArchive.IAInt.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 42,
+      "symbol": "InternetArchive.IAString.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 43,
+      "symbol": "InternetArchive.IAString.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 44,
+      "symbol": "InternetArchive.IAString.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 62,
+      "symbol": "InternetArchive.IADouble.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 63,
+      "symbol": "InternetArchive.IADouble.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 64,
+      "symbol": "InternetArchive.IADouble.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 82,
+      "symbol": "InternetArchive.IABool.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 83,
+      "symbol": "InternetArchive.IABool.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 84,
+      "symbol": "InternetArchive.IABool.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 102,
+      "symbol": "InternetArchive.IAURL.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 103,
+      "symbol": "InternetArchive.IAURL.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 104,
+      "symbol": "InternetArchive.IAURL.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 134,
+      "symbol": "InternetArchive.IADate.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 135,
+      "symbol": "InternetArchive.IADate.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 136,
+      "symbol": "InternetArchive.IADate.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 166,
+      "symbol": "InternetArchive.IATimeInterval.FieldType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 167,
+      "symbol": "InternetArchive.IATimeInterval.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Fields/ModelFieldTypes.swift",
+      "line": 168,
+      "symbol": "InternetArchive.IATimeInterval.init(fromString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 27,
+      "symbol": "InternetArchive.File.album",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 28,
+      "symbol": "InternetArchive.File.bitrate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 29,
+      "symbol": "InternetArchive.File.crc32",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 30,
+      "symbol": "InternetArchive.File.creator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 31,
+      "symbol": "InternetArchive.File.format",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 32,
+      "symbol": "InternetArchive.File.height",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 33,
+      "symbol": "InternetArchive.File.length",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 34,
+      "symbol": "InternetArchive.File.md5",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 35,
+      "symbol": "InternetArchive.File.mtime",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 36,
+      "symbol": "InternetArchive.File.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 37,
+      "symbol": "InternetArchive.File.original",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 38,
+      "symbol": "InternetArchive.File.sha1",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 39,
+      "symbol": "InternetArchive.File.size",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 40,
+      "symbol": "InternetArchive.File.source",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 41,
+      "symbol": "InternetArchive.File.title",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 42,
+      "symbol": "InternetArchive.File.track",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
+      "line": 43,
+      "symbol": "InternetArchive.File.width",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 18,
+      "symbol": "InternetArchive.Item.created",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 19,
+      "symbol": "InternetArchive.Item.collection",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 20,
+      "symbol": "InternetArchive.Item.creator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 21,
+      "symbol": "InternetArchive.Item.metadata",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 22,
+      "symbol": "InternetArchive.Item.d1",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 23,
+      "symbol": "InternetArchive.Item.d2",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 24,
+      "symbol": "InternetArchive.Item.dir",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 25,
+      "symbol": "InternetArchive.Item.isCollection",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 26,
+      "symbol": "InternetArchive.Item.isDark",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 27,
+      "symbol": "InternetArchive.Item.filesCount",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 28,
+      "symbol": "InternetArchive.Item.itemSize",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 29,
+      "symbol": "InternetArchive.Item.server",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 30,
+      "symbol": "InternetArchive.Item.uniq",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 31,
+      "symbol": "InternetArchive.Item.workableServers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/Item.swift",
+      "line": 32,
+      "symbol": "InternetArchive.Item.files",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 27,
+      "symbol": "InternetArchive.ItemMetadata.addeddate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 28,
+      "symbol": "InternetArchive.ItemMetadata.adder",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 29,
+      "symbol": "InternetArchive.ItemMetadata.avgRating",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 30,
+      "symbol": "InternetArchive.ItemMetadata.backupLocation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 31,
+      "symbol": "InternetArchive.ItemMetadata.collection",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 32,
+      "symbol": "InternetArchive.ItemMetadata.coverage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 33,
+      "symbol": "InternetArchive.ItemMetadata.creator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 34,
+      "symbol": "InternetArchive.ItemMetadata.curation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 35,
+      "symbol": "InternetArchive.ItemMetadata.date",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 36,
+      "symbol": "InternetArchive.ItemMetadata.description",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 37,
+      "symbol": "InternetArchive.ItemMetadata.downloads",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 38,
+      "symbol": "InternetArchive.ItemMetadata.discs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 39,
+      "symbol": "InternetArchive.ItemMetadata.format",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 40,
+      "symbol": "InternetArchive.ItemMetadata.hasMp3",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 41,
+      "symbol": "InternetArchive.ItemMetadata.hidden",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 42,
+      "symbol": "InternetArchive.ItemMetadata.homepage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 43,
+      "symbol": "InternetArchive.ItemMetadata.identifier",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 44,
+      "symbol": "InternetArchive.ItemMetadata.indexdate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 45,
+      "symbol": "InternetArchive.ItemMetadata.indexflag",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 46,
+      "symbol": "InternetArchive.ItemMetadata.isDark",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 47,
+      "symbol": "InternetArchive.ItemMetadata.itemSize",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 48,
+      "symbol": "InternetArchive.ItemMetadata.lineage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 49,
+      "symbol": "InternetArchive.ItemMetadata.limflag",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 50,
+      "symbol": "InternetArchive.ItemMetadata.md5s",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 51,
+      "symbol": "InternetArchive.ItemMetadata.mediatype",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 52,
+      "symbol": "InternetArchive.ItemMetadata.month",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 53,
+      "symbol": "InternetArchive.ItemMetadata.notes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 54,
+      "symbol": "InternetArchive.ItemMetadata.numericId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 55,
+      "symbol": "InternetArchive.ItemMetadata.numRecentReviews",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 56,
+      "symbol": "InternetArchive.ItemMetadata.numTopBa",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 57,
+      "symbol": "InternetArchive.ItemMetadata.numTopDl",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 58,
+      "symbol": "InternetArchive.ItemMetadata.oaiUpdatedate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 59,
+      "symbol": "InternetArchive.ItemMetadata.pick",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 60,
+      "symbol": "InternetArchive.ItemMetadata.public",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 61,
+      "symbol": "InternetArchive.ItemMetadata.publicdate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 62,
+      "symbol": "InternetArchive.ItemMetadata.publisher",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 63,
+      "symbol": "InternetArchive.ItemMetadata.reviewdate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 64,
+      "symbol": "InternetArchive.ItemMetadata.rights",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 65,
+      "symbol": "InternetArchive.ItemMetadata.runtime",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 66,
+      "symbol": "InternetArchive.ItemMetadata.shndiscs",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 67,
+      "symbol": "InternetArchive.ItemMetadata.showSearchByYear",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 68,
+      "symbol": "InternetArchive.ItemMetadata.showSearchByDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 69,
+      "symbol": "InternetArchive.ItemMetadata.source",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 70,
+      "symbol": "InternetArchive.ItemMetadata.spotlightIdentifier",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 71,
+      "symbol": "InternetArchive.ItemMetadata.subject",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 72,
+      "symbol": "InternetArchive.ItemMetadata.taper",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 73,
+      "symbol": "InternetArchive.ItemMetadata.tasks",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 74,
+      "symbol": "InternetArchive.ItemMetadata.title",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 75,
+      "symbol": "InternetArchive.ItemMetadata.transferer",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 76,
+      "symbol": "InternetArchive.ItemMetadata.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 77,
+      "symbol": "InternetArchive.ItemMetadata.updated",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 78,
+      "symbol": "InternetArchive.ItemMetadata.updatedate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 79,
+      "symbol": "InternetArchive.ItemMetadata.updater",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 80,
+      "symbol": "InternetArchive.ItemMetadata.uploader",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 81,
+      "symbol": "InternetArchive.ItemMetadata.venue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 82,
+      "symbol": "InternetArchive.ItemMetadata.week",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/ItemMetadata.swift",
+      "line": 83,
+      "symbol": "InternetArchive.ItemMetadata.year",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/jason/Documents/Projects/InternetArchiveKit"
+}
