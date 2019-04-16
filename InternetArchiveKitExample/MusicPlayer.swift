@@ -29,7 +29,7 @@ class MusicPlayer: NSObject {
   var currentTrackIndex: Int? {
     guard
       let currentTrack: AVPlayerItem = player.currentItem,
-      let currentIndex: Int = self.playerItems.firstIndex(of: currentTrack)
+      let currentIndex: Int = self.playerItems.index(where: { $0 == currentTrack })
       else { return nil }
 
     return currentIndex
@@ -39,7 +39,7 @@ class MusicPlayer: NSObject {
     super.init()
 
     do {
-      try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [])
+      try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, mode: AVAudioSessionModeDefault, options: [])
     } catch {
       debugPrint("error setting category", error.localizedDescription)
     }

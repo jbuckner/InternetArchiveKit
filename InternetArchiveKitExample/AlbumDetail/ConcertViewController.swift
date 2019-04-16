@@ -51,7 +51,7 @@ class ConcertViewController: UIViewController {
   }
 
   func updateToolbar() {
-    let playPauseType: UIBarButtonItem.SystemItem = self.musicPlayer.isPlaying ? .pause : .play
+    let playPauseType: UIBarButtonSystemItem = self.musicPlayer.isPlaying ? .pause : .play
 
     let leftSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let rewind: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(back(_:)))
