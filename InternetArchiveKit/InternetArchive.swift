@@ -68,7 +68,7 @@ public class InternetArchive: InternetArchiveProtocol {
       query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [], additionalQueryParams: [])
       else {
         if #available(iOS 12.0, *) {
-          os_log(.error, log: log, "search error generating metadata url: %{public}@", query.asURLString)
+          os_log("search error generating metadata url: %{public}@", log: log, type: .error, query.asURLString)
         } else {
           NSLog("search error generating metadata url: %@", query.asURLString)
         }
@@ -91,7 +91,7 @@ public class InternetArchive: InternetArchiveProtocol {
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> () ) {
     guard let metadataUrl: URL = self.generateMetadataUrl(identifier: identifier) else {
       if #available(iOS 12.0, *) {
-        os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
+        os_log("itemDetail error generating metadata url, identifier: %{public}@", log: log, type: .error, identifier)
       } else {
         NSLog("itemDetail error generating metadata url, identifier: %@", identifier)
       }
@@ -169,7 +169,7 @@ public class InternetArchive: InternetArchiveProtocol {
 
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> ()) where T: Decodable {
     if #available(iOS 12.0, *) {
-      os_log(.info, log: log, "makeRequest start, url: %{public}@", url.absoluteString)
+      os_log("makeRequest start, url: %{public}@", log: log, type: .info, url.absoluteString)
     } else {
       NSLog("makeRequest start, url: %@", url.absoluteString)
     }
@@ -177,7 +177,7 @@ public class InternetArchive: InternetArchiveProtocol {
     let task = urlSession.dataTask(with: url) {(data: Data?, response: URLResponse?, error: Error?) in
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       if #available(iOS 12.0, *) {
-        os_log(.info, log: self.log, "makeRequest completed in %{public}f s, url: %{public}@", timeElapsed, url.absoluteString)
+        os_log("makeRequest completed in %{public}f s, url: %{public}@", log: self.log, type: .info, timeElapsed, url.absoluteString)
       } else {
         NSLog("makeRequest completed in %f s, url: %@", timeElapsed, url.absoluteString)
       }
@@ -195,7 +195,7 @@ public class InternetArchive: InternetArchiveProtocol {
         completion(results, error)
       } catch {
         if #available(iOS 12.0, *) {
-          os_log(.error, log: self.log, "makeRequest, errorDecoding: %{public}@", error.localizedDescription)
+          os_log("makeRequest, errorDecoding: %{public}@", log: self.log, type: .error, timeElapsed, error.localizedDescription)
         } else {
           NSLog("makeRequest, errorDecoding: %@", error.localizedDescription)
         }

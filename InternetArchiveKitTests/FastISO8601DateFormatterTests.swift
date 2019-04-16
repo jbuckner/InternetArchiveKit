@@ -42,12 +42,12 @@ class FastISO8601DateFormatterTests: XCTestCase {
     for _ in 0..<1000 {
       let expectation = self.expectation(description: "concurrent wait")
       concurrentQueue.async {
-        let year: Int = Int.random(in: 1000...2020)
-        let month: Int = Int.random(in: 1...12)
-        let day: Int = Int.random(in: 1...28)
-        let hour: Int = Int.random(in: 1...12)
-        let minute: Int = Int.random(in: 0..<60)
-        let second: Int = Int.random(in: 0..<60)
+        let year: Int = Int(arc4random_uniform(2020)) + 1000
+        let month: Int = Int(arc4random_uniform(11)) + 1
+        let day: Int = Int(arc4random_uniform(27)) + 1
+        let hour: Int = Int(arc4random_uniform(11)) + 1
+        let minute: Int = Int(arc4random_uniform(59))
+        let second: Int = Int(arc4random_uniform(59))
         let randomISOString: String = String(format: "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second)
 
         let formatter = ISO8601DateFormatter()
