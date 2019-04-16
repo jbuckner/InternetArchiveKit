@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>File Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/File" class="dashAnchor"></a>
+    <a title="File Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html"> Docs</a> (18% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html"> Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        File Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive.html">InternetArchive</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/InternetArchiveError.html">– InternetArchiveError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Query.html">– Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/QueryClause.html">– QueryClause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/QueryDateRange.html">– QueryDateRange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/BooleanOperator.html">– BooleanOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SortField.html">– SortField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SortDirection.html">– SortDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ResponseParams.html">– ResponseParams</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ResponseHeader.html">– ResponseHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Response.html">– Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SearchResponse.html">– SearchResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ModelField.html">– ModelField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAInt.html">– IAInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAString.html">– IAString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IADouble.html">– IADouble</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IABool.html">– IABool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAURL.html">– IAURL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IADate.html">– IADate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IATimeInterval.html">– IATimeInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/File.html">– File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Item.html">– Item</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ItemMetadata.html">– ItemMetadata</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveProtocol.html">InternetArchiveProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols.html#/s:18InternetArchiveKit0aB19QueryClauseProtocolP">InternetArchiveQueryClauseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveURLQueryItemProtocol.html">InternetArchiveURLQueryItemProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveURLStringProtocol.html">InternetArchiveURLStringProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ModelFieldProtocol.html">ModelFieldProtocol</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>File</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">File</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+
+                </div>
+              </div>
+            <p>An Internet Archive File</p>
+
+<p>This will be returned in the <code>files</code> property from an <code>InternetArchive().itemDetail()</code> request.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5albumAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/album" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5albumAC10ModelFieldVy_AC8IAStringCGSgvp">album</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">album</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV7bitrateAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/bitrate" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV7bitrateAC10ModelFieldVy_AC5IAIntCGSgvp">bitrate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">bitrate</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5crc32AC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/crc32" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5crc32AC10ModelFieldVy_AC8IAStringCGSgvp">crc32</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">crc32</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV7creatorAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/creator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV7creatorAC10ModelFieldVy_AC8IAStringCGSgvp">creator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">creator</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV6formatAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/format" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV6formatAC10ModelFieldVy_AC8IAStringCGSgvp">format</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">format</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV6heightAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/height" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV6heightAC10ModelFieldVy_AC5IAIntCGSgvp">height</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">height</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV6lengthAC10ModelFieldVy_AC14IATimeIntervalCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/length" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV6lengthAC10ModelFieldVy_AC14IATimeIntervalCGSgvp">length</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">length</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IATimeInterval.html">IATimeInterval</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV3md5AC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/md5" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV3md5AC10ModelFieldVy_AC8IAStringCGSgvp">md5</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">md5</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/mtime" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC8IAStringCGSgvp">mtime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">mtime</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV4nameAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV4nameAC10ModelFieldVy_AC8IAStringCGSgvp">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV8originalAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/original" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV8originalAC10ModelFieldVy_AC8IAStringCGSgvp">original</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">original</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV4sha1AC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/sha1" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV4sha1AC10ModelFieldVy_AC8IAStringCGSgvp">sha1</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">sha1</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV4sizeAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/size" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV4sizeAC10ModelFieldVy_AC5IAIntCGSgvp">size</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">size</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV6sourceAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/source" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV6sourceAC10ModelFieldVy_AC8IAStringCGSgvp">source</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5titleAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/title" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5titleAC10ModelFieldVy_AC8IAStringCGSgvp">title</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">title</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5trackAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/track" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5trackAC10ModelFieldVy_AC5IAIntCGSgvp">track</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">track</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5widthAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/width" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5widthAC10ModelFieldVy_AC5IAIntCGSgvp">width</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">width</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-04-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

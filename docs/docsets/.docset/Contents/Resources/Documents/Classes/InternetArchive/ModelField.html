@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ModelField Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/ModelField" class="dashAnchor"></a>
+    <a title="ModelField Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html"> Docs</a> (18% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html"> Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        ModelField Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive.html">InternetArchive</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/InternetArchiveError.html">– InternetArchiveError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Query.html">– Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/QueryClause.html">– QueryClause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/QueryDateRange.html">– QueryDateRange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/BooleanOperator.html">– BooleanOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SortField.html">– SortField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SortDirection.html">– SortDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ResponseParams.html">– ResponseParams</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ResponseHeader.html">– ResponseHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Response.html">– Response</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/SearchResponse.html">– SearchResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ModelField.html">– ModelField</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAInt.html">– IAInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAString.html">– IAString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IADouble.html">– IADouble</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IABool.html">– IABool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IAURL.html">– IAURL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IADate.html">– IADate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/IATimeInterval.html">– IATimeInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/File.html">– File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/Item.html">– Item</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/InternetArchive/ItemMetadata.html">– ItemMetadata</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveProtocol.html">InternetArchiveProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols.html#/s:18InternetArchiveKit0aB19QueryClauseProtocolP">InternetArchiveQueryClauseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveURLQueryItemProtocol.html">InternetArchiveURLQueryItemProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/InternetArchiveURLStringProtocol.html">InternetArchiveURLStringProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ModelFieldProtocol.html">ModelFieldProtocol</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ModelField</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Decodable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../../Protocols/ModelFieldProtocol.html">ModelFieldProtocol</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>An abstraction for Internet Archive-style metadata fields.</p>
+
+<p>Internet Archive metadata fields can be stored as strings or an array of strings.
+Typically we want to use these fields in a native types (<code>Int</code>, <code>Double</code>, <code>Date</code>, <code>URL</code>, etc).
+The <code>ModelField</code> struct does a few things to make handling these values more convenient:</p>
+
+<ul>
+<li>Provides a generic interface to any native type that is parsable from a string</li>
+<li>Converts the fields from strings to their native type</li>
+<li>Normalizes the response to an array of objects</li>
+<li>Provides a convenience <code>value</code> accessor to get the first value of the array since most fields are single values</li>
+</ul>
+<h1 id='example-usage' class='heading'>Example Usage:</h1>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Foo</span><span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span>
+  <span class="k">let</span> <span class="nv">bar</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span>
+<span class="p">}</span>
+<span class="k">let</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\"</span><span class="s">foo</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">bar</span><span class="se">\"</span><span class="s">: ["</span><span class="n">boop</span><span class="s">", "</span><span class="n">bop</span><span class="s">"] }"</span>
+<span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">results</span><span class="p">:</span> <span class="kt">Foo</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Foo</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">results</span><span class="o">.</span><span class="n">bar</span><span class="o">.</span><span class="n">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">"boop"</span><span class="p">,</span> <span class="s">"bop"</span><span class="p">]</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C10ModelFieldV5value0E4TypeQzSgvp"></a>
+                    <a name="//apple_ref/swift/Property/value" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C10ModelFieldV5value0E4TypeQzSgvp">value</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="kt">FieldType</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18InternetArchiveKit0aB0C10ModelFieldV6valuesSay0E4TypeQzGvp"></a>
+                    <a name="//apple_ref/swift/Property/values" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C10ModelFieldV6valuesSay0E4TypeQzGvp">values</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">values</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="o">.</span><span class="kt">FieldType</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:Se4fromxs7Decoder_p_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:Se4fromxs7Decoder_p_tKcfc">init(from:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-04-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
