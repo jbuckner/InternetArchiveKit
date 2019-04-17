@@ -2,8 +2,8 @@ excluded:
   - InternetArchiveKitTests
   - InternetArchiveKitExample
 type_name:
-  min_length: 3 # only warning
-  max_length: # warning and error
+  min_length: 3
+  max_length:
     warning: 60
     error: 80
 line_length:
