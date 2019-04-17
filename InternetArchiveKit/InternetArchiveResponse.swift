@@ -45,7 +45,7 @@ extension InternetArchive {
     public let query: String
     public let qin: String
     public let fields: String
-    public let wt: String
+    public let wt: String // swiftlint:disable:this identifier_name
     public let rows: String?
     public let start: Int
   }

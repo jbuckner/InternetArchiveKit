@@ -19,7 +19,7 @@ extension InternetArchive {
    ```
    */
   public class IAInt: ModelFieldProtocol {
-    public typealias FieldType = Int
+    public typealias FieldType = Int // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -39,7 +39,7 @@ extension InternetArchive {
    ```
    */
   public class IAString: ModelFieldProtocol {
-    public typealias FieldType = String
+    public typealias FieldType = String // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = string
@@ -59,7 +59,7 @@ extension InternetArchive {
    ```
    */
   public class IADouble: ModelFieldProtocol {
-    public typealias FieldType = Double
+    public typealias FieldType = Double // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -79,7 +79,7 @@ extension InternetArchive {
    ```
    */
   public class IABool: ModelFieldProtocol {
-    public typealias FieldType = Bool
+    public typealias FieldType = Bool // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -99,7 +99,7 @@ extension InternetArchive {
    ```
    */
   public class IAURL: ModelFieldProtocol {
-    public typealias FieldType = URL
+    public typealias FieldType = URL // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string: string)
@@ -131,7 +131,7 @@ extension InternetArchive {
    ```
    */
   public class IADate: ModelFieldProtocol {
-    public typealias FieldType = Date
+    public typealias FieldType = Date // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = parseString(string: string)
@@ -163,7 +163,7 @@ extension InternetArchive {
    ```
    */
   public class IATimeInterval: ModelFieldProtocol {
-    public typealias FieldType = TimeInterval
+    public typealias FieldType = TimeInterval // swiftlint:disable:this nesting
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = parseString(string: string)
