@@ -50,7 +50,7 @@ extension InternetArchive {
      let foo: ModelField<IAInt>
      let bar: ModelField<IAString>
    }
-   let json: String = "{ \"foo\": \"3\", \"bar\": ["boop", "bop"] }"
+   let json: String = "{ \"foo\": \"3\", \"bar\": [\"boop\", \"bop\"] }"
    let data = json.data(using: .utf8)!
    let results: Foo = try! JSONDecoder().decode(Foo.self, from: data)
    results.foo.values => [3]

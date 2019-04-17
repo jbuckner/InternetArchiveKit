@@ -138,7 +138,18 @@
 
 <p>This will be returned from <code>itemDetail()</code> and <code>search()</code> requests.</p>
 
-<p>The properties are cast to their native Swift types (<code>Double</code>, <code>Int</code>, <code>TimeInterval</code>, <code>String</code>, etc)</p>
+<p><strong>Note</strong>: The properties are all type <code><a href="../../Classes/InternetArchive/ModelField.html">ModelField&lt;T&gt;</a></code> <strong>except</strong> <code>identifier</code>, which is a <code>String</code>.
+This means you need to access all values by their <code>.value</code> or <code>.values</code> properties, except for <code>identifier</code>,
+which you can access directly.</p>
+
+<p><strong>Some Background</strong>: All other fields can be a string or array of strings so we can&rsquo;t access them
+directly. See the <code><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></code> class for a more thorough explanation.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">metadata</span> <span class="o">=</span> <span class="kt">ItemMetadata</span><span class="p">(</span><span class="o">...</span><span class="n">some</span> <span class="n">metadata</span><span class="o">...</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s">"SCIRedRocksConcert"</span> <span class="c1">// `identifier` is always a String</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">venue</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">"Red Rocks"</span> <span class="c1">// other fields can be a string or array of strings so you can't access directly</span>
+</code></pre>
 
 <p>See the Internet Archive&rsquo;s
 <a href="https://archive.org/services/docs/api/metadata-schema/index.html#metadata-schema">Python API Reference</a>

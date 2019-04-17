@@ -12,8 +12,8 @@ extension InternetArchive {
   /**
    The main structure for defining search queries.
 
-   It can be created with `key: value` pairs like `["collection": "etree"] or an array of query clauses.
-   The output is a URL string, such as `"collection:(etree) AND -title:(foo)" in `asURLString`.
+   It can be created with `key: value` pairs like `["collection": "etree"]` or an array of query clauses.
+   The output is a URL string, such as `"collection:(etree) AND -title:(foo)"` in `asURLString`.
 
    ### Basic Usage:
    ```

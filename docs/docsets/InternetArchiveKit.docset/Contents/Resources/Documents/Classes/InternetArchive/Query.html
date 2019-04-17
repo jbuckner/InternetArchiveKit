@@ -136,8 +136,8 @@
               </div>
             <p>The main structure for defining search queries.</p>
 
-<p>It can be created with <code>key: value</code> pairs like <code>[&quot;collection&quot;: &quot;etree&quot;] or an array of query clauses.
-The output is a URL string, such as</code><q>collection:(etree) AND -title:(foo)</q> in <code>asURLString</code>.</p>
+<p>It can be created with <code>key: value</code> pairs like <code>[&quot;collection&quot;: &quot;etree&quot;]</code> or an array of query clauses.
+The output is a URL string, such as <code>&quot;collection:(etree) AND -title:(foo)&quot;</code> in <code>asURLString</code>.</p>
 <h3 id='basic-usage' class='heading'>Basic Usage:</h3>
 <pre class="highlight swift"><code><span class="c1">// generate a query for items in the etree collection</span>
 <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">InternetArchive</span><span class="o">.</span><span class="kt">Query</span><span class="p">(</span><span class="nv">clauses</span><span class="p">:</span> <span class="p">[</span><span class="s">"collection"</span><span class="p">:</span> <span class="s">"etree"</span><span class="p">])</span>

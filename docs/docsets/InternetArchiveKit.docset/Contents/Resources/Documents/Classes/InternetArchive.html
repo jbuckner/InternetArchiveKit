@@ -598,8 +598,8 @@
                       <div class="abstract">
                         <p>The main structure for defining search queries.</p>
 
-<p>It can be created with <code>key: value</code> pairs like <code>[&quot;collection&quot;: &quot;etree&quot;] or an array of query clauses.
-The output is a URL string, such as</code><q>collection:(etree) AND -title:(foo)</q> in <code>asURLString</code>.</p>
+<p>It can be created with <code>key: value</code> pairs like <code>[&quot;collection&quot;: &quot;etree&quot;]</code> or an array of query clauses.
+The output is a URL string, such as <code>&quot;collection:(etree) AND -title:(foo)&quot;</code> in <code>asURLString</code>.</p>
 <h3 id='basic-usage' class='heading'>Basic Usage:</h3>
 <pre class="highlight swift"><code><span class="c1">// generate a query for items in the etree collection</span>
 <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">InternetArchive</span><span class="o">.</span><span class="kt">Query</span><span class="p">(</span><span class="nv">clauses</span><span class="p">:</span> <span class="p">[</span><span class="s">"collection"</span><span class="p">:</span> <span class="s">"etree"</span><span class="p">])</span>
@@ -959,7 +959,7 @@ to handle the string to native conversion.</p>
   <span class="k">let</span> <span class="nv">foo</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">IAInt</span><span class="o">&gt;</span>
   <span class="k">let</span> <span class="nv">bar</span><span class="p">:</span> <span class="kt">ModelField</span><span class="o">&lt;</span><span class="kt">IAString</span><span class="o">&gt;</span>
 <span class="p">}</span>
-<span class="k">let</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\"</span><span class="s">foo</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">bar</span><span class="se">\"</span><span class="s">: ["</span><span class="n">boop</span><span class="s">", "</span><span class="n">bop</span><span class="s">"] }"</span>
+<span class="k">let</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\"</span><span class="s">foo</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">bar</span><span class="se">\"</span><span class="s">: [</span><span class="se">\"</span><span class="s">boop</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">bop</span><span class="se">\"</span><span class="s">] }"</span>
 <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span>
 <span class="k">let</span> <span class="nv">results</span><span class="p">:</span> <span class="kt">Foo</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Foo</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">results</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">values</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -1337,7 +1337,18 @@ please open a pull request.</p>
 
 <p>This will be returned from <code>itemDetail()</code> and <code>search()</code> requests.</p>
 
-<p>The properties are cast to their native Swift types (<code>Double</code>, <code>Int</code>, <code>TimeInterval</code>, <code>String</code>, etc)</p>
+<p><strong>Note</strong>: The properties are all type <code><a href="../Classes/InternetArchive/ModelField.html">ModelField&lt;T&gt;</a></code> <strong>except</strong> <code>identifier</code>, which is a <code>String</code>.
+This means you need to access all values by their <code>.value</code> or <code>.values</code> properties, except for <code>identifier</code>,
+which you can access directly.</p>
+
+<p><strong>Some Background</strong>: All other fields can be a string or array of strings so we can&rsquo;t access them
+directly. See the <code><a href="../Classes/InternetArchive/ModelField.html">ModelField</a></code> class for a more thorough explanation.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">metadata</span> <span class="o">=</span> <span class="kt">ItemMetadata</span><span class="p">(</span><span class="o">...</span><span class="n">some</span> <span class="n">metadata</span><span class="o">...</span><span class="p">)</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s">"SCIRedRocksConcert"</span> <span class="c1">// `identifier` is always a String</span>
+<span class="n">metadata</span><span class="o">.</span><span class="n">venue</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">"Red Rocks"</span> <span class="c1">// other fields can be a string or array of strings so you can't access directly</span>
+</code></pre>
 
 <p>See the Internet Archive&rsquo;s
 <a href="https://archive.org/services/docs/api/metadata-schema/index.html#metadata-schema">Python API Reference</a>
