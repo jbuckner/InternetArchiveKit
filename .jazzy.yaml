@@ -6,3 +6,5 @@ github_url:
   https://github.com/jbuckner/internetarchivekit
 undocumented_text:
   ""
+module:
+  InternetArchiveKit

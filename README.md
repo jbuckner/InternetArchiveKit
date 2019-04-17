@@ -16,7 +16,7 @@ For more information about the Internet Archive's structure, see their [Python L
 
 ## Documentation
 
-See the `docs` directory for a full API reference
+See the [documenation](https://jbuckner.github.io/internetarchivekit/) for a full API reference
 
 ## Basic Usage
 
@@ -48,4 +48,4 @@ For more advanced usage, see the test suite and the included sample app.
 
 ## Limitations
 
-Currently, the API is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!
+Currently, InternetArchiveKit is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!
