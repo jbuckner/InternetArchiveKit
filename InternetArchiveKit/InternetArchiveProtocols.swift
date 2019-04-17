@@ -12,14 +12,15 @@ import Foundation
  A protocol to which the main `InternetArchive` class conforms
  */
 public protocol InternetArchiveProtocol {
+  // swiftlint:disable:next function_parameter_count
   func search(query: InternetArchiveURLStringProtocol,
               page: Int,
               rows: Int,
               fields: [String]?,
               sortFields: [InternetArchiveURLQueryItemProtocol]?,
-              completion: @escaping (InternetArchive.SearchResponse?, Error?) -> ())
+              completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void)
   func itemDetail(identifier: String,
-                  completion: @escaping (InternetArchive.Item?, Error?) -> ())
+                  completion: @escaping (InternetArchive.Item?, Error?) -> Void)
   func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?

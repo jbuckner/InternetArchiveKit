@@ -19,8 +19,8 @@ extension InternetArchive {
     public let collection: ModelField<IAString>?
     public let creator: ModelField<IAString>?
     public let metadata: ItemMetadata?
-    public let d1: ModelField<IAString>?
-    public let d2: ModelField<IAString>?
+    public let d1: ModelField<IAString>? // swiftlint:disable:this identifier_name
+    public let d2: ModelField<IAString>? // swiftlint:disable:this identifier_name
     public let dir: ModelField<IAString>?
     public let isCollection: ModelField<IABool>?
     public let isDark: Bool?
