@@ -23,56 +23,56 @@
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 16,
+      "line": 15,
       "symbol": "InternetArchiveProtocol.search(query:page:rows:fields:sortFields:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 22,
+      "line": 21,
       "symbol": "InternetArchiveProtocol.itemDetail(identifier:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 24,
+      "line": 23,
       "symbol": "InternetArchiveProtocol.generateItemImageUrl(itemIdentifier:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 25,
+      "line": 24,
       "symbol": "InternetArchiveProtocol.generateMetadataUrl(identifier:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 26,
+      "line": 25,
       "symbol": "InternetArchiveProtocol.generateDownloadUrl(itemIdentifier:fileName:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 35,
+      "line": 34,
       "symbol": "InternetArchiveURLStringProtocol.asURLString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 42,
+      "line": 41,
       "symbol": "InternetArchiveURLQueryItemProtocol.asQueryItem",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 45,
+      "line": 44,
       "symbol": "InternetArchiveQueryClauseProtocol",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
