@@ -138,7 +138,18 @@
 
 <p>This will be returned in the <code>files</code> property from an <code>InternetArchive().itemDetail()</code> request.</p>
 
-<p>The properties are cast to their native Swift types (<code>Double</code>, <code>Int</code>, <code>TimeInterval</code>, <code>String</code>, etc)</p>
+<p><strong>Note</strong>: The properties are all type <code><a href="../../Classes/InternetArchive/ModelField.html">ModelField&lt;T&gt;</a></code> <strong>except</strong> <code>name</code>, which is a <code>String</code>.
+This means you need to access all values by their <code>.value</code> or <code>.values</code> properties, except for <code>identifier</code>,
+which you can access directly.</p>
+
+<p><strong>Some Background</strong>: All other fields can be a string or array of strings so we can&rsquo;t access them
+directly. See the <code><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></code> class for a more thorough explanation.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">file</span> <span class="o">=</span> <span class="kt">File</span><span class="p">(</span><span class="o">...</span><span class="n">some</span> <span class="n">file</span><span class="o">...</span><span class="p">)</span>
+<span class="n">file</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"SCIRedRocksConcert.track1.mp3"</span> <span class="c1">// `name` is always a String, it's like the primary key for the file</span>
+<span class="n">file</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kt">TimeInterval</span> <span class="n">object</span> <span class="c1">// we want to cast all other fields to their native type</span>
+</code></pre>
 
 <p>See the Internet Archive&rsquo;s
 <a href="https://archive.org/services/docs/api/metadata-schema/index.html#file-metadata-schema">Python API Reference</a>
@@ -362,9 +373,9 @@ please open a pull request.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC5IAIntCGSgvp"></a>
                     <a name="//apple_ref/swift/Property/mtime" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC8IAStringCGSgvp">mtime</a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV5mtimeAC10ModelFieldVy_AC5IAIntCGSgvp">mtime</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -378,7 +389,7 @@ please open a pull request.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">mtime</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">mtime</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAInt.html">IAInt</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -388,9 +399,9 @@ please open a pull request.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:18InternetArchiveKit0aB0C4FileV4nameAC10ModelFieldVy_AC8IAStringCGSgvp"></a>
+                    <a name="/s:18InternetArchiveKit0aB0C4FileV4nameSSvp"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV4nameAC10ModelFieldVy_AC8IAStringCGSgvp">name</a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C4FileV4nameSSvp">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -404,7 +415,7 @@ please open a pull request.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive/ModelField.html">ModelField</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/InternetArchive/IAString.html">IAString</a></span><span class="o">&gt;</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
