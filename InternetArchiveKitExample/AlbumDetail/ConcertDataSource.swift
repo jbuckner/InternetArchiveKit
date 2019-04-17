@@ -66,7 +66,7 @@ extension ConcertDataSource: UITableViewDataSource {
 
     guard let song: InternetArchive.File = concert?.sortedTracks[indexPath.row] else { return cell }
     let track: Int = song.track?.value ?? 0
-    let title = song.title?.value ?? song.name?.value ?? "No title"
+    let title = song.title?.value ?? song.name
     cell.textLabel!.text = "\(track) \(title)"
     return cell
   }

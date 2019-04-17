@@ -105,8 +105,7 @@ extension ConcertViewController: ConcertDataSourceDelegate {
 
     for track: InternetArchive.File in concert.sortedTracks {
       guard
-        let fileName: String = track.name?.value,
-        let url: URL = self.internetArchive.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: fileName)
+        let url: URL = self.internetArchive.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: track.name)
         else { continue }
 
       let playerItem: AVPlayerItem = AVPlayerItem(url: url)

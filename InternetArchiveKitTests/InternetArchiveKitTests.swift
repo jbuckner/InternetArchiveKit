@@ -178,14 +178,14 @@ class InternetArchiveKitTests: XCTestCase {
       if let item = item {
         // these two files have different length formats:
         // length: "03:12"
-        if let file = item.files?.first(where: { $0.name?.value ?? "" == "ymsb2006-07-03d1t04.mp3" }) {
+        if let file = item.files?.first(where: { $0.name == "ymsb2006-07-03d1t04.mp3" }) {
           XCTAssertEqual(file.length?.value, 192)
         } else {
           XCTFail("file not found")
         }
 
         // length: "333.98"
-        if let file = item.files?.first(where: { $0.name?.value ?? "" == "ymsb2006-07-03d2t09.flac" }) {
+        if let file = item.files?.first(where: { $0.name == "ymsb2006-07-03d2t09.flac" }) {
           XCTAssertEqual(file.length?.value, 333.98)
         } else {
           XCTFail("file not found")
