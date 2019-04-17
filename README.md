@@ -16,7 +16,7 @@ For more information about the Internet Archive's structure, see their [Python L
 
 ## Documentation
 
-See the [documenation](https://jbuckner.github.io/internetarchivekit/) for a full API reference
+See the [documenation](https://jbuckner.github.io/InternetArchiveKit/) for a full API reference
 
 ## Basic Usage
 
