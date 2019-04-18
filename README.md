@@ -1,8 +1,8 @@
 # Internet Archive Kit
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Build Status](https://travis-ci.com/jbuckner/internetarchivekit.svg?branch=master)](https://travis-ci.com/jbuckner/internetarchivekit)
-[![codecov](https://codecov.io/gh/jbuckner/internetarchivekit/branch/master/graph/badge.svg)](https://codecov.io/gh/jbuckner/internetarchivekit)
+[![Build Status](https://travis-ci.com/jbuckner/InternetArchiveKit.svg?branch=master)](https://travis-ci.com/jbuckner/InternetArchiveKit)
+[![codecov](https://codecov.io/gh/jbuckner/InternetArchiveKit/branch/master/graph/badge.svg)](https://codecov.io/gh/jbuckner/InternetArchiveKit)
 
 _InternetArchiveKit is a Swift library to interact with the Internet Archive API_
 
