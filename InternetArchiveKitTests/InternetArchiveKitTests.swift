@@ -19,6 +19,143 @@ class InternetArchiveKitTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
+  // We create a partial mock by subclassing the original class
+  class URLSessionDataTaskMock: URLSessionDataTask {
+    private let closure: () -> Void
+
+    init(closure: @escaping () -> Void) {
+      self.closure = closure
+    }
+
+    // We override the 'resume' method and simply call our closure
+    // instead of actually resuming any task.
+    override func resume() {
+      closure()
+    }
+  }
+
+  class URLSessionMock: URLSession {
+    typealias CompletionHandler = (Data?, URLResponse?, Error?) -> Void
+
+    // Properties that enable us to set exactly what data or error
+    // we want our mocked URLSession to return for any request.
+    var data: Data?
+    var error: Error?
+
+    override func dataTask(
+      with url: URL,
+      completionHandler: @escaping CompletionHandler
+      ) -> URLSessionDataTask {
+      let data = self.data
+      let error = self.error
+
+      return URLSessionDataTaskMock {
+        completionHandler(data, nil, error)
+      }
+    }
+  }
+
+  class BadUrlGenerator: InternetArchiveURLGeneratorProtocol {
+    func generateItemImageUrl(itemIdentifier: String) -> URL? {
+      return nil
+    }
+
+    func generateMetadataUrl(identifier: String) -> URL? {
+      return nil
+    }
+
+    func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
+      return nil
+    }
+
+    func generateSearchUrl(query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]) -> URL? {
+      return nil
+    }
+  }
+
+  func testBadSearchUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad Search URL")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let urlGenerator = BadUrlGenerator()
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSession.shared)
+    archive.search(query: query, page: 0, rows: 10) { (_: InternetArchive.SearchResponse?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testBadItemDetailUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad ItemDetail URL")
+    let urlGenerator = BadUrlGenerator()
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSession.shared)
+    archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testNoDataReturnedFromRequest() {
+    let expectation = XCTestExpectation(description: "Test No Data Returned")
+    let urlGenerator = InternetArchive.URLGenerator()
+    let mockSession = URLSessionMock()
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
+    archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.noDataReturned)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testBadJSONReturnedFromRequest() {
+    let expectation = XCTestExpectation(description: "Test Bad JSON Returned")
+    let urlGenerator = InternetArchive.URLGenerator()
+    let mockSession = URLSessionMock()
+
+    let json: String = "blahblah"
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+    mockSession.data = data
+
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
+    archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
+      XCTAssert(error is DecodingError)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testErrorReturnedFromRequest() {
+    enum FakeError: Error {
+      case someReturnError
+    }
+
+    let expectation = XCTestExpectation(description: "Test Error Returned")
+    let urlGenerator = InternetArchive.URLGenerator()
+    let mockSession = URLSessionMock()
+    mockSession.error = FakeError.someReturnError
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
+    archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
+      XCTAssertEqual(error as! FakeError, FakeError.someReturnError)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testDeprecatedUrlGenerators() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSessionMock())
+    let imageUrl = archive.generateItemImageUrl(itemIdentifier: "foo")
+    XCTAssertEqual(imageUrl?.absoluteString, "gopher://foohost.org/services/img/foo")
+    let downloadUrl = archive.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar")
+    XCTAssertEqual(downloadUrl?.absoluteString, "gopher://foohost.org/download/foo/bar")
+    let metadataUrl = archive.generateMetadataUrl(identifier: "foo")
+    XCTAssertEqual(metadataUrl?.absoluteString, "gopher://foohost.org/metadata/foo")
+  }
+
   func testSearchQuery() {
     let expectation = XCTestExpectation(description: "Test Search Query")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])

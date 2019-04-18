@@ -14,5 +14,6 @@ extension InternetArchive {
    */
   public enum InternetArchiveError: Error {
     case invalidUrl
+    case noDataReturned
   }
 }
