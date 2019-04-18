@@ -37,7 +37,7 @@ let logSubsystemId: String = "engineering.astral.internetarchivekit"
  */
 public class InternetArchive: InternetArchiveProtocol {
   public convenience init() {
-    let urlGenerator = URLGenerator(host: "archive.org", scheme: "https")
+    let urlGenerator = URLGenerator()
     self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
   }
 
@@ -137,8 +137,13 @@ public class InternetArchive: InternetArchiveProtocol {
         NSLog("makeRequest completed in %f s, url: %@", timeElapsed, url.absoluteString)
       }
 
-      guard let data = data else {
+      guard error == nil else {
         completion(nil, error)
+        return
+      }
+
+      guard let data = data else {
+        completion(nil, InternetArchiveError.noDataReturned)
         return
       }
 

@@ -10,7 +10,7 @@ import Foundation
 
 extension InternetArchive {
   public class URLGenerator: InternetArchiveURLGeneratorProtocol {
-    init(host: String, scheme: String) {
+    init(host: String = "archive.org", scheme: String = "https") {
       self.host = host
       self.scheme = scheme
     }
