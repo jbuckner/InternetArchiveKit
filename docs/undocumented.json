@@ -9,8 +9,29 @@
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
-      "line": 43,
-      "symbol": "InternetArchive.init(host:scheme:urlSession:)",
+      "line": 44,
+      "symbol": "InternetArchive.init(urlGenerator:urlSession:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
+      "line": 110,
+      "symbol": "InternetArchive.generateItemImageUrl(itemIdentifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
+      "line": 115,
+      "symbol": "InternetArchive.generateMetadataUrl(identifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchive.swift",
+      "line": 120,
+      "symbol": "InternetArchive.generateDownloadUrl(itemIdentifier:fileName:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -18,6 +39,13 @@
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveErrors.swift",
       "line": 16,
       "symbol": "InternetArchive.InternetArchiveError.invalidUrl",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveErrors.swift",
+      "line": 17,
+      "symbol": "InternetArchive.InternetArchiveError.noDataReturned",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
@@ -37,42 +65,70 @@
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 24,
+      "line": 25,
       "symbol": "InternetArchiveProtocol.generateItemImageUrl(itemIdentifier:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 25,
+      "line": 27,
       "symbol": "InternetArchiveProtocol.generateMetadataUrl(identifier:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 26,
+      "line": 29,
       "symbol": "InternetArchiveProtocol.generateDownloadUrl(itemIdentifier:fileName:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 35,
+      "line": 36,
+      "symbol": "InternetArchiveURLGeneratorProtocol.generateItemImageUrl(itemIdentifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 37,
+      "symbol": "InternetArchiveURLGeneratorProtocol.generateMetadataUrl(identifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 38,
+      "symbol": "InternetArchiveURLGeneratorProtocol.generateDownloadUrl(itemIdentifier:fileName:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 40,
+      "symbol": "InternetArchiveURLGeneratorProtocol.generateSearchUrl(query:page:rows:fields:sortFields:additionalQueryParams:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
+      "line": 54,
       "symbol": "InternetArchiveURLStringProtocol.asURLString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 42,
+      "line": 61,
       "symbol": "InternetArchiveURLQueryItemProtocol.asQueryItem",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveProtocols.swift",
-      "line": 45,
+      "line": 64,
       "symbol": "InternetArchiveQueryClauseProtocol",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
@@ -334,6 +390,20 @@
       "line": 50,
       "symbol": "InternetArchive.ResponseParams.start",
       "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveURLGenerator.swift",
+      "line": 12,
+      "symbol": "InternetArchive.URLGenerator",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/InternetArchiveURLGenerator.swift",
+      "line": 62,
+      "symbol": "InternetArchive.URLGenerator.generateSearchUrl(query:page:rows:fields:sortFields:additionalQueryParams:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {

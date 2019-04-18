@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>IABool Class Reference</title>
+    <title>URLGenerator Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/IABool" class="dashAnchor"></a>
-    <a title="IABool Class Reference"></a>
+    <a name="//apple_ref/swift/Class/URLGenerator" class="dashAnchor"></a>
+    <a title="URLGenerator Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../../index.html">InternetArchiveKit Docs</a> (22% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html">InternetArchiveKit Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        IABool Class Reference
+        URLGenerator Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -133,19 +133,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>IABool</h1>
+            <h1>URLGenerator</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">IABool</span> <span class="p">:</span> <span class="kt"><a href="../../Protocols/ModelFieldProtocol.html">ModelFieldProtocol</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">URLGenerator</span> <span class="p">:</span> <span class="kt"><a href="../../Protocols/InternetArchiveURLGeneratorProtocol.html">InternetArchiveURLGeneratorProtocol</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Internet Archive <code>Bool</code> field</p>
-<h3 id='example-usage' class='heading'>Example Usage</h3>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">boolField</span> <span class="o">=</span> <span class="kt">IABool</span><span class="p">(</span><span class="nv">fromString</span><span class="p">:</span> <span class="s">"true"</span><span class="p">)</span>
-<span class="n">boolField</span><span class="o">.</span><span class="n">value</span> <span class="o">=&gt;</span> <span class="kc">true</span>
-</code></pre>
-
+            
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -153,9 +148,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:18InternetArchiveKit0aB0C6IABoolC9FieldTypea"></a>
-                    <a name="//apple_ref/swift/Alias/FieldType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18InternetArchiveKit0aB0C6IABoolC9FieldTypea">FieldType</a>
+                    <a name="/s:18InternetArchiveKit0aB0C12URLGeneratorC19generateMetadataUrl10identifier10Foundation3URLVSgSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/generateMetadataUrl(identifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C12URLGeneratorC19generateMetadataUrl10identifier10Foundation3URLVSgSS_tF">generateMetadataUrl(identifier:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -163,15 +158,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Generate the metadata url for an Internet Archive search</p>
+
+<ul>
+<li><p>identifier: The item identifier</p></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">FieldType</span> <span class="o">=</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">generateMetadataUrl</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Optional metadata <code>URL</code></p>
                       </div>
                     </section>
                   </div>
@@ -179,9 +183,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:18InternetArchiveKit0aB0C6IABoolC5valueSbSgvp"></a>
-                    <a name="//apple_ref/swift/Property/value" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18InternetArchiveKit0aB0C6IABoolC5valueSbSgvp">value</a>
+                    <a name="/s:18InternetArchiveKit0aB0C12URLGeneratorC20generateItemImageUrl14itemIdentifier10Foundation3URLVSgSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/generateItemImageUrl(itemIdentifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C12URLGeneratorC20generateItemImageUrl14itemIdentifier10Foundation3URLVSgSS_tF">generateItemImageUrl(itemIdentifier:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -189,15 +193,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Generate the item image url for an Internet Archive item</p>
+
+<ul>
+<li><p>itemIdentifier: The item identifier</p></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt"><a href="../../Classes/InternetArchive.html">InternetArchive</a></span><span class="o">.</span><span class="kt">IABool</span><span class="o">.</span><span class="kt"><a href="../../Classes/InternetArchive/IABool.html#/s:18InternetArchiveKit0aB0C6IABoolC9FieldTypea">FieldType</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">generateItemImageUrl</span><span class="p">(</span><span class="nv">itemIdentifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Optional item image <code>URL</code></p>
                       </div>
                     </section>
                   </div>
@@ -205,9 +218,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:18InternetArchiveKit0aB0C6IABoolC10fromStringAESgSS_tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(fromString:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18InternetArchiveKit0aB0C6IABoolC10fromStringAESgSS_tcfc">init(fromString:)</a>
+                    <a name="/s:18InternetArchiveKit0aB0C12URLGeneratorC19generateDownloadUrl14itemIdentifier8fileName10Foundation3URLVSgSS_SStF"></a>
+                    <a name="//apple_ref/swift/Method/generateDownloadUrl(itemIdentifier:fileName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C12URLGeneratorC19generateDownloadUrl14itemIdentifier8fileName10Foundation3URLVSgSS_SStF">generateDownloadUrl(itemIdentifier:fileName:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -215,15 +228,25 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Generate the download url for an Internet Archive file</p>
+
+<ul>
+<li>itemIdentifier: The item identifier</li>
+<li><p>fileName: The file name</p></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">?(</span><span class="n">fromString</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">generateDownloadUrl</span><span class="p">(</span><span class="nv">itemIdentifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Optional file download <code>URL</code></p>
                       </div>
                     </section>
                   </div>
@@ -231,9 +254,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:Se4fromxs7Decoder_p_tKcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:Se4fromxs7Decoder_p_tKcfc">init(from:)</a>
+                    <a name="/s:18InternetArchiveKit0aB0C12URLGeneratorC17generateSearchUrl5query4page4rows6fields10sortFields21additionalQueryParams10Foundation3URLVSgAA0aB17URLStringProtocol_p_S2iSaySSGSayAA0ab12URLQueryItemT0_pGSayAM0uV0VGtF"></a>
+                    <a name="//apple_ref/swift/Method/generateSearchUrl(query:page:rows:fields:sortFields:additionalQueryParams:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18InternetArchiveKit0aB0C12URLGeneratorC17generateSearchUrl5query4page4rows6fields10sortFields21additionalQueryParams10Foundation3URLVSgAA0aB17URLStringProtocol_p_S2iSaySSGSayAA0ab12URLQueryItemT0_pGSayAM0uV0VGtF">generateSearchUrl(query:page:rows:fields:sortFields:additionalQueryParams:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -247,7 +270,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">generateSearchUrl</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../../Protocols/InternetArchiveURLStringProtocol.html">InternetArchiveURLStringProtocol</a></span><span class="p">,</span>
+                              <span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+                              <span class="nv">rows</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+                              <span class="nv">fields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span>
+                              <span class="nv">sortFields</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Protocols/InternetArchiveURLQueryItemProtocol.html">InternetArchiveURLQueryItemProtocol</a></span><span class="p">],</span>
+                              <span class="nv">additionalQueryParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">URLQueryItem</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>

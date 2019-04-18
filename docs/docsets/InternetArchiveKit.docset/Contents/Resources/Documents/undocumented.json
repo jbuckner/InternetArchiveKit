@@ -506,119 +506,119 @@
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 27,
+      "line": 39,
       "symbol": "InternetArchive.File.album",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 28,
+      "line": 40,
       "symbol": "InternetArchive.File.bitrate",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 29,
+      "line": 41,
       "symbol": "InternetArchive.File.crc32",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 30,
+      "line": 42,
       "symbol": "InternetArchive.File.creator",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 31,
+      "line": 43,
       "symbol": "InternetArchive.File.format",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 32,
+      "line": 44,
       "symbol": "InternetArchive.File.height",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 33,
+      "line": 45,
       "symbol": "InternetArchive.File.length",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 34,
+      "line": 46,
       "symbol": "InternetArchive.File.md5",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 35,
+      "line": 47,
       "symbol": "InternetArchive.File.mtime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 36,
+      "line": 48,
       "symbol": "InternetArchive.File.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 37,
+      "line": 49,
       "symbol": "InternetArchive.File.original",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 38,
+      "line": 50,
       "symbol": "InternetArchive.File.sha1",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 39,
+      "line": 51,
       "symbol": "InternetArchive.File.size",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 40,
+      "line": 52,
       "symbol": "InternetArchive.File.source",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 41,
+      "line": 53,
       "symbol": "InternetArchive.File.title",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 42,
+      "line": 54,
       "symbol": "InternetArchive.File.track",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/jason/Documents/Projects/InternetArchiveKit/InternetArchiveKit/Models/File.swift",
-      "line": 43,
+      "line": 55,
       "symbol": "InternetArchive.File.width",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
