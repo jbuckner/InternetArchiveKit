@@ -11,24 +11,16 @@ import XCTest
 
 class APIControllerTests: XCTestCase {
 
-  override func setUp() {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
-
-  override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-  }
-
   func testGenerateSearchUrl() {
-    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
-    if let url: URL = internetArchive.generateSearchUrl(query: query,
-                                                      page: 0,
-                                                      rows: 10,
-                                                      fields: ["foo", "bar"],
-                                                      sortFields: [sortField],
-                                                      additionalQueryParams: []) {
+    if let url: URL = urlGenerator.generateSearchUrl(query: query,
+                                                     page: 0,
+                                                     rows: 10,
+                                                     fields: ["foo", "bar"],
+                                                     sortFields: [sortField],
+                                                     additionalQueryParams: []) {
       let absoluteUrl: String = url.absoluteString
       debugPrint(absoluteUrl)
       // these are not necessarily always in the same order so just search
@@ -45,8 +37,8 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateDownloadUrl() {
-    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
-    if let url: URL = internetArchive.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    if let url: URL = urlGenerator.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {
       XCTAssertEqual(url.absoluteString, "gopher://foohost.org/download/foo/bar")
     } else {
       XCTFail("Error generating download URL")
@@ -54,11 +46,21 @@ class APIControllerTests: XCTestCase {
   }
 
   func testGenerateImageUrl() {
-    let internetArchive: InternetArchive = InternetArchive(host: "foohost.org", scheme: "gopher", urlSession: URLSession.shared)
-    if let url: URL = internetArchive.generateItemImageUrl(itemIdentifier: "foo") {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    if let url: URL = urlGenerator.generateItemImageUrl(itemIdentifier: "foo") {
       XCTAssertEqual(url.absoluteString, "gopher://foohost.org/services/img/foo")
     } else {
       XCTFail("Error generating download URL")
     }
   }
+
+  func testGenerateMetadataUrl() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    if let url: URL = urlGenerator.generateMetadataUrl(identifier: "foo") {
+      XCTAssertEqual(url.absoluteString, "gopher://foohost.org/metadata/foo")
+    } else {
+      XCTFail("Error generating download URL")
+    }
+  }
+
 }

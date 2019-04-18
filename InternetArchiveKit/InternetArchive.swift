@@ -37,14 +37,16 @@ let logSubsystemId: String = "engineering.astral.internetarchivekit"
  */
 public class InternetArchive: InternetArchiveProtocol {
   public convenience init() {
-    self.init(host: "archive.org", scheme: "https", urlSession: URLSession.shared)
+    let urlGenerator = URLGenerator(host: "archive.org", scheme: "https")
+    self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
   }
 
-  public init(host: String, scheme: String, urlSession: URLSession) {
-    self.scheme = scheme
-    self.host = host
+  public init(urlGenerator: InternetArchiveURLGeneratorProtocol, urlSession: URLSession) {
+    self.urlGenerator = urlGenerator
     self.urlSession = urlSession
   }
+
+  private let urlGenerator: InternetArchiveURLGeneratorProtocol
 
   /**
    Search the Internet Archive
@@ -65,7 +67,7 @@ public class InternetArchive: InternetArchiveProtocol {
                      sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
                      completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void) {
 
-    guard let searchUrl: URL = self.generateSearchUrl(
+    guard let searchUrl: URL = self.urlGenerator.generateSearchUrl(
       query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [],
       additionalQueryParams: [])
       else {
@@ -91,7 +93,7 @@ public class InternetArchive: InternetArchiveProtocol {
    - returns: No value
    */
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> Void) {
-    guard let metadataUrl: URL = self.generateMetadataUrl(identifier: identifier) else {
+    guard let metadataUrl: URL = self.urlGenerator.generateMetadataUrl(identifier: identifier) else {
       if #available(iOS 12.0, *) {
         os_log("itemDetail error generating metadata url, identifier: %{public}@", log: log, type: .error, identifier)
       } else {
@@ -104,70 +106,19 @@ public class InternetArchive: InternetArchiveProtocol {
     self.makeRequest(url: metadataUrl, completion: completion)
   }
 
-  /**
-   Generate the metadata url for an Internet Archive search
-
-   - parameters:
-     - identifier: The item identifier
-
-   - returns: Optional metadata `URL`
-   */
-  public func generateMetadataUrl(identifier: String) -> URL? {
-    var urlComponents: URLComponents = getBaseUrlComponents()
-    urlComponents.path = "/metadata/\(identifier)"
-    return urlComponents.url
-  }
-
-  /**
-   Generate the item image url for an Internet Archive item
-
-   - parameters:
-     - itemIdentifier: The item identifier
-
-   - returns: Optional item image `URL`
-   */
+  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
   public func generateItemImageUrl(itemIdentifier: String) -> URL? {
-    var urlComponents: URLComponents = getBaseUrlComponents()
-    urlComponents.path = "/services/img/\(itemIdentifier)"
-    return urlComponents.url
+    return self.urlGenerator.generateItemImageUrl(itemIdentifier: itemIdentifier)
   }
 
-  /**
-   Generate the download url for an Internet Archive file
+  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
+  public func generateMetadataUrl(identifier: String) -> URL? {
+    return urlGenerator.generateMetadataUrl(identifier: identifier)
+  }
 
-   - parameters:
-     - itemIdentifier: The item identifier
-     - fileName: The file name
-
-   - returns: Optional file download `URL`
-   */
+  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
   public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
-    var urlComponents: URLComponents = getBaseUrlComponents()
-    urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
-    return urlComponents.url
-  }
-
-  // swiftlint:disable:next function_parameter_count
-  internal func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                                  page: Int,
-                                  rows: Int,
-                                  fields: [String],
-                                  sortFields: [InternetArchiveURLQueryItemProtocol],
-                                  additionalQueryParams: [URLQueryItem]) -> URL? {
-
-    let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
-    let sortParams: [URLQueryItem] = sortFields.compactMap { $0.asQueryItem }
-    let params: [URLQueryItem] = sortParams + fieldParams + additionalQueryParams + [
-      URLQueryItem(name: "q", value: query.asURLString),
-      URLQueryItem(name: "output", value: "json"),
-      URLQueryItem(name: "rows", value: "\(rows)"),
-      URLQueryItem(name: "page", value: "\(page)")
-    ]
-
-    var urlComponents: URLComponents = getBaseUrlComponents()
-    urlComponents.path = "/advancedsearch.php"
-    urlComponents.queryItems = params
-    return urlComponents.url
+    return urlGenerator.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName)
   }
 
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> Void) where T: Decodable {
@@ -200,7 +151,7 @@ public class InternetArchive: InternetArchiveProtocol {
       } catch {
         if #available(iOS 12.0, *) {
           os_log("makeRequest, errorDecoding: %{public}@",
-                 log: self.log, type: .error, timeElapsed, error.localizedDescription)
+                 log: self.log, type: .error, error.localizedDescription)
         } else {
           NSLog("makeRequest, errorDecoding: %@", error.localizedDescription)
         }
@@ -211,16 +162,7 @@ public class InternetArchive: InternetArchiveProtocol {
     task.resume()
   }
 
-  private func getBaseUrlComponents() -> URLComponents {
-    var urlComponents: URLComponents = URLComponents()
-    urlComponents.scheme = scheme
-    urlComponents.host = host
-    return urlComponents
-  }
-
   private let urlSession: URLSession
-  private let host: String
-  private let scheme: String
 
   private let log: OSLog = OSLog(subsystem: logSubsystemId, category: "InternetArchive")
 }
