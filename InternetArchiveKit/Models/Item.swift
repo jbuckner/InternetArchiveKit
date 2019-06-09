@@ -31,21 +31,21 @@ extension InternetArchive {
     public let workableServers: ModelField<IAString>?
     public let files: [File]?
 
-    public init(created: ModelField<IAInt>?,
-                collection: ModelField<IAString>?,
-                creator: ModelField<IAString>?,
-                metadata: ItemMetadata?,
-                d1: ModelField<IAString>?, // swiftlint:disable:this identifier_name
-                d2: ModelField<IAString>?, // swiftlint:disable:this identifier_name
-                dir: ModelField<IAString>?,
-                isCollection: ModelField<IABool>?,
-                isDark: Bool?,
-                filesCount: ModelField<IAInt>?,
-                itemSize: ModelField<IAInt>?,
-                server: ModelField<IAString>?,
-                uniq: ModelField<IAInt>?,
-                workableServers: ModelField<IAString>?,
-                files: [File]?) {
+    public init(created: ModelField<IAInt>? = nil,
+                collection: ModelField<IAString>? = nil,
+                creator: ModelField<IAString>? = nil,
+                metadata: ItemMetadata? = nil,
+                d1: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
+                d2: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
+                dir: ModelField<IAString>? = nil,
+                isCollection: ModelField<IABool>? = nil,
+                isDark: Bool? = nil,
+                filesCount: ModelField<IAInt>? = nil,
+                itemSize: ModelField<IAInt>? = nil,
+                server: ModelField<IAString>? = nil,
+                uniq: ModelField<IAInt>? = nil,
+                workableServers: ModelField<IAString>? = nil,
+                files: [File]? = nil) {
       self.created = created
       self.collection = collection
       self.creator = creator

@@ -54,23 +54,23 @@ extension InternetArchive {
     public let track: ModelField<IAInt>?
     public let width: ModelField<IAInt>?
 
-    public init(album: ModelField<IAString>?,
-                bitrate: ModelField<IAInt>?,
-                crc32: ModelField<IAString>?,
-                creator: ModelField<IAString>?,
-                format: ModelField<IAString>?,
-                height: ModelField<IAInt>?,
-                length: ModelField<IATimeInterval>?,
-                md5: ModelField<IAString>?,
-                mtime: ModelField<IAInt>?,
+    public init(album: ModelField<IAString>? = nil,
+                bitrate: ModelField<IAInt>? = nil,
+                crc32: ModelField<IAString>? = nil,
+                creator: ModelField<IAString>? = nil,
+                format: ModelField<IAString>? = nil,
+                height: ModelField<IAInt>? = nil,
+                length: ModelField<IATimeInterval>? = nil,
+                md5: ModelField<IAString>? = nil,
+                mtime: ModelField<IAInt>? = nil,
                 name: String,
-                original: ModelField<IAString>?,
-                sha1: ModelField<IAString>?,
-                size: ModelField<IAInt>?,
-                source: ModelField<IAString>?,
-                title: ModelField<IAString>?,
-                track: ModelField<IAInt>?,
-                width: ModelField<IAInt>?) {
+                original: ModelField<IAString>? = nil,
+                sha1: ModelField<IAString>? = nil,
+                size: ModelField<IAInt>? = nil,
+                source: ModelField<IAString>? = nil,
+                title: ModelField<IAString>? = nil,
+                track: ModelField<IAInt>? = nil,
+                width: ModelField<IAInt>? = nil) {
       self.album = album
       self.bitrate = bitrate
       self.crc32 = crc32
