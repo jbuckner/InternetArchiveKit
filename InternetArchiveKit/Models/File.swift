@@ -53,5 +53,41 @@ extension InternetArchive {
     public let title: ModelField<IAString>?
     public let track: ModelField<IAInt>?
     public let width: ModelField<IAInt>?
+
+    public init(album: ModelField<IAString>?,
+                bitrate: ModelField<IAInt>?,
+                crc32: ModelField<IAString>?,
+                creator: ModelField<IAString>?,
+                format: ModelField<IAString>?,
+                height: ModelField<IAInt>?,
+                length: ModelField<IATimeInterval>?,
+                md5: ModelField<IAString>?,
+                mtime: ModelField<IAInt>?,
+                name: String,
+                original: ModelField<IAString>?,
+                sha1: ModelField<IAString>?,
+                size: ModelField<IAInt>?,
+                source: ModelField<IAString>?,
+                title: ModelField<IAString>?,
+                track: ModelField<IAInt>?,
+                width: ModelField<IAInt>?) {
+      self.album = album
+      self.bitrate = bitrate
+      self.crc32 = crc32
+      self.creator = creator
+      self.format = format
+      self.height = height
+      self.length = length
+      self.md5 = md5
+      self.mtime = mtime
+      self.name = name
+      self.original = original
+      self.sha1 = sha1
+      self.size = size
+      self.source = source
+      self.title = title
+      self.track = track
+      self.width = width
+    }
   }
 }

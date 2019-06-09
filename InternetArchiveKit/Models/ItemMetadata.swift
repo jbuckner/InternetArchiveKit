@@ -93,5 +93,121 @@ extension InternetArchive {
     public let venue: ModelField<IAString>?
     public let week: ModelField<IAInt>?
     public let year: ModelField<IAInt>?
+
+    public init(addeddate: ModelField<IADate>?,
+                adder: ModelField<IAString>?,
+                avgRating: ModelField<IADouble>?,
+                backupLocation: ModelField<IAString>?,
+                collection: ModelField<IAString>?,
+                coverage: ModelField<IAString>?,
+                creator: ModelField<IAString>?,
+                curation: ModelField<IAString>?,
+                date: ModelField<IADate>?,
+                description: ModelField<IAString>?,
+                downloads: ModelField<IAInt>?,
+                discs: ModelField<IAString>?,
+                format: ModelField<IAString>?,
+                hasMp3: ModelField<IAString>?,
+                hidden: ModelField<IABool>?,
+                homepage: ModelField<IAURL>?,
+                identifier: String,
+                indexdate: ModelField<IADate>?,
+                indexflag: ModelField<IAString>?,
+                isDark: ModelField<IAString>?,
+                itemSize: ModelField<IAInt>?,
+                lineage: ModelField<IAString>?,
+                limflag: ModelField<IAString>?,
+                md5s: ModelField<IAString>?,
+                mediatype: ModelField<IAString>?,
+                month: ModelField<IAInt>?,
+                notes: ModelField<IAString>?,
+                numericId: ModelField<IAInt>?,
+                numRecentReviews: ModelField<IAInt>?,
+                numTopBa: ModelField<IAInt>?,
+                numTopDl: ModelField<IAInt>?,
+                oaiUpdatedate: ModelField<IADate>?,
+                pick: ModelField<IAString>?,
+                `public`: ModelField<IAString>?,
+                publicdate: ModelField<IADate>?,
+                publisher: ModelField<IAString>?,
+                reviewdate: ModelField<IADate>?,
+                rights: ModelField<IAString>?,
+                runtime: ModelField<IAString>?,
+                shndiscs: ModelField<IAString>?,
+                showSearchByYear: ModelField<IABool>?,
+                showSearchByDate: ModelField<IABool>?,
+                source: ModelField<IAString>?,
+                spotlightIdentifier: ModelField<IAString>?,
+                subject: ModelField<IAString>?,
+                taper: ModelField<IAString>?,
+                tasks: ModelField<IAString>?,
+                title: ModelField<IAString>?,
+                transferer: ModelField<IAString>?,
+                type: ModelField<IAString>?,
+                updated: ModelField<IAString>?,
+                updatedate: ModelField<IADate>?,
+                updater: ModelField<IAString>?,
+                uploader: ModelField<IAString>?,
+                venue: ModelField<IAString>?,
+                week: ModelField<IAInt>?,
+                year: ModelField<IAInt>?) {
+      self.addeddate = addeddate
+      self.adder = adder
+      self.avgRating = avgRating
+      self.backupLocation = backupLocation
+      self.collection = collection
+      self.coverage = coverage
+      self.creator = creator
+      self.curation = curation
+      self.date = date
+      self.description = description
+      self.downloads = downloads
+      self.discs = discs
+      self.format = format
+      self.hasMp3 = hasMp3
+      self.hidden = hidden
+      self.homepage = homepage
+      self.identifier = identifier
+      self.indexdate = indexdate
+      self.indexflag = indexflag
+      self.isDark = isDark
+      self.itemSize = itemSize
+      self.lineage = lineage
+      self.limflag = limflag
+      self.md5s = md5s
+      self.mediatype = mediatype
+      self.month = month
+      self.notes = notes
+      self.numericId = numericId
+      self.numRecentReviews = numRecentReviews
+      self.numTopBa = numTopBa
+      self.numTopDl = numTopDl
+      self.oaiUpdatedate = oaiUpdatedate
+      self.pick = pick
+      self.`public` = `public`
+      self.publicdate = publicdate
+      self.publisher = publisher
+      self.reviewdate = reviewdate
+      self.rights = rights
+      self.runtime = runtime
+      self.shndiscs = shndiscs
+      self.showSearchByYear = showSearchByYear
+      self.showSearchByDate = showSearchByDate
+      self.source = source
+      self.spotlightIdentifier = spotlightIdentifier
+      self.subject = subject
+      self.taper = taper
+      self.tasks = tasks
+      self.title = title
+      self.transferer = transferer
+      self.type = type
+      self.updated = updated
+      self.updatedate = updatedate
+      self.updater = updater
+      self.uploader = uploader
+      self.venue = venue
+      self.week = week
+      self.year = year
+    }
   }
 }

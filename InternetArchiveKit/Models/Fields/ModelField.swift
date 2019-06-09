@@ -65,6 +65,10 @@ extension InternetArchive {
     /// An array of values of type `T`
     public var values: [T.FieldType] = []
 
+    public init(values: [T.FieldType]) {
+      self.values = values
+    }
+
     public init(from decoder: Decoder) throws {
 
       // first try decoding a single value, next try decoding an array of values
