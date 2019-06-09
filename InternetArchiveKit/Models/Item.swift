@@ -30,5 +30,37 @@ extension InternetArchive {
     public let uniq: ModelField<IAInt>?
     public let workableServers: ModelField<IAString>?
     public let files: [File]?
+
+    public init(created: ModelField<IAInt>? = nil,
+                collection: ModelField<IAString>? = nil,
+                creator: ModelField<IAString>? = nil,
+                metadata: ItemMetadata? = nil,
+                d1: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
+                d2: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
+                dir: ModelField<IAString>? = nil,
+                isCollection: ModelField<IABool>? = nil,
+                isDark: Bool? = nil,
+                filesCount: ModelField<IAInt>? = nil,
+                itemSize: ModelField<IAInt>? = nil,
+                server: ModelField<IAString>? = nil,
+                uniq: ModelField<IAInt>? = nil,
+                workableServers: ModelField<IAString>? = nil,
+                files: [File]? = nil) {
+      self.created = created
+      self.collection = collection
+      self.creator = creator
+      self.metadata = metadata
+      self.d1 = d1
+      self.d2 = d2
+      self.dir = dir
+      self.isCollection = isCollection
+      self.isDark = isDark
+      self.filesCount = filesCount
+      self.itemSize = itemSize
+      self.server = server
+      self.uniq = uniq
+      self.workableServers = workableServers
+      self.files = files
+    }
   }
 }
