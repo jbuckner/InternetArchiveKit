@@ -6,7 +6,7 @@
 //  Copyright © 2018 Jason Buckner. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for InternetArchiveKit.
 FOUNDATION_EXPORT double InternetArchiveKitVersionNumber;
