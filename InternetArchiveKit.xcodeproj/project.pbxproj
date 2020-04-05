@@ -59,6 +59,10 @@
 		96BAF7D6219BD518004B512D /* InternetArchiveErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D5219BD518004B512D /* InternetArchiveErrors.swift */; };
 		96BAF7D8219BD6FE004B512D /* Collection+InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */; };
 		96BAF7DA219BF148004B512D /* InternetArchiveKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		96DFBD47243A575100BB2676 /* Recording+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DFBD43243A575100BB2676 /* Recording+CoreDataClass.swift */; };
+		96DFBD48243A575100BB2676 /* Recording+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DFBD44243A575100BB2676 /* Recording+CoreDataProperties.swift */; };
+		96DFBD49243A575100BB2676 /* Artist+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DFBD45243A575100BB2676 /* Artist+CoreDataClass.swift */; };
+		96DFBD4A243A575100BB2676 /* Artist+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DFBD46243A575100BB2676 /* Artist+CoreDataProperties.swift */; };
 		96E54CEB2198054F000B9B75 /* URLGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E54CEA2198054F000B9B75 /* URLGeneratorTests.swift */; };
 		96ECE0E221913AE200A0C8A6 /* InternetArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96ECE0D821913AE100A0C8A6 /* InternetArchiveKit.framework */; };
 		96ECE0E721913AE200A0C8A6 /* InternetArchiveKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0E621913AE200A0C8A6 /* InternetArchiveKitTests.swift */; };
@@ -160,6 +164,10 @@
 		96BAF7D3219BD4F7004B512D /* InternetArchiveProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveProtocols.swift; sourceTree = "<group>"; };
 		96BAF7D5219BD518004B512D /* InternetArchiveErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetArchiveErrors.swift; sourceTree = "<group>"; };
 		96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+InternetArchive.swift"; sourceTree = "<group>"; };
+		96DFBD43243A575100BB2676 /* Recording+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recording+CoreDataClass.swift"; sourceTree = "<group>"; };
+		96DFBD44243A575100BB2676 /* Recording+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recording+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		96DFBD45243A575100BB2676 /* Artist+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataClass.swift"; sourceTree = "<group>"; };
+		96DFBD46243A575100BB2676 /* Artist+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artist+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		96E54CEA2198054F000B9B75 /* URLGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGeneratorTests.swift; sourceTree = "<group>"; };
 		96ECE0D821913AE100A0C8A6 /* InternetArchiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InternetArchiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96ECE0DB21913AE100A0C8A6 /* InternetArchiveKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternetArchiveKit.h; sourceTree = "<group>"; };
@@ -219,6 +227,7 @@
 				9625DD07243A481F00CF43EE /* Info.plist */,
 				9625DD08243A481F00CF43EE /* InternetArchiveKitExampleMacOS.entitlements */,
 				9625DCFC243A481D00CF43EE /* InternetArchiveKitExampleMacOS.xcdatamodeld */,
+				96DFBD4B243A575700BB2676 /* Models */,
 				9625DD01243A481F00CF43EE /* Preview Content */,
 			);
 			path = InternetArchiveKitExampleMacOS;
@@ -294,6 +303,17 @@
 				968C8345219A7F1100B89646 /* ConcertDataSource.swift */,
 			);
 			path = AlbumDetail;
+			sourceTree = "<group>";
+		};
+		96DFBD4B243A575700BB2676 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96DFBD43243A575100BB2676 /* Recording+CoreDataClass.swift */,
+				96DFBD44243A575100BB2676 /* Recording+CoreDataProperties.swift */,
+				96DFBD45243A575100BB2676 /* Artist+CoreDataClass.swift */,
+				96DFBD46243A575100BB2676 /* Artist+CoreDataProperties.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		96ECE0CE21913AE100A0C8A6 = {
@@ -571,8 +591,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9625DCFE243A481D00CF43EE /* InternetArchiveKitExampleMacOS.xcdatamodeld in Sources */,
+				96DFBD47243A575100BB2676 /* Recording+CoreDataClass.swift in Sources */,
+				96DFBD49243A575100BB2676 /* Artist+CoreDataClass.swift in Sources */,
 				9625DCFB243A481D00CF43EE /* ContentView.swift in Sources */,
 				9625DCF9243A481D00CF43EE /* AppDelegate.swift in Sources */,
+				96DFBD48243A575100BB2676 /* Recording+CoreDataProperties.swift in Sources */,
+				96DFBD4A243A575100BB2676 /* Artist+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

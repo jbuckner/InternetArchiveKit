@@ -8,16 +8,38 @@
 
 import SwiftUI
 
+struct ArtistRow: View {
+  var artist: Artist
+
+  var body: some View {
+    Text(artist.name ?? "No name given")
+  }
+}
+
 struct ContentView: View {
-    var body: some View {
-        Text("Hello, World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+  @Environment(\.managedObjectContext) var context
+
+  @FetchRequest(
+    entity: Artist.entity(),
+    sortDescriptors: [NSSortDescriptor(keyPath: \Artist.name, ascending: false)],
+    predicate: nil
+  ) var artists: FetchedResults<Artist>
+
+  // this is the variable we added
+  @State private var artistName: String = ""
+
+  var body: some View {
+    List {
+      ForEach(artists, id: \.identifier) { artist in
+        ArtistRow(artist: artist)
+      }
     }
+  }
 }
 
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }
