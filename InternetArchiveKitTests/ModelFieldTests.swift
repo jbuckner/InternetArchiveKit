@@ -19,6 +19,46 @@ class ModelFieldTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
+  func testModelFieldSingleValuePerformance() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
+    }
+
+    let json: String = """
+      { "foo": "bar" }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    measure {
+      for _ in 0..<1000 {
+        _ = try? JSONDecoder().decode(Foo.self, from: data)
+      }
+    }
+  }
+
+  func testModelFieldArrayValuePerformance() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
+    }
+
+    let json: String = """
+      { "foo": ["bar", "baz"] }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    measure {
+      for _ in 0..<1000 {
+        _ = try? JSONDecoder().decode(Foo.self, from: data)
+      }
+    }
+  }
+
   func testIAStringStringInit() {
     if let iaString = InternetArchive.IAString(fromString: "foo") {
       XCTAssertEqual(iaString.value, "foo")
