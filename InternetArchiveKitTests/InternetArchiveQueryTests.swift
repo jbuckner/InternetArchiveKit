@@ -40,6 +40,18 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(clause.asURLString, "-foo:(bar OR baz)")
   }
 
+  func testQueryClauseExactMatch() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "foo", value: "bar", exactMatch: true)
+    XCTAssertEqual(clause.asURLString, "foo:\"bar\"")
+  }
+
+  func testQueryClauseMultiValueExactMatch() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "foo", values: ["bar", "baz"], exactMatch: true)
+    XCTAssertEqual(clause.asURLString, "foo:\"bar OR baz\"")
+  }
+
   func testSubQueryString() {
     let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar")
     let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "boop", booleanOperator: .not)

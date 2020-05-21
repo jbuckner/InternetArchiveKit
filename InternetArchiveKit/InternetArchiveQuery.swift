@@ -83,23 +83,41 @@ extension InternetArchive {
   public struct QueryClause: InternetArchiveURLStringProtocol {
     public let field: String
     public let values: [String]
+    public let exactMatch: Bool
     public let booleanOperator: QueryClauseBooleanOperator
     public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
-      let urlKey: String = field.count > 0 ? "\(field):" : ""
+      let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let joinedValues = values.joined(separator: " OR ")
-      return "\(booleanOperator.rawValue)\(urlKey)(\(joinedValues))"
+      let valueString: String
+      if exactMatch {
+        valueString = "\"\(joinedValues)\""
+      } else {
+        valueString = "(\(joinedValues))"
+      }
+      return "\(booleanOperator.rawValue)\(fieldKey)\(valueString)"
     }
 
     // convenience initializer for single-values
-    public init(field: String, value: String, booleanOperator: QueryClauseBooleanOperator = .and) {
-      self.init(field: field, values: [value], booleanOperator: booleanOperator)
+    public init(
+      field: String,
+      value: String,
+      booleanOperator: QueryClauseBooleanOperator = .and,
+      exactMatch: Bool = false
+    ) {
+      self.init(field: field, values: [value], booleanOperator: booleanOperator, exactMatch: exactMatch)
     }
 
     // field can be empty if you just want to search
-    public init(field: String, values: [String], booleanOperator: QueryClauseBooleanOperator = .and) {
+    public init(
+      field: String,
+      values: [String],
+      booleanOperator: QueryClauseBooleanOperator = .and,
+      exactMatch: Bool = false
+    ) {
       self.field = field
       self.values = values
       self.booleanOperator = booleanOperator
+      self.exactMatch = exactMatch
     }
   }
 
