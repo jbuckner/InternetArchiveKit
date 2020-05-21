@@ -27,7 +27,7 @@ class APIControllerTests: XCTestCase {
       XCTAssertTrue(absoluteUrl.contains("sort%5B%5D=foo%20asc"))
       XCTAssertTrue(absoluteUrl.contains("fl%5B%5D=foo"))
       XCTAssertTrue(absoluteUrl.contains("fl%5B%5D=bar"))
-      XCTAssertTrue(absoluteUrl.contains("q=foo:(bar)%20AND%20baz:(boop)") || absoluteUrl.contains("q=baz:(boop)%20AND%20foo:(bar)"))
+      XCTAssertTrue(absoluteUrl.contains("q=(foo:(bar)%20AND%20baz:(boop))") || absoluteUrl.contains("q=(baz:(boop)%20AND%20foo:(bar))"))
       XCTAssertTrue(absoluteUrl.contains("output=json"))
       XCTAssertTrue(absoluteUrl.contains("rows=10"))
       XCTAssertTrue(absoluteUrl.contains("page=0"))

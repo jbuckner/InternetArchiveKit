@@ -38,23 +38,32 @@ extension InternetArchive {
    ```
   */
   public struct Query: InternetArchiveURLStringProtocol {
-    public var clauses: [InternetArchiveQueryClauseProtocol]
+    public var clauses: [InternetArchiveURLStringProtocol]
     public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
       let paramStrings: [String] = clauses.compactMap { $0.asURLString }
-      return paramStrings.joined(separator: " AND ")
+      let joinedClauses = paramStrings.joined(separator: " \(booleanOperator.rawValue) ")
+      let surroundedClauses = "(\(joinedClauses))"
+      return surroundedClauses
     }
+    public let booleanOperator: QueryBooleanOperator
 
-    // Convenience initializer to just pass in a bunch of key:values. Only handles boolean AND cases
-    public init(clauses: [String: String]) {
+    // Convenience initializer to just pass in a bunch of key:values
+    public init(clauses: [String: String], booleanOperator: QueryBooleanOperator = .and) {
       let params: [QueryClause] = clauses.compactMap { (param: (field: String, value: String)) -> QueryClause? in
         return QueryClause(field: param.field, value: param.value)
       }
-      self.init(clauses: params)
+      self.init(clauses: params, booleanOperator: booleanOperator)
     }
 
-    public init(clauses: [InternetArchiveQueryClauseProtocol]) {
+    public init(clauses: [InternetArchiveURLStringProtocol], booleanOperator: QueryBooleanOperator = .and) {
       self.clauses = clauses
+      self.booleanOperator = booleanOperator
     }
+  }
+
+  public enum QueryBooleanOperator: String {
+    case and = "AND"
+    case or = "OR" // swiftlint:disable:this identifier_name
   }
 
   /**
@@ -71,19 +80,25 @@ extension InternetArchive {
    let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not)
    ```
    */
-  public struct QueryClause: InternetArchiveQueryClauseProtocol {
+  public struct QueryClause: InternetArchiveURLStringProtocol {
     public let field: String
-    public let value: String
-    public let booleanOperator: BooleanOperator
-    public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`
+    public let values: [String]
+    public let booleanOperator: QueryClauseBooleanOperator
+    public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let urlKey: String = field.count > 0 ? "\(field):" : ""
-      return "\(booleanOperator.rawValue)\(urlKey)(\(value))"
+      let joinedValues = values.joined(separator: " OR ")
+      return "\(booleanOperator.rawValue)\(urlKey)(\(joinedValues))"
+    }
+
+    // convenience initializer for single-values
+    public init(field: String, value: String, booleanOperator: QueryClauseBooleanOperator = .and) {
+      self.init(field: field, values: [value], booleanOperator: booleanOperator)
     }
 
     // field can be empty if you just want to search
-    public init(field: String, value: String, booleanOperator: BooleanOperator = .and) {
+    public init(field: String, values: [String], booleanOperator: QueryClauseBooleanOperator = .and) {
       self.field = field
-      self.value = value
+      self.values = values
       self.booleanOperator = booleanOperator
     }
   }
@@ -102,7 +117,7 @@ extension InternetArchive {
    let dateRangeClause = InternetArchive.QueryDateRange(queryField: "date", dateRange: dateInterval)
    ```
    */
-  public struct QueryDateRange: InternetArchiveQueryClauseProtocol {
+  public struct QueryDateRange: InternetArchiveURLStringProtocol {
     public let queryField: String
     public let dateRange: DateInterval
     public var asURLString: String { // eg `date:[2018-01-01T07:23:12Z TO 2018-04-01T17:53:34Z]`
@@ -125,7 +140,7 @@ extension InternetArchive {
     }
   }
 
-  public enum BooleanOperator: String {
+  public enum QueryClauseBooleanOperator: String {
     case and = ""
     case not = "-" // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
   }
