@@ -27,6 +27,18 @@ extension InternetArchive {
    let query = InternetArchive.Query(clauses: ["": "etree"])
    ```
 
+   ### Sub-queries:
+   ```
+   let clause1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar")
+   let clause2: InternetArchive.QueryClause = InternetArchive.QueryClause(
+     field: "baz", value: "boop", booleanOperator: .not)
+   let query: InternetArchive.Query = InternetArchive.Query(clauses: [clause1, clause2])
+   let clause3: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "snip", value: "snap")
+   let subQuery: InternetArchive.Query = InternetArchive.Query(clauses: [query, clause3], booleanOperator: .or)
+
+   subQuery => "((foo:(bar) AND -baz:(boop)) OR snip:(snap))"
+   ```
+
    ### Advanced Usage:
    ```
    let clause1 = InternetArchive.QueryClause(field: "title", value: "String Cheese", booleanOperator: .and)
@@ -76,8 +88,10 @@ extension InternetArchive {
 
    ### Example Usage:
    ```
-   let clause1 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and)
-   let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not)
+   let clause1 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and) => foo:(var)
+   let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not) => -bar:(foo)
+   let clause3 = InternetArchive.QueryClause(field: "bar", value: "foo", exactMatch: true) => bar:"foo"
+   let clause4 = InternetArchive.QueryClause(field: "foo", values: ["bar", "baz"]) => foo:(bar OR baz)
    ```
    */
   public struct QueryClause: InternetArchiveURLStringProtocol {
