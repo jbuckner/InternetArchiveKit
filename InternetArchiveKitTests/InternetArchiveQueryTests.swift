@@ -61,6 +61,17 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(subQuery.asURLString, "((foo:(bar) AND -baz:(boop)) OR snip:(snap))")
   }
 
+  func testMoreSubQueryStrings() {
+    let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar")
+    let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "boop", booleanOperator: .not)
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [param1, param2])
+    let param3: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "snip", value: "snap")
+    let param4: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "blop", value: "blap")
+    let query2: InternetArchive.Query = InternetArchive.Query(clauses: [param3, param4])
+    let subQuery: InternetArchive.Query = InternetArchive.Query(clauses: [query, query2], booleanOperator: .or)
+    XCTAssertEqual(subQuery.asURLString, "((foo:(bar) AND -baz:(boop)) OR (snip:(snap) AND blop:(blap)))")
+  }
+
   func testQueryStringConvenience() {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
     let queryAsUrl: String = query.asURLString
