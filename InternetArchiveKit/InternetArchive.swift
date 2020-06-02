@@ -106,21 +106,6 @@ public class InternetArchive: InternetArchiveProtocol {
     self.makeRequest(url: metadataUrl, completion: completion)
   }
 
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  public func generateItemImageUrl(itemIdentifier: String) -> URL? {
-    return self.urlGenerator.generateItemImageUrl(itemIdentifier: itemIdentifier)
-  }
-
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  public func generateMetadataUrl(identifier: String) -> URL? {
-    return urlGenerator.generateMetadataUrl(identifier: identifier)
-  }
-
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
-    return urlGenerator.generateDownloadUrl(itemIdentifier: itemIdentifier, fileName: fileName)
-  }
-
   private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> Void) where T: Decodable {
     if #available(iOS 12.0, *) {
       os_log("makeRequest start, url: %{public}@", log: log, type: .info, url.absoluteString)
