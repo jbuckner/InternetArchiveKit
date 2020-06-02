@@ -21,12 +21,6 @@ public protocol InternetArchiveProtocol {
               completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void)
   func itemDetail(identifier: String,
                   completion: @escaping (InternetArchive.Item?, Error?) -> Void)
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  func generateItemImageUrl(itemIdentifier: String) -> URL?
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  func generateMetadataUrl(identifier: String) -> URL?
-  @available(*, deprecated, message: "Use InternetArchive.URLGenerator instead")
-  func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
 }
 
 /**

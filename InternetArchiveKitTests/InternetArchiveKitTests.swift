@@ -145,17 +145,6 @@ class InternetArchiveKitTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
   }
 
-  func testDeprecatedUrlGenerators() {
-    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
-    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSessionMock())
-    let imageUrl = archive.generateItemImageUrl(itemIdentifier: "foo")
-    XCTAssertEqual(imageUrl?.absoluteString, "gopher://foohost.org/services/img/foo")
-    let downloadUrl = archive.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar")
-    XCTAssertEqual(downloadUrl?.absoluteString, "gopher://foohost.org/download/foo/bar")
-    let metadataUrl = archive.generateMetadataUrl(identifier: "foo")
-    XCTAssertEqual(metadataUrl?.absoluteString, "gopher://foohost.org/metadata/foo")
-  }
-
   func testSearchQuery() {
     let expectation = XCTestExpectation(description: "Test Search Query")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
