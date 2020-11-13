@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -60,6 +60,7 @@
 		96ECE0F82191585300A0C8A6 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F72191585300A0C8A6 /* File.swift */; };
 		96ECE0FA21929F8D00A0C8A6 /* InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0F921929F8D00A0C8A6 /* InternetArchive.swift */; };
 		96ECE0FC2192A0EF00A0C8A6 /* InternetArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ECE0FB2192A0EF00A0C8A6 /* InternetArchiveResponse.swift */; };
+		96FF5C2924BC0A1F0053CE14 /* ZippyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 96FF5C2824BC0A1F0053CE14 /* ZippyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96FF5C2924BC0A1F0053CE14 /* ZippyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +345,9 @@
 			dependencies = (
 			);
 			name = InternetArchiveKit;
+			packageProductDependencies = (
+				96FF5C2824BC0A1F0053CE14 /* ZippyJSON */,
+			);
 			productName = InternetArchiveKit;
 			productReference = 96ECE0D821913AE100A0C8A6 /* InternetArchiveKit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -403,6 +408,9 @@
 				Base,
 			);
 			mainGroup = 96ECE0CE21913AE100A0C8A6;
+			packageReferences = (
+				96FF5C2724BC0A1F0053CE14 /* XCRemoteSwiftPackageReference "ZippyJSON" */,
+			);
 			productRefGroup = 96ECE0D921913AE100A0C8A6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -657,7 +665,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -715,7 +723,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -858,6 +866,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		96FF5C2724BC0A1F0053CE14 /* XCRemoteSwiftPackageReference "ZippyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/michaeleisel/ZippyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		96FF5C2824BC0A1F0053CE14 /* ZippyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96FF5C2724BC0A1F0053CE14 /* XCRemoteSwiftPackageReference "ZippyJSON" */;
+			productName = ZippyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 96ECE0CF21913AE100A0C8A6 /* Project object */;
 }

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import ZippyJSON
 @testable import InternetArchiveKit
 
 class ModelFieldTests: XCTestCase {
@@ -34,6 +35,12 @@ class ModelFieldTests: XCTestCase {
 
     measure {
       for _ in 0..<1000 {
+        _ = try? ZippyJSONDecoder().decode(Foo.self, from: data)
+      }
+    }
+
+    measure {
+      for _ in 0..<1000 {
         _ = try? JSONDecoder().decode(Foo.self, from: data)
       }
     }
@@ -55,6 +62,12 @@ class ModelFieldTests: XCTestCase {
     measure {
       for _ in 0..<1000 {
         _ = try? JSONDecoder().decode(Foo.self, from: data)
+      }
+    }
+
+    measure {
+      for _ in 0..<1000 {
+        _ = try? ZippyJSONDecoder().decode(Foo.self, from: data)
       }
     }
   }
