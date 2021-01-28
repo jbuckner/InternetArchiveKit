@@ -56,9 +56,18 @@
             BlueprintIdentifier = "9669B0202197B91200E7CE2A"
             BuildableName = "InternetArchiveKitExample.app"
             BlueprintName = "InternetArchiveKitExample"
-            ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
+            ReferencedContainer = "container:InternetArchiveKitExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9669B0202197B91200E7CE2A"
+            BuildableName = "InternetArchiveKitExample.app"
+            BlueprintName = "InternetArchiveKitExample"
+            ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
