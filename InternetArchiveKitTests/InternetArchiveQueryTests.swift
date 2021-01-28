@@ -129,10 +129,35 @@ class InternetArchiveQueryTests: XCTestCase {
         return
     }
     let dateInterval: DateInterval = DateInterval(start: startDate, end: endDate)
-    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(queryField: "date",
+    let range: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(queryField: "date",
                                                                                    dateRange: dateInterval)
 
-    XCTAssertEqual(dateRange.asURLString, "date:[2018-04-19T00:00:00Z TO 2018-04-21T00:00:00Z]")
+    XCTAssertEqual(range.asURLString, "date:[2018-04-19T00:00:00Z TO 2018-04-21T00:00:00Z]")
+  }
+
+  func testNumberIntRangeQuery() {
+    let range: InternetArchive.QueryNumberRange = InternetArchive.QueryNumberRange(
+      queryField: "downloads",
+      rangeStart: 500, rangeEnd: 1000)
+
+    XCTAssertEqual(range.asURLString, "downloads:[500 TO 1000]")
+  }
+
+  func testNumberDoubleRangeQuery() {
+    let range: InternetArchive.QueryNumberRange = InternetArchive.QueryNumberRange(
+      queryField: "downloads",
+      rangeStart: 25.4, rangeEnd: 76.3)
+
+    XCTAssertEqual(range.asURLString, "downloads:[25.4 TO 76.3]")
+  }
+
+  func testStringRangeQuery() {
+    let range: InternetArchive.QueryStringRange = InternetArchive.QueryStringRange(
+      queryField: "licenseurl",
+      rangeStart: "http://creativecommons.org/a", rangeEnd: "http://creativecommons.org/z")
+
+    XCTAssertEqual(
+      range.asURLString, "licenseurl:[http://creativecommons.org/a TO http://creativecommons.org/z]")
   }
 
   func testSortFieldAscending() {
