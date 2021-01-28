@@ -77,7 +77,8 @@ class InternetArchiveKitTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Test Bad Search URL")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
     let urlGenerator = BadUrlGenerator()
-    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSession.shared)
+    let mockSession = URLSessionMock()
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.search(query: query, page: 0, rows: 10) { (_: InternetArchive.SearchResponse?, error: Error?) in
       XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
@@ -88,7 +89,8 @@ class InternetArchiveKitTests: XCTestCase {
   func testBadItemDetailUrl() {
     let expectation = XCTestExpectation(description: "Test Bad ItemDetail URL")
     let urlGenerator = BadUrlGenerator()
-    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: URLSession.shared)
+    let mockSession = URLSessionMock()
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
       XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
