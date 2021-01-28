@@ -102,10 +102,10 @@ class ConcertViewController: UIViewController {
 extension ConcertViewController: ConcertDataSourceDelegate {
   func concertLoaded(concert: InternetArchive.Item) {
     guard let concertIdentifier: String = concert.metadata?.identifier else { return }
-
+    let urlGenerator = InternetArchive.URLGenerator(host: "archive.org", scheme: "https")
     for track: InternetArchive.File in concert.sortedTracks {
       guard
-        let url: URL = self.internetArchive.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: track.name)
+        let url: URL = urlGenerator.generateDownloadUrl(itemIdentifier: concertIdentifier, fileName: track.name)
         else { continue }
 
       let playerItem: AVPlayerItem = AVPlayerItem(url: url)
