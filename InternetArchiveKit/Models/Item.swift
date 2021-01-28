@@ -30,6 +30,7 @@ extension InternetArchive {
     public let uniq: ModelField<IAInt>?
     public let workableServers: ModelField<IAString>?
     public let files: [File]?
+    public let reviews: [Review]?
 
     public init(created: ModelField<IAInt>? = nil,
                 collection: ModelField<IAString>? = nil,
@@ -45,7 +46,8 @@ extension InternetArchive {
                 server: ModelField<IAString>? = nil,
                 uniq: ModelField<IAInt>? = nil,
                 workableServers: ModelField<IAString>? = nil,
-                files: [File]? = nil) {
+                files: [File]? = nil,
+                reviews: [Review]? = nil) {
       self.created = created
       self.collection = collection
       self.creator = creator
@@ -61,6 +63,7 @@ extension InternetArchive {
       self.uniq = uniq
       self.workableServers = workableServers
       self.files = files
+      self.reviews = reviews
     }
   }
 }
