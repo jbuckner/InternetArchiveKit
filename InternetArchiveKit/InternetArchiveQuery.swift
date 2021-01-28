@@ -152,7 +152,7 @@ extension InternetArchive {
   public struct QueryDateRange: InternetArchiveURLStringProtocol {
     public let queryField: String
     public let dateRange: DateInterval
-    public var asURLString: String { // eg `date:[2018-01-01T07:23:12Z TO 2018-04-01T17:53:34Z]`
+    public var asURLString: String {
       let startDate: Date = dateRange.start
       let endDate: Date = dateRange.end
       let dateFormatter: DateFormatter = DateFormatter()
@@ -163,12 +163,97 @@ extension InternetArchive {
 
       let startDateString: String = dateFormatter.string(from: startDate)
       let endDateString: String = dateFormatter.string(from: endDate)
-      return "\(queryField):[\(startDateString) TO \(endDateString)]"
+
+      return QueryRangeFormatter.formatRangeString(
+        queryField: queryField,
+        rangeStart: startDateString,
+        rangeEnd: endDateString
+      )
     }
 
     public init(queryField: String, dateRange: DateInterval) {
       self.queryField = queryField
       self.dateRange = dateRange
+    }
+  }
+
+  /**
+   A query clause for use in generating a number range query.
+
+   This is comprised of a `field`, `rangeStart`, and `rangeEnd`.
+   It will return a query like `downloads:[500 TO 1000]`
+
+   ### Example Usage:
+   ```
+   let downloadsClause = InternetArchive.QueryNumberRange(
+     queryField: "downloads", rangeStart: 500, rangeEnd: 1000
+   )
+   ```
+   */
+  public struct QueryNumberRange: InternetArchiveURLStringProtocol {
+    public let queryField: String
+    public let rangeStart: Double
+    public let rangeEnd: Double
+    public var asURLString: String {
+      let startString: String = rangeStart.truncatingRemainder(dividingBy: 1) == 0 ?
+        "\(Int(rangeStart))" : "\(rangeStart)"
+      let endString: String = rangeEnd.truncatingRemainder(dividingBy: 1) == 0 ?
+        "\(Int(rangeEnd))" : "\(rangeEnd)"
+      return QueryRangeFormatter.formatRangeString(
+        queryField: queryField,
+        rangeStart: startString,
+        rangeEnd: endString
+      )
+    }
+
+    public init(queryField: String, rangeStart: Double, rangeEnd: Double) {
+      self.queryField = queryField
+      self.rangeStart = rangeStart
+      self.rangeEnd = rangeEnd
+    }
+  }
+
+  /**
+   A query clause for use in generating a string range query.
+
+   This is comprised of a `field`, `rangeStart`, and `rangeEnd`.
+   It will return a query like `licenseurl:[http://creativecommons.org/a TO http://creativecommons.org/z]`
+
+   ### Example Usage:
+   ```
+   let licenseurlClause = InternetArchive.QueryNumberRange(
+     queryField: "licenseurl",
+     rangeStart: "http://creativecommons.org/a",
+     rangeEnd: "http://creativecommons.org/z"
+   )
+   ```
+   */
+  public struct QueryStringRange: InternetArchiveURLStringProtocol {
+    public let queryField: String
+    public let rangeStart: String
+    public let rangeEnd: String
+    public var asURLString: String {
+      return QueryRangeFormatter.formatRangeString(
+        queryField: queryField,
+        rangeStart: "\(rangeStart)",
+        rangeEnd: "\(rangeEnd)"
+      )
+    }
+
+    public init(queryField: String, rangeStart: String, rangeEnd: String) {
+      self.queryField = queryField
+      self.rangeStart = rangeStart
+      self.rangeEnd = rangeEnd
+    }
+  }
+
+  private struct QueryRangeFormatter {
+    static func formatRangeString(
+      queryField: String,
+      rangeStart: String,
+      rangeEnd: String
+    ) -> String {
+      return "\(queryField):[\(rangeStart) TO \(rangeEnd)]"
     }
   }
 
