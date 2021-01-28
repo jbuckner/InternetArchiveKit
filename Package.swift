@@ -14,6 +14,11 @@ let package = Package(
         .target(
             name: "InternetArchiveKit",
             path: "InternetArchiveKit"
-        )
+        ),
+      .testTarget(
+        name: "InternetArchiveKitTests",
+        dependencies: ["InternetArchiveKit"],
+        path: "InternetArchiveKitTests"
+      )
     ]
 )

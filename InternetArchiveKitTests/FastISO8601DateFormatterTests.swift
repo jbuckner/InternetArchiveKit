@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import InternetArchiveKit
 
 class FastISO8601DateFormatterTests: XCTestCase {
   func testISODateParserCanParseGMT() {

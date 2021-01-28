@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import InternetArchiveKit
 
 class ItemMetadataTests: XCTestCase {
 

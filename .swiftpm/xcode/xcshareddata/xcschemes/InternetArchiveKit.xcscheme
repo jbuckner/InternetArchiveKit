@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9669B0202197B91200E7CE2A"
-               BuildableName = "InternetArchiveKitExample.app"
-               BlueprintName = "InternetArchiveKitExample"
-               ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
+               BlueprintIdentifier = "InternetArchiveKit"
+               BuildableName = "InternetArchiveKit"
+               BlueprintName = "InternetArchiveKit"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "InternetArchiveKitTests"
+               BuildableName = "InternetArchiveKitTests"
+               BlueprintName = "InternetArchiveKitTests"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,16 +41,17 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9669B0202197B91200E7CE2A"
-            BuildableName = "InternetArchiveKitExample.app"
-            BlueprintName = "InternetArchiveKitExample"
-            ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "InternetArchiveKitTests"
+               BuildableName = "InternetArchiveKitTests"
+               BlueprintName = "InternetArchiveKitTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -49,16 +64,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9669B0202197B91200E7CE2A"
-            BuildableName = "InternetArchiveKitExample.app"
-            BlueprintName = "InternetArchiveKitExample"
-            ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -66,16 +71,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9669B0202197B91200E7CE2A"
-            BuildableName = "InternetArchiveKitExample.app"
-            BlueprintName = "InternetArchiveKitExample"
-            ReferencedContainer = "container:InternetArchiveKit.xcodeproj">
+            BlueprintIdentifier = "InternetArchiveKit"
+            BuildableName = "InternetArchiveKit"
+            BlueprintName = "InternetArchiveKit"
+            ReferencedContainer = "container:">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
