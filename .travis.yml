@@ -1,10 +1,7 @@
 language: swift
 osx_image: xcode12.2
-xcode_project: InternetArchiveKit.xcodeproj
-xcode_scheme: InternetArchiveKit
-xcode_destination: platform=iOS Simulator,OS=14.2,name=iPhone 12
+script:
+- swift test --enable-code-coverage
+- xcrun llvm-cov export -format="lcov" .build/debug/InternetArchiveKitPackageTests.xctest/Contents/MacOS/InternetArchiveKitPackageTests -instr-profile .build/debug/codecov/default.profdata > .build/coverage.lcov
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-addons:
-  homebrew:
-    brewfile: true
