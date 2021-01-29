@@ -41,6 +41,7 @@ extension InternetArchive {
     public let avgRating: ModelField<IADouble>?
     public let backupLocation: ModelField<IAString>?
     public let collection: ModelField<IAString>?
+    public let collectionSize: ModelField<IAInt>?
     public let coverage: ModelField<IAString>?
     public let creator: ModelField<IAString>?
     public let curation: ModelField<IAString>?
@@ -48,6 +49,7 @@ extension InternetArchive {
     public let description: ModelField<IAString>?
     public let downloads: ModelField<IAInt>?
     public let discs: ModelField<IAString>?
+    public let filesCount: ModelField<IAInt>?
     public let format: ModelField<IAString>?
     public let hasMp3: ModelField<IAString>?
     public let hidden: ModelField<IABool>?
@@ -57,6 +59,7 @@ extension InternetArchive {
     public let indexflag: ModelField<IAString>?
     public let isDark: ModelField<IAString>?
     public let itemSize: ModelField<IAInt>?
+    public let itemCount: ModelField<IAInt>?
     public let lineage: ModelField<IAString>?
     public let limflag: ModelField<IAString>?
     public let md5s: ModelField<IAString>?
@@ -64,6 +67,7 @@ extension InternetArchive {
     public let month: ModelField<IAInt>?
     public let notes: ModelField<IAString>?
     public let numericId: ModelField<IAInt>?
+    public let numReviews: ModelField<IAInt>?
     public let numRecentReviews: ModelField<IAInt>?
     public let numTopBa: ModelField<IAInt>?
     public let numTopDl: ModelField<IAInt>?
@@ -100,6 +104,7 @@ extension InternetArchive {
                 avgRating: ModelField<IADouble>? = nil,
                 backupLocation: ModelField<IAString>? = nil,
                 collection: ModelField<IAString>? = nil,
+                collectionSize: ModelField<IAInt>? = nil,
                 coverage: ModelField<IAString>? = nil,
                 creator: ModelField<IAString>? = nil,
                 curation: ModelField<IAString>? = nil,
@@ -107,6 +112,7 @@ extension InternetArchive {
                 description: ModelField<IAString>? = nil,
                 downloads: ModelField<IAInt>? = nil,
                 discs: ModelField<IAString>? = nil,
+                filesCount: ModelField<IAInt>? = nil,
                 format: ModelField<IAString>? = nil,
                 hasMp3: ModelField<IAString>? = nil,
                 hidden: ModelField<IABool>? = nil,
@@ -115,6 +121,7 @@ extension InternetArchive {
                 indexdate: ModelField<IADate>? = nil,
                 indexflag: ModelField<IAString>? = nil,
                 isDark: ModelField<IAString>? = nil,
+                itemCount: ModelField<IAInt>? = nil,
                 itemSize: ModelField<IAInt>? = nil,
                 lineage: ModelField<IAString>? = nil,
                 limflag: ModelField<IAString>? = nil,
@@ -123,6 +130,7 @@ extension InternetArchive {
                 month: ModelField<IAInt>? = nil,
                 notes: ModelField<IAString>? = nil,
                 numericId: ModelField<IAInt>? = nil,
+                numReviews: ModelField<IAInt>? = nil,
                 numRecentReviews: ModelField<IAInt>? = nil,
                 numTopBa: ModelField<IAInt>? = nil,
                 numTopDl: ModelField<IAInt>? = nil,
@@ -157,6 +165,7 @@ extension InternetArchive {
       self.avgRating = avgRating
       self.backupLocation = backupLocation
       self.collection = collection
+      self.collectionSize = collectionSize
       self.coverage = coverage
       self.creator = creator
       self.curation = curation
@@ -164,6 +173,7 @@ extension InternetArchive {
       self.description = description
       self.downloads = downloads
       self.discs = discs
+      self.filesCount = filesCount
       self.format = format
       self.hasMp3 = hasMp3
       self.hidden = hidden
@@ -172,6 +182,7 @@ extension InternetArchive {
       self.indexdate = indexdate
       self.indexflag = indexflag
       self.isDark = isDark
+      self.itemCount = itemCount
       self.itemSize = itemSize
       self.lineage = lineage
       self.limflag = limflag
@@ -180,6 +191,7 @@ extension InternetArchive {
       self.month = month
       self.notes = notes
       self.numericId = numericId
+      self.numReviews = numReviews
       self.numRecentReviews = numRecentReviews
       self.numTopBa = numTopBa
       self.numTopDl = numTopDl
