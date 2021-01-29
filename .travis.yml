@@ -2,5 +2,6 @@ language: swift
 osx_image: xcode12.2
 script:
 - swift test --enable-code-coverage
+- llvm-cov export -format="lcov" .build/debug/InternetArchiveKit.xctest -instr-profile .build/debug/codecov/default.profdata > info.lcov
 after_success:
   - bash <(curl -s https://codecov.io/bash)
