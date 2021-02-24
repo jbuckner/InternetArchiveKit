@@ -41,6 +41,7 @@ extension InternetArchive {
     public let avgRating: ModelField<IADouble>?
     public let backupLocation: ModelField<IAString>?
     public let collection: ModelField<IAString>?
+    public let collectionsRaw: ModelField<IAString>?
     public let collectionSize: ModelField<IAInt>?
     public let coverage: ModelField<IAString>?
     public let creator: ModelField<IAString>?
@@ -104,6 +105,7 @@ extension InternetArchive {
                 avgRating: ModelField<IADouble>? = nil,
                 backupLocation: ModelField<IAString>? = nil,
                 collection: ModelField<IAString>? = nil,
+                collectionsRaw: ModelField<IAString>? = nil,
                 collectionSize: ModelField<IAInt>? = nil,
                 coverage: ModelField<IAString>? = nil,
                 creator: ModelField<IAString>? = nil,
@@ -165,6 +167,7 @@ extension InternetArchive {
       self.avgRating = avgRating
       self.backupLocation = backupLocation
       self.collection = collection
+      self.collectionsRaw = collectionsRaw
       self.collectionSize = collectionSize
       self.coverage = coverage
       self.creator = creator
