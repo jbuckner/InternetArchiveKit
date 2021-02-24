@@ -101,14 +101,12 @@ extension InternetArchive {
     public let booleanOperator: QueryClauseBooleanOperator
     public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
-      let joinedValues = values.joined(separator: " OR ")
-      let valueString: String
-      if exactMatch {
-        valueString = "\"\(joinedValues)\""
-      } else {
-        valueString = "(\(joinedValues))"
+      let surroundedValues = values.compactMap { (value: String) -> String? in
+        return exactMatch ? "\"\(value)\"" : "(\(value))"
       }
-      return "\(booleanOperator.rawValue)\(fieldKey)\(valueString)"
+      let joinedValues = surroundedValues.joined(separator: " OR ")
+      let finalValue = values.count == 1 ? joinedValues : "(\(joinedValues))"
+      return "\(booleanOperator.rawValue)\(fieldKey)\(finalValue)"
     }
 
     // convenience initializer for single-values

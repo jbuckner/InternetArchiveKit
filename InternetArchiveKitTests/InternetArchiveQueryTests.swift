@@ -31,13 +31,13 @@ class InternetArchiveQueryTests: XCTestCase {
 
   func testQueryClauseMultipleValues() {
     let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", values: ["bar", "baz", "boop"])
-    XCTAssertEqual(clause.asURLString, "foo:(bar OR baz OR boop)")
+    XCTAssertEqual(clause.asURLString, "foo:((bar) OR (baz) OR (boop))")
   }
 
   func testQueryClauseMultipleValuesNegative() {
     let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
       field: "foo", values: ["bar", "baz"], booleanOperator: .not)
-    XCTAssertEqual(clause.asURLString, "-foo:(bar OR baz)")
+    XCTAssertEqual(clause.asURLString, "-foo:((bar) OR (baz))")
   }
 
   func testQueryClauseExactMatch() {
@@ -49,7 +49,7 @@ class InternetArchiveQueryTests: XCTestCase {
   func testQueryClauseMultiValueExactMatch() {
     let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
       field: "foo", values: ["bar", "baz"], exactMatch: true)
-    XCTAssertEqual(clause.asURLString, "foo:\"bar OR baz\"")
+    XCTAssertEqual(clause.asURLString, "foo:(\"bar\" OR \"baz\")")
   }
 
   func testSubQueryString() {
