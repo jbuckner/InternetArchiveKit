@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import JJLISO8601DateFormatter
 
 protocol DateParserProtocol {
   func date(from string: String) -> Date?
 }
 
 extension DateFormatter: DateParserProtocol {}
-extension ISO8601DateFormatter: DateParserProtocol {}
+extension JJLISO8601DateFormatter: DateParserProtocol {}
 
 class DateParser {
   static let shared: DateParser = DateParser()
@@ -29,8 +30,8 @@ class DateParser {
 
   // the parsers to try in order of priority
   private lazy var parsers: [DateParserProtocol] = {
-    return [fastIsoFormatter, dateTimeFormatter, yearMonthDayFormatter, yearMonthFormatter, yearFormatter,
-            yearBracketFormatter, yearCircaFormatter, isoFormatter]
+    return [isoFormatter, dateTimeFormatter, yearMonthDayFormatter, yearMonthFormatter, yearFormatter,
+            yearBracketFormatter, yearCircaFormatter]
   }()
 
   private lazy var yearFormatter: DateParserProtocol = {
@@ -75,7 +76,5 @@ class DateParser {
     return dateFormatter
   }()
 
-  private lazy var isoFormatter: DateParserProtocol = ISO8601DateFormatter()
-
-  private lazy var fastIsoFormatter: DateParserProtocol = FastISO8601GMTDateParser()
+  private lazy var isoFormatter: DateParserProtocol = JJLISO8601DateFormatter()
 }
