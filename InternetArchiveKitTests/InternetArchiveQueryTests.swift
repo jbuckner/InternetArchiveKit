@@ -29,6 +29,11 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(query.asURLString, "(foo:(bar) AND -baz:(boop) AND (boop))")
   }
 
+  func testEmptyQueryClauseReturnsNil() {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [])
+    XCTAssertEqual(query.asURLString, nil)
+  }
+
   func testQueryClauseMultipleValues() {
     let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", values: ["bar", "baz", "boop"])
     XCTAssertEqual(clause.asURLString, "foo:((bar) OR (baz) OR (boop))")
@@ -74,29 +79,28 @@ class InternetArchiveQueryTests: XCTestCase {
 
   func testQueryStringConvenience() {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
-    let queryAsUrl: String = query.asURLString
+    let queryAsUrl: String? = query.asURLString
     XCTAssertTrue(queryAsUrl == "(foo:(bar) AND baz:(boop))" || queryAsUrl == "(baz:(boop) AND foo:(bar))")
     let query2: InternetArchive.Query = InternetArchive.Query(clauses: ["": "bar", "baz": "boop"])
-    let query2AsUrl: String = query2.asURLString
+    let query2AsUrl: String? = query2.asURLString
     XCTAssertTrue(query2AsUrl == "((bar) AND baz:(boop))" || query2AsUrl == "(baz:(boop) AND (bar))")
     let query3: InternetArchive.Query = InternetArchive.Query(clauses: ["-foo": "bar", "baz": "boop"])
-    let query3AsUrl: String = query3.asURLString
+    let query3AsUrl: String? = query3.asURLString
     XCTAssertTrue(query3AsUrl == "(-foo:(bar) AND baz:(boop))" || query3AsUrl == "(baz:(boop) AND -foo:(bar))")
   }
 
   func testQueryBooleanOr() {
     let query: InternetArchive.Query = InternetArchive.Query(
       clauses: ["foo": "bar", "baz": "boop"], booleanOperator: .or)
-    let queryAsUrl: String = query.asURLString
-    debugPrint(queryAsUrl)
+    let queryAsUrl: String? = query.asURLString
     XCTAssertTrue(queryAsUrl == "(foo:(bar) OR baz:(boop))" || queryAsUrl == "(baz:(boop) OR foo:(bar))")
     let query2: InternetArchive.Query = InternetArchive.Query(
       clauses: ["": "bar", "baz": "boop"], booleanOperator: .or)
-    let query2AsUrl: String = query2.asURLString
+    let query2AsUrl: String? = query2.asURLString
     XCTAssertTrue(query2AsUrl == "((bar) OR baz:(boop))" || query2AsUrl == "(baz:(boop) OR (bar))")
     let query3: InternetArchive.Query = InternetArchive.Query(
       clauses: ["-foo": "bar", "baz": "boop"], booleanOperator: .or)
-    let query3AsUrl: String = query3.asURLString
+    let query3AsUrl: String? = query3.asURLString
     XCTAssertTrue(query3AsUrl == "(-foo:(bar) OR baz:(boop))" || query3AsUrl == "(baz:(boop) OR -foo:(bar))")
   }
 

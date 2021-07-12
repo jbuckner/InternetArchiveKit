@@ -72,7 +72,7 @@ public class InternetArchive: InternetArchiveProtocol {
       query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [],
       additionalQueryParams: [])
       else {
-        os_log("search error generating metadata url: %{public}@", log: log, type: .error, query.asURLString)
+        os_log("search error generating metadata url: %{public}@", log: log, type: .error, query.asURLString ?? "")
       completion(nil, InternetArchiveError.invalidUrl)
       return
     }
