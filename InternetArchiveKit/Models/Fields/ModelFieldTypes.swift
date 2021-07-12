@@ -30,6 +30,26 @@ extension InternetArchive {
   }
 
   /**
+   Internet Archive byte field
+
+   ### Example Usage
+   ```
+   let intField = IAInt(fromString: "3")
+   intField.value => 3
+   ```
+   */
+  public class IAByte: ModelFieldProtocol {
+    public typealias FieldType = Int // swiftlint:disable:this nesting
+    public var value: FieldType?
+    required public init?(fromString string: String) {
+      self.value = FieldType.init(string)
+    }
+    required public init(from: Decoder) throws {
+      self.value = try FieldType.init(from: from)
+    }
+  }
+
+  /**
    Internet Archive `String` field
 
    ### Example Usage
