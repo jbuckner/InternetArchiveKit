@@ -51,7 +51,8 @@ extension InternetArchive {
   */
   public struct Query: InternetArchiveURLStringProtocol {
     public var clauses: [InternetArchiveURLStringProtocol]
-    public var asURLString: String { // eg `collection:(etree) AND -title:(foo)`
+    public var asURLString: String? { // eg `collection:(etree) AND -title:(foo)`
+      guard clauses.count > 0 else { return nil }
       let paramStrings: [String] = clauses.compactMap { $0.asURLString }
       let joinedClauses = paramStrings.joined(separator: " \(booleanOperator.rawValue) ")
       let surroundedClauses = "(\(joinedClauses))"
@@ -99,7 +100,7 @@ extension InternetArchive {
     public let values: [String]
     public let exactMatch: Bool
     public let booleanOperator: QueryClauseBooleanOperator
-    public var asURLString: String { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
+    public var asURLString: String? { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
         return exactMatch ? "\"\(value)\"" : "(\(value))"
@@ -150,7 +151,7 @@ extension InternetArchive {
   public struct QueryDateRange: InternetArchiveURLStringProtocol {
     public let queryField: String
     public let dateRange: DateInterval
-    public var asURLString: String {
+    public var asURLString: String? {
       let startDate: Date = dateRange.start
       let endDate: Date = dateRange.end
       let dateFormatter: DateFormatter = DateFormatter()
@@ -192,7 +193,7 @@ extension InternetArchive {
     public let queryField: String
     public let rangeStart: Double
     public let rangeEnd: Double
-    public var asURLString: String {
+    public var asURLString: String? {
       let startString: String = rangeStart.truncatingRemainder(dividingBy: 1) == 0 ?
         "\(Int(rangeStart))" : "\(rangeStart)"
       let endString: String = rangeEnd.truncatingRemainder(dividingBy: 1) == 0 ?
@@ -230,7 +231,7 @@ extension InternetArchive {
     public let queryField: String
     public let rangeStart: String
     public let rangeEnd: String
-    public var asURLString: String {
+    public var asURLString: String? {
       return QueryRangeFormatter.formatRangeString(
         queryField: queryField,
         rangeStart: "\(rangeStart)",

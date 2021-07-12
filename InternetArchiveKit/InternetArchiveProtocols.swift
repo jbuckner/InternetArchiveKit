@@ -45,7 +45,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
  All of the search queries components like Query and DateQuery conform to this
  */
 public protocol InternetArchiveURLStringProtocol {
-  var asURLString: String { get }
+  var asURLString: String? { get }
 }
 
 /**
