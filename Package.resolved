@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "AsyncCompatibilityKit",
+        "repositoryURL": "https://github.com/JohnSundell/AsyncCompatibilityKit",
+        "state": {
+          "branch": null,
+          "revision": "bedef0457c31ef0236e0e92ad2e96c57bd3d8606",
+          "version": "0.1.1"
+        }
+      },
+      {
         "package": "JJLISO8601DateFormatter",
         "repositoryURL": "https://github.com/michaeleisel/JJLISO8601DateFormatter",
         "state": {
           "branch": null,
           "revision": "99fadf2e6425a0f827b1b485ea60bc2b7ecdd22c",
           "version": "0.1.4"
+        }
+      },
+      {
+        "package": "URLSessionMock",
+        "repositoryURL": "https://github.com/azsn/URLSessionMock",
+        "state": {
+          "branch": null,
+          "revision": "128e48ecdea3508b1264d31443a83e718caa8f7e",
+          "version": "0.1.0"
         }
       },
       {

@@ -13,14 +13,32 @@ import Foundation
  */
 public protocol InternetArchiveProtocol {
   // swiftlint:disable:next function_parameter_count
-  func search(query: InternetArchiveURLStringProtocol,
-              page: Int,
-              rows: Int,
-              fields: [String]?,
-              sortFields: [InternetArchiveURLQueryItemProtocol]?,
-              completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void)
-  func itemDetail(identifier: String,
-                  completion: @escaping (InternetArchive.Item?, Error?) -> Void)
+  func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?
+  ) async -> Result<InternetArchive.SearchResponse, Error>
+
+  // swiftlint:disable:next function_parameter_count
+  func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?,
+    completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
+  )
+
+  func itemDetail(
+    identifier: String
+  ) async -> Result<InternetArchive.Item, Error>
+
+  func itemDetail(
+    identifier: String,
+    completion: @escaping (InternetArchive.Item?, Error?) -> Void
+  )
 }
 
 /**
