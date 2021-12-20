@@ -50,7 +50,11 @@ public class InternetArchive: InternetArchiveProtocol {
 
   private let urlGenerator: InternetArchiveURLGeneratorProtocol
 
-  private let jsonDecoder = ZippyJSONDecoder()
+  private let jsonDecoder: ZippyJSONDecoder = {
+    let decoder = ZippyJSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return decoder
+  }()
 
   public func search(
     query: InternetArchiveURLStringProtocol,
@@ -139,9 +143,6 @@ public class InternetArchive: InternetArchiveProtocol {
       let (data, _) = try await urlSession.data(from: url)
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       os_log(.info, log: log, "makeRequest completed in %{public}f s, url: %{public}@", timeElapsed, url.absoluteString)
-
-      jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-
       let results: T = try jsonDecoder.decode(T.self, from: data)
       return .success(results)
     } catch {
