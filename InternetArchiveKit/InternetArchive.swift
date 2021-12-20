@@ -9,6 +9,7 @@
 import os.log
 import Foundation
 import ZippyJSON
+import AsyncCompatibilityKit
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
@@ -21,19 +22,21 @@ let logSubsystemId: String = "engineering.astral.internetarchivekit"
    clauses: ["collection": "etree", "mediatype": "collection"])
  let archive = InternetArchive()
 
- archive.search(
-   query: query,
-   page: 0,
-   rows: 10,
-   completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-   // handle response
- })
+ let results = await archive.search(query: query, page: 0, rows: 10)
+ switch results {
+ case .success(let items):
+    // debugPrint(items)
+ case .failure(let error):
+    // debugPrint(error)
+ }
 
- archive.itemDetail(
-   identifier: "sci2007-07-28.Schoeps",
-   completion: { (item: InternetArchive.Item?, error: Error?) in
-   // handle item
- })
+ let result = await archive.itemDetail(identifier: "sci2007-07-28.Schoeps")
+ switch result {
+ case .success(let item):
+    // debugPrint(item)
+ case .failure(let error):
+    // debugPrint(error)
+ }
  ```
  */
 public class InternetArchive: InternetArchiveProtocol {
@@ -49,88 +52,88 @@ public class InternetArchive: InternetArchiveProtocol {
 
   private let urlGenerator: InternetArchiveURLGeneratorProtocol
 
-  /**
-   Search the Internet Archive
+  private let jsonDecoder: ZippyJSONDecoder = {
+    let decoder = ZippyJSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    return decoder
+  }()
 
-   - parameters:
-     - query: The search query as an `InternetArchiveURLStringProtocol` object
-     - page: The results pagination page number
-     - rows: The number of results to return per page
-     - fields: An array of strings specifying the metadata entries you want returned. The default is `nil`,
-               which return all metadata fields
-     - sortFields: The fields by which you want to sort the results as an `InternetArchiveURLQueryItemProtocol` object
-     - completion: Returns optional `InternetArchive.SearchResponse` and `Error` objects
-   */
-  public func search(query: InternetArchiveURLStringProtocol,
-                     page: Int,
-                     rows: Int,
-                     fields: [String]? = nil,
-                     sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
-                     completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void) {
-
-    guard let searchUrl: URL = self.urlGenerator.generateSearchUrl(
+  /** @inheritdoc */
+  public func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?
+  ) async -> Result<SearchResponse, Error> {
+    guard let searchUrl: URL = urlGenerator.generateSearchUrl(
       query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [],
       additionalQueryParams: [])
-      else {
-        os_log("search error generating metadata url: %{public}@", log: log, type: .error, query.asURLString ?? "")
-      completion(nil, InternetArchiveError.invalidUrl)
-      return
+    else {
+      os_log(.error, log: log, "Error generating search url: %@", query.asURLString ?? "Unknown query.asURLString")
+      return .failure(InternetArchiveError.invalidUrl)
     }
 
-    self.makeRequest(url: searchUrl, completion: completion)
+    return await makeRequest(url: searchUrl)
   }
 
-  /**
-   Fetch a single item from the Internet Archive
+  /** @inheritdoc */
+  public func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
+    completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
+  ) {
+    Task {
+      let results = await search(query: query, page: page, rows: rows, fields: fields, sortFields: sortFields)
+      switch results {
+      case .success(let response):
+        completion(response, nil)
+      case .failure(let error):
+        completion(nil, error)
+      }
+    }
+  }
 
-   - parameters:
-     - identifier: The item identifier
-     - completion: Returns optional `InternetArchive.Item` and `Error` objects
+  /** @inheritdoc */
+  public func itemDetail(identifier: String) async -> Result<Item, Error> {
+    guard let metadataUrl: URL = urlGenerator.generateMetadataUrl(identifier: identifier) else {
+      os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
+      return .failure(InternetArchiveError.invalidUrl)
+    }
 
-   - returns: No value
-   */
+    return await makeRequest(url: metadataUrl)
+  }
+
+  /** @inheritdoc */
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> Void) {
-    guard let metadataUrl: URL = self.urlGenerator.generateMetadataUrl(identifier: identifier) else {
-      os_log("itemDetail error generating metadata url, identifier: %{public}@", log: log, type: .error, identifier)
-      completion(nil, InternetArchiveError.invalidUrl)
-      return
+    Task {
+      let results = await itemDetail(identifier: identifier)
+      switch results {
+      case .success(let response):
+        completion(response, nil)
+      case .failure(let error):
+        completion(nil, error)
+      }
     }
-
-    self.makeRequest(url: metadataUrl, completion: completion)
   }
 
-  private func makeRequest<T>(url: URL, completion: @escaping (T?, Error?) -> Void) where T: Decodable {
-    os_log("makeRequest start, url: %{public}@", log: log, type: .info, url.absoluteString)
+  private func makeRequest<T>(url: URL) async -> Result<T, Error> where T: Decodable {
+    os_log(.info, log: log, "makeRequest start, url: %{public}@", url.absoluteString)
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
-    let task = urlSession.dataTask(with: url) {(data: Data?, _: URLResponse?, error: Error?) in
+
+    do {
+      let (data, _) = try await urlSession.data(from: url)
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
-      os_log("makeRequest completed in %{public}f s, url: %{public}@",
-             log: self.log, type: .info, timeElapsed, url.absoluteString)
-
-      guard error == nil else {
-        completion(nil, error)
-        return
-      }
-
-      guard let data = data else {
-        completion(nil, InternetArchiveError.noDataReturned)
-        return
-      }
-
-      do {
-        let decoder: ZippyJSONDecoder = ZippyJSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-        let results: T = try decoder.decode(T.self, from: data)
-        completion(results, error)
-      } catch {
-        os_log("makeRequest, errorDecoding: %{public}@",
-               log: self.log, type: .error, error.localizedDescription)
-        completion(nil, error)
-      }
+      os_log(.info, log: log, "makeRequest completed in %{public}f s, url: %{public}@", timeElapsed, url.absoluteString)
+      let results: T = try jsonDecoder.decode(T.self, from: data)
+      return .success(results)
+    } catch {
+      os_log(.error, log: log, "makeRequest, error: %{public}@", error.localizedDescription)
+      return .failure(error)
     }
-
-    task.resume()
   }
 
   private let urlSession: URLSession

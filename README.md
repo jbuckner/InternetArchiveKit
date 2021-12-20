@@ -27,21 +27,21 @@ let query = InternetArchive.Query(
    clauses: ["collection": "etree", "mediatype": "collection"])
 let archive = InternetArchive()
 
-archive.search(
-  query: query,
-  page: 0,
-  rows: 10,
-  completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-   let firstItem = response.response.docs.first
-   // handle first item
-})
+let results = await archive.search(query: query, page: 0, rows: 10)
+switch results {
+case .success(let items):
+  // debugPrint(items)
+case .failure(let error):
+  // debugPrint(error)
+}
 
-archive.itemDetail(
-  identifier: "sci2007-07-28.Schoeps",
-  completion: { (item: InternetArchive.Item?, error: Error?) in
-  let firstFile = item.files.first
-  // handle first file
-})
+let result = await archive.itemDetail(identifier: "sci2007-07-28.Schoeps")
+switch result {
+case .success(let item):
+  // debugPrint(item)
+case .failure(let error):
+  // debugPrint(error)
+}
 ```
 
 For more advanced usage, see the test suite and the included sample app.

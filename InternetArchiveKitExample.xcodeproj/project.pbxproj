@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9653CDC2277012B6006D0C5C /* InternetArchiveKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9653CDC1277012B6006D0C5C /* InternetArchiveKit */; };
 		9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0232197B91200E7CE2A /* AppDelegate.swift */; };
 		9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */; };
 		9669B0282197B91200E7CE2A /* ArtistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9669B0272197B91200E7CE2A /* ArtistDetailViewController.swift */; };
@@ -20,7 +21,6 @@
 		96AC727B219D2E6A007C7910 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC727A219D2E6A007C7910 /* MusicPlayer.swift */; };
 		96BAF7CE219BC016004B512D /* AlbumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7CD219BC016004B512D /* AlbumExtensions.swift */; };
 		96BAF7D8219BD6FE004B512D /* Collection+InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */; };
-		96BB721325C278E0009BFCCA /* InternetArchiveKit in Frameworks */ = {isa = PBXBuildFile; productRef = 96BB721225C278E0009BFCCA /* InternetArchiveKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +37,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9653CDC0277012AD006D0C5C /* InternetArchiveKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = InternetArchiveKit; sourceTree = "<group>"; };
 		9669B0212197B91200E7CE2A /* InternetArchiveKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternetArchiveKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9669B0232197B91200E7CE2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtreeCollectionViewController.swift; sourceTree = "<group>"; };
@@ -52,7 +53,6 @@
 		96AC727A219D2E6A007C7910 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		96BAF7CD219BC016004B512D /* AlbumExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumExtensions.swift; sourceTree = "<group>"; };
 		96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+InternetArchive.swift"; sourceTree = "<group>"; };
-		96BB721125C2788A009BFCCA /* InternetArchiveKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = InternetArchiveKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96BB721325C278E0009BFCCA /* InternetArchiveKit in Frameworks */,
+				9653CDC2277012B6006D0C5C /* InternetArchiveKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +114,7 @@
 		96ECE0CE21913AE100A0C8A6 = {
 			isa = PBXGroup;
 			children = (
-				96BB721125C2788A009BFCCA /* InternetArchiveKit */,
+				9653CDC0277012AD006D0C5C /* InternetArchiveKit */,
 				9669B0222197B91200E7CE2A /* InternetArchiveKitExample */,
 				96ECE0D921913AE100A0C8A6 /* Products */,
 				9669B0352197BAAE00E7CE2A /* Frameworks */,
@@ -147,7 +147,7 @@
 			);
 			name = InternetArchiveKitExample;
 			packageProductDependencies = (
-				96BB721225C278E0009BFCCA /* InternetArchiveKit */,
+				9653CDC1277012B6006D0C5C /* InternetArchiveKit */,
 			);
 			productName = InternetArchiveKitExample;
 			productReference = 9669B0212197B91200E7CE2A /* InternetArchiveKitExample.app */;
@@ -254,7 +254,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
 				INFOPLIST_FILE = InternetArchiveKitExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -275,7 +274,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z2V5R65MGQ;
 				INFOPLIST_FILE = InternetArchiveKitExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,7 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -399,7 +397,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -435,7 +433,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		96BB721225C278E0009BFCCA /* InternetArchiveKit */ = {
+		9653CDC1277012B6006D0C5C /* InternetArchiveKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = InternetArchiveKit;
 		};
