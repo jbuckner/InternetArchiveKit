@@ -22,19 +22,21 @@ let logSubsystemId: String = "engineering.astral.internetarchivekit"
    clauses: ["collection": "etree", "mediatype": "collection"])
  let archive = InternetArchive()
 
- archive.search(
-   query: query,
-   page: 0,
-   rows: 10,
-   completion: { (response: InternetArchive.SearchResponse?, error: Error?) in
-   // handle response
- })
+ let results = await archive.search(query: query, page: 0, rows: 10)
+ switch results {
+ case .success(let items):
+    // debugPrint(items)
+ case .failure(let error):
+    // debugPrint(error)
+ }
 
- archive.itemDetail(
-   identifier: "sci2007-07-28.Schoeps",
-   completion: { (item: InternetArchive.Item?, error: Error?) in
-   // handle item
- })
+ let result = await archive.itemDetail(identifier: "sci2007-07-28.Schoeps")
+ switch result {
+ case .success(let item):
+    // debugPrint(item)
+ case .failure(let error):
+    // debugPrint(error)
+ }
  ```
  */
 public class InternetArchive: InternetArchiveProtocol {
@@ -56,6 +58,7 @@ public class InternetArchive: InternetArchiveProtocol {
     return decoder
   }()
 
+  /** @inheritdoc */
   public func search(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -74,18 +77,7 @@ public class InternetArchive: InternetArchiveProtocol {
     return await makeRequest(url: searchUrl)
   }
 
-  /**
-   Search the Internet Archive
-
-   - parameters:
-     - query: The search query as an `InternetArchiveURLStringProtocol` object
-     - page: The results pagination page number
-     - rows: The number of results to return per page
-     - fields: An array of strings specifying the metadata entries you want returned. The default is `nil`,
-               which return all metadata fields
-     - sortFields: The fields by which you want to sort the results as an `InternetArchiveURLQueryItemProtocol` object
-     - completion: Returns optional `InternetArchive.SearchResponse` and `Error` objects
-   */
+  /** @inheritdoc */
   public func search(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -105,6 +97,7 @@ public class InternetArchive: InternetArchiveProtocol {
     }
   }
 
+  /** @inheritdoc */
   public func itemDetail(identifier: String) async -> Result<Item, Error> {
     guard let metadataUrl: URL = urlGenerator.generateMetadataUrl(identifier: identifier) else {
       os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
@@ -114,15 +107,7 @@ public class InternetArchive: InternetArchiveProtocol {
     return await makeRequest(url: metadataUrl)
   }
 
-  /**
-   Fetch a single item from the Internet Archive
-
-   - parameters:
-     - identifier: The item identifier
-     - completion: Returns optional `InternetArchive.Item` and `Error` objects
-
-   - returns: No value
-   */
+  /** @inheritdoc */
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> Void) {
     Task {
       let results = await itemDetail(identifier: identifier)
