@@ -16,6 +16,14 @@ extension InternetArchive {
   public struct SearchResponse: Decodable {
     public let responseHeader: ResponseHeader
     public let response: Response
+    
+    public init(
+      responseHeader: ResponseHeader,
+      response: Response
+    ) {
+      self.responseHeader = responseHeader
+      self.response = response
+    }
   }
 
   /**
@@ -25,6 +33,16 @@ extension InternetArchive {
     public let status: Int
     public let QTime: Int
     public let params: ResponseParams
+    
+    public init(
+      status: Int,
+      QTime: Int,
+      params: ResponseParams
+    ) {
+      self.status = status
+      self.QTime = QTime
+      self.params = params
+    }
   }
 
   /**
@@ -34,6 +52,16 @@ extension InternetArchive {
     public let numFound: Int
     public let start: Int
     public let docs: [ItemMetadata]
+    
+    public init(
+      numFound: Int,
+      start: Int,
+      docs: [ItemMetadata]
+    ) {
+      self.numFound = numFound
+      self.start = start
+      self.docs = docs
+    }
   }
 
   /**
@@ -48,6 +76,22 @@ extension InternetArchive {
     public let wt: String // swiftlint:disable:this identifier_name
     public let rows: String?
     public let start: Int
+    
+    public init(
+      query: String,
+      qin: String,
+      fields: String,
+      wt: String,
+      rows: String?,
+      start: Int
+    ) {
+      self.query = query
+      self.qin = qin
+      self.fields = fields
+      self.wt = wt
+      self.rows = rows
+      self.start = start
+    }
   }
 
 }
