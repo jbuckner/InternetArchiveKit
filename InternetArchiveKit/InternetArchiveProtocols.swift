@@ -31,6 +31,26 @@ public protocol InternetArchiveProtocol {
     rows: Int,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?
+  ) async throws -> InternetArchive.SearchResponse
+
+  /**
+   Search the Internet Archive
+
+   - parameters:
+   - query: The search query as an `InternetArchiveURLStringProtocol` object
+   - page: The results pagination page number
+   - rows: The number of results to return per page
+   - fields: An array of strings specifying the metadata entries you want returned. The default is `nil`,
+   which return all metadata fields
+   - sortFields: The fields by which you want to sort the results as an `InternetArchiveURLQueryItemProtocol` object
+   - returns: Result<InternetArchive.SearchResponse, Error>
+   */
+  func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?
   ) async -> Result<InternetArchive.SearchResponse, Error>
 
   /**
@@ -53,6 +73,17 @@ public protocol InternetArchiveProtocol {
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
     completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
   )
+
+  /**
+   Fetch a single item from the Internet Archive
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: Result<InternetArchive.Item, Error>
+   */
+  func itemDetail(
+    identifier: String
+  ) async throws -> InternetArchive.Item
 
   /**
    Fetch a single item from the Internet Archive
@@ -108,4 +139,41 @@ public protocol InternetArchiveURLStringProtocol {
  */
 public protocol InternetArchiveURLQueryItemProtocol {
   var asQueryItem: URLQueryItem { get }
+}
+
+extension InternetArchiveProtocol {
+  /** @inheritdoc */
+  public func search(
+    query: InternetArchiveURLStringProtocol,
+    page: Int,
+    rows: Int,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?
+  ) async throws -> InternetArchive.SearchResponse {
+    let result: Result<InternetArchive.SearchResponse, Error> = await search(
+      query: query,
+      page: page,
+      rows: rows,
+      fields: fields,
+      sortFields: sortFields
+    )
+
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func itemDetail(identifier: String) async throws -> InternetArchive.Item {
+    let result: Result<InternetArchive.Item, Error> = await itemDetail(identifier: identifier)
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let failure):
+      throw failure
+    }
+  }
 }

@@ -1,11 +1,11 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.8
 import PackageDescription
 
 let package = Package(
   name: "InternetArchiveKit",
   platforms: [
     .iOS(.v13),
-    .macOS(.v10_12)
+    .macOS(.v10_13)
   ],
   products: [
     .library(name: "InternetArchiveKit", targets: ["InternetArchiveKit"])
@@ -13,13 +13,12 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/michaeleisel/ZippyJSON", .upToNextMajor(from: "1.2.4")),
     .package(url: "https://github.com/michaeleisel/JJLISO8601DateFormatter", .upToNextMajor(from: "0.1.2")),
-    .package(url: "https://github.com/JohnSundell/AsyncCompatibilityKit", .upToNextMajor(from: "0.1.1")),
     .package(url: "https://github.com/azsn/URLSessionMock", .upToNextMajor(from: "0.1.0")),
   ],
   targets: [
     .target(
       name: "InternetArchiveKit",
-      dependencies: ["JJLISO8601DateFormatter", "ZippyJSON", "AsyncCompatibilityKit"],
+      dependencies: ["JJLISO8601DateFormatter", "ZippyJSON"],
       path: "InternetArchiveKit"
     ),
     .testTarget(

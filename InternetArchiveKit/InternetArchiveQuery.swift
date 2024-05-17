@@ -62,8 +62,8 @@ extension InternetArchive {
 
     // Convenience initializer to just pass in a bunch of key:values
     public init(clauses: [String: String], booleanOperator: QueryBooleanOperator = .and) {
-      let params: [QueryClause] = clauses.compactMap { (param: (field: String, value: String)) -> QueryClause? in
-        return QueryClause(field: param.field, value: param.value)
+      let params: [QueryClause] = clauses.compactMap { (param: (key: String, value: String)) -> QueryClause? in
+        return QueryClause(field: param.key, value: param.value)
       }
       self.init(clauses: params, booleanOperator: booleanOperator)
     }

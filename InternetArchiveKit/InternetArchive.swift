@@ -9,7 +9,6 @@
 import os.log
 import Foundation
 import ZippyJSON
-import AsyncCompatibilityKit
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
@@ -87,7 +86,8 @@ public class InternetArchive: InternetArchiveProtocol {
     completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
   ) {
     Task {
-      let results = await search(query: query, page: page, rows: rows, fields: fields, sortFields: sortFields)
+      let results: Result<SearchResponse, Error> = await search(
+        query: query, page: page, rows: rows, fields: fields, sortFields: sortFields)
       switch results {
       case .success(let response):
         completion(response, nil)
@@ -110,7 +110,7 @@ public class InternetArchive: InternetArchiveProtocol {
   /** @inheritdoc */
   public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> Void) {
     Task {
-      let results = await itemDetail(identifier: identifier)
+      let results: Result<Item, Error> = await itemDetail(identifier: identifier)
       switch results {
       case .success(let response):
         completion(response, nil)
