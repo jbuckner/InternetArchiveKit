@@ -74,7 +74,10 @@ extension InternetArchive {
     public let qin: String
     public let fields: String
     public let wt: String // swiftlint:disable:this identifier_name
-    public let rows: String?
+    // this is a ModelField<IAInt> because the Archive switched
+    // from a string to a number and broke parsing so this
+    // adds resiliency to the data type
+    public let rows: ModelField<IAInt>?
     public let start: Int
     
     public init(
@@ -82,7 +85,7 @@ extension InternetArchive {
       qin: String,
       fields: String,
       wt: String,
-      rows: String?,
+      rows: ModelField<IAInt>?,
       start: Int
     ) {
       self.query = query
@@ -93,5 +96,4 @@ extension InternetArchive {
       self.start = start
     }
   }
-
 }
