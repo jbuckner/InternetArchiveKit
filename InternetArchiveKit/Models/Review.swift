@@ -12,7 +12,7 @@ extension InternetArchive {
    A review on an Internet Archive item
    */
   public struct Review: Decodable {
-    public let reviewbody: String?
+    public let reviewbody: ModelField<IAString>?
     public let reviewtitle: String?
     public let reviewer: String?
     public let reviewer_itemname: String?
@@ -21,7 +21,7 @@ extension InternetArchive {
     public let stars: ModelField<IADouble>?
 
     public init(
-      reviewbody: String? = nil,
+      reviewbody: ModelField<IAString>? = nil,
       reviewtitle: String? = nil,
       reviewer: String? = nil,
       reviewer_itemname: String? = nil,
