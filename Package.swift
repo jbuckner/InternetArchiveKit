@@ -19,7 +19,9 @@ let package = Package(
     .target(
       name: "InternetArchiveKit",
       dependencies: ["JJLISO8601DateFormatter", "ZippyJSON"],
-      path: "InternetArchiveKit"
+      path: "InternetArchiveKit",
+      resources: [
+        .process("PrivacyInfo.xcprivacy")]
     ),
     .testTarget(
       name: "InternetArchiveKitTests",
