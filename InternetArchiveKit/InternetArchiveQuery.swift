@@ -112,11 +112,25 @@ extension InternetArchive {
     public var asURLString: String? {  // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
-        return exactMatch ? "\"\(value)\"" : "(\(value))"
+        if exactMatch {
+          return "\"\(value)\""
+        }
+
+        let regexFixed = quoteRegexCharacters(string: value)
+        return "(\(regexFixed))"
       }
       let joinedValues = surroundedValues.joined(separator: " OR ")
       let finalValue = values.count == 1 ? joinedValues : "(\(joinedValues))"
       return "\(booleanOperator.rawValue)\(fieldKey)\(finalValue)"
+    }
+
+    private let regexReplacementStrings = [":", "[", "]", "(", ")", "OR", "or", "AND", "and"]
+    private func quoteRegexCharacters(string: String) -> String {
+      var normalized = string
+      regexReplacementStrings.forEach {
+        normalized = normalized.replacingOccurrences(of: $0, with: "\"\($0)\"")
+      }
+      return normalized
     }
 
     // convenience initializer for single-values
