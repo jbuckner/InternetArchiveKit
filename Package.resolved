@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/michaeleisel/ZippyJSON",
       "state" : {
-        "revision" : "1ab389998592d038a60a3ca71aa7554d0e84ab4a",
-        "version" : "1.2.4"
+        "revision" : "ddbbc024ba5a826f9676035a0a090a0bc2d40755",
+        "version" : "1.2.15"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/michaeleisel/ZippyJSONCFamily",
       "state" : {
-        "revision" : "c55123b23f0faa898b22bf1b967e72a2df51fdb4",
-        "version" : "1.2.4"
+        "revision" : "c1c0f88977359ea85b81e128b2d988e8250dfdae",
+        "version" : "1.2.14"
       }
     }
   ],
