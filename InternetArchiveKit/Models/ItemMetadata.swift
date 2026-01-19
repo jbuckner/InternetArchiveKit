@@ -11,27 +11,27 @@ import Foundation
 extension InternetArchive {
   /**
    Internet Archive Item Metadata
-
+  
    This will be returned from `itemDetail()` and `search()` requests.
-
+  
    **Note**: The properties are all type `ModelField<T>` **except** `identifier`, which is a `String`.
    This means you need to access all values by their `.value` or `.values` properties, except for `identifier`,
    which you can access directly.
-
+  
    **Some Background**: All other fields can be a string or array of strings so we can't access them
    directly. See the `ModelField` class for a more thorough explanation.
-
+  
    For example:
    ```
    let metadata = ItemMetadata(...some metadata...)
    metadata.identifier = "SCIRedRocksConcert" // `identifier` is always a String
    metadata.venue.value = "Red Rocks" // other fields can be a string or array of strings so you can't access directly
    ```
-
+  
    See the Internet Archive's
    [Python API Reference](https://archive.org/services/docs/api/metadata-schema/index.html#metadata-schema)
    for a description of the properties.
-
+  
    **Note**: This is not an exhaustive list of metadata properties. If you need some that are missing,
    please open a pull request.
    */
@@ -99,69 +99,70 @@ extension InternetArchive {
     public let week: ModelField<IAInt>?
     public let year: ModelField<IAInt>?
 
-    // swiftlint:disable:next function_body_length
-    public init(addeddate: ModelField<IADate>? = nil,
-                adder: ModelField<IAString>? = nil,
-                avgRating: ModelField<IADouble>? = nil,
-                backupLocation: ModelField<IAString>? = nil,
-                collection: ModelField<IAString>? = nil,
-                collectionsRaw: ModelField<IAString>? = nil,
-                collectionSize: ModelField<IAInt>? = nil,
-                coverage: ModelField<IAString>? = nil,
-                creator: ModelField<IAString>? = nil,
-                curation: ModelField<IAString>? = nil,
-                date: ModelField<IADate>? = nil,
-                description: ModelField<IAString>? = nil,
-                downloads: ModelField<IAInt>? = nil,
-                discs: ModelField<IAString>? = nil,
-                filesCount: ModelField<IAInt>? = nil,
-                format: ModelField<IAString>? = nil,
-                hasMp3: ModelField<IAString>? = nil,
-                hidden: ModelField<IABool>? = nil,
-                homepage: ModelField<IAURL>? = nil,
-                identifier: String,
-                indexdate: ModelField<IADate>? = nil,
-                indexflag: ModelField<IAString>? = nil,
-                isDark: ModelField<IAString>? = nil,
-                itemCount: ModelField<IAInt>? = nil,
-                itemSize: ModelField<IAInt>? = nil,
-                lineage: ModelField<IAString>? = nil,
-                limflag: ModelField<IAString>? = nil,
-                md5s: ModelField<IAString>? = nil,
-                mediatype: ModelField<IAString>? = nil,
-                month: ModelField<IAInt>? = nil,
-                notes: ModelField<IAString>? = nil,
-                numericId: ModelField<IAInt>? = nil,
-                numReviews: ModelField<IAInt>? = nil,
-                numRecentReviews: ModelField<IAInt>? = nil,
-                numTopBa: ModelField<IAInt>? = nil,
-                numTopDl: ModelField<IAInt>? = nil,
-                oaiUpdatedate: ModelField<IADate>? = nil,
-                pick: ModelField<IAString>? = nil,
-                `public`: ModelField<IAString>? = nil,
-                publicdate: ModelField<IADate>? = nil,
-                publisher: ModelField<IAString>? = nil,
-                reviewdate: ModelField<IADate>? = nil,
-                rights: ModelField<IAString>? = nil,
-                runtime: ModelField<IAString>? = nil,
-                shndiscs: ModelField<IAString>? = nil,
-                showSearchByYear: ModelField<IABool>? = nil,
-                showSearchByDate: ModelField<IABool>? = nil,
-                source: ModelField<IAString>? = nil,
-                spotlightIdentifier: ModelField<IAString>? = nil,
-                subject: ModelField<IAString>? = nil,
-                taper: ModelField<IAString>? = nil,
-                tasks: ModelField<IAString>? = nil,
-                title: ModelField<IAString>? = nil,
-                transferer: ModelField<IAString>? = nil,
-                type: ModelField<IAString>? = nil,
-                updated: ModelField<IAString>? = nil,
-                updatedate: ModelField<IADate>? = nil,
-                updater: ModelField<IAString>? = nil,
-                uploader: ModelField<IAString>? = nil,
-                venue: ModelField<IAString>? = nil,
-                week: ModelField<IAInt>? = nil,
-                year: ModelField<IAInt>? = nil) {
+    public init(
+      addeddate: ModelField<IADate>? = nil,
+      adder: ModelField<IAString>? = nil,
+      avgRating: ModelField<IADouble>? = nil,
+      backupLocation: ModelField<IAString>? = nil,
+      collection: ModelField<IAString>? = nil,
+      collectionsRaw: ModelField<IAString>? = nil,
+      collectionSize: ModelField<IAInt>? = nil,
+      coverage: ModelField<IAString>? = nil,
+      creator: ModelField<IAString>? = nil,
+      curation: ModelField<IAString>? = nil,
+      date: ModelField<IADate>? = nil,
+      description: ModelField<IAString>? = nil,
+      downloads: ModelField<IAInt>? = nil,
+      discs: ModelField<IAString>? = nil,
+      filesCount: ModelField<IAInt>? = nil,
+      format: ModelField<IAString>? = nil,
+      hasMp3: ModelField<IAString>? = nil,
+      hidden: ModelField<IABool>? = nil,
+      homepage: ModelField<IAURL>? = nil,
+      identifier: String,
+      indexdate: ModelField<IADate>? = nil,
+      indexflag: ModelField<IAString>? = nil,
+      isDark: ModelField<IAString>? = nil,
+      itemCount: ModelField<IAInt>? = nil,
+      itemSize: ModelField<IAInt>? = nil,
+      lineage: ModelField<IAString>? = nil,
+      limflag: ModelField<IAString>? = nil,
+      md5s: ModelField<IAString>? = nil,
+      mediatype: ModelField<IAString>? = nil,
+      month: ModelField<IAInt>? = nil,
+      notes: ModelField<IAString>? = nil,
+      numericId: ModelField<IAInt>? = nil,
+      numReviews: ModelField<IAInt>? = nil,
+      numRecentReviews: ModelField<IAInt>? = nil,
+      numTopBa: ModelField<IAInt>? = nil,
+      numTopDl: ModelField<IAInt>? = nil,
+      oaiUpdatedate: ModelField<IADate>? = nil,
+      pick: ModelField<IAString>? = nil,
+      `public`: ModelField<IAString>? = nil,
+      publicdate: ModelField<IADate>? = nil,
+      publisher: ModelField<IAString>? = nil,
+      reviewdate: ModelField<IADate>? = nil,
+      rights: ModelField<IAString>? = nil,
+      runtime: ModelField<IAString>? = nil,
+      shndiscs: ModelField<IAString>? = nil,
+      showSearchByYear: ModelField<IABool>? = nil,
+      showSearchByDate: ModelField<IABool>? = nil,
+      source: ModelField<IAString>? = nil,
+      spotlightIdentifier: ModelField<IAString>? = nil,
+      subject: ModelField<IAString>? = nil,
+      taper: ModelField<IAString>? = nil,
+      tasks: ModelField<IAString>? = nil,
+      title: ModelField<IAString>? = nil,
+      transferer: ModelField<IAString>? = nil,
+      type: ModelField<IAString>? = nil,
+      updated: ModelField<IAString>? = nil,
+      updatedate: ModelField<IADate>? = nil,
+      updater: ModelField<IAString>? = nil,
+      uploader: ModelField<IAString>? = nil,
+      venue: ModelField<IAString>? = nil,
+      week: ModelField<IAInt>? = nil,
+      year: ModelField<IAInt>? = nil
+    ) {
       self.addeddate = addeddate
       self.adder = adder
       self.avgRating = avgRating

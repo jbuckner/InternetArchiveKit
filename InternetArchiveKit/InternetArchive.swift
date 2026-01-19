@@ -6,45 +6,46 @@
 //  Copyright © 2018 Jason Buckner. All rights reserved.
 //
 
-import os.log
 import Foundation
 import ZippyJSON
+import os.log
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
-/**
- Interact with the InternetArchive API
-
- ### Example Usage
- ```
- let query = InternetArchive.Query(
-   clauses: ["collection": "etree", "mediatype": "collection"])
- let archive = InternetArchive()
-
- let results = await archive.search(query: query, page: 0, rows: 10)
- switch results {
- case .success(let items):
-    // debugPrint(items)
- case .failure(let error):
-    // debugPrint(error)
- }
-
- let result = await archive.itemDetail(identifier: "sci2007-07-28.Schoeps")
- switch result {
- case .success(let item):
-    // debugPrint(item)
- case .failure(let error):
-    // debugPrint(error)
- }
- ```
- */
+/// Interact with the InternetArchive API
+///
+/// ### Example Usage
+/// ```
+/// let query = InternetArchive.Query(
+///   clauses: ["collection": "etree", "mediatype": "collection"])
+/// let archive = InternetArchive()
+///
+/// let results = await archive.search(query: query, page: 0, rows: 10)
+/// switch results {
+/// case .success(let items):
+///    // debugPrint(items)
+/// case .failure(let error):
+///    // debugPrint(error)
+/// }
+///
+/// let result = await archive.itemDetail(identifier: "sci2007-07-28.Schoeps")
+/// switch result {
+/// case .success(let item):
+///    // debugPrint(item)
+/// case .failure(let error):
+///    // debugPrint(error)
+/// }
+/// ```
 public class InternetArchive: InternetArchiveProtocol {
   public convenience init() {
     let urlGenerator = URLGenerator()
     self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
   }
 
-  public init(urlGenerator: InternetArchiveURLGeneratorProtocol, urlSession: URLSession) {
+  public init(
+    urlGenerator: InternetArchiveURLGeneratorProtocol,
+    urlSession: URLSession
+  ) {
     self.urlGenerator = urlGenerator
     self.urlSession = urlSession
   }
@@ -65,11 +66,22 @@ public class InternetArchive: InternetArchiveProtocol {
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?
   ) async -> Result<SearchResponse, Error> {
-    guard let searchUrl: URL = urlGenerator.generateSearchUrl(
-      query: query, page: page, rows: rows, fields: fields ?? [], sortFields: sortFields ?? [],
-      additionalQueryParams: [])
+    guard
+      let searchUrl: URL = urlGenerator.generateSearchUrl(
+        query: query,
+        page: page,
+        rows: rows,
+        fields: fields ?? [],
+        sortFields: sortFields ?? [],
+        additionalQueryParams: []
+      )
     else {
-      os_log(.error, log: log, "Error generating search url: %@", query.asURLString ?? "Unknown query.asURLString")
+      os_log(
+        .error,
+        log: log,
+        "Error generating search url: %@",
+        query.asURLString ?? "Unknown query.asURLString"
+      )
       return .failure(InternetArchiveError.invalidUrl)
     }
 
@@ -87,7 +99,12 @@ public class InternetArchive: InternetArchiveProtocol {
   ) {
     Task {
       let results: Result<SearchResponse, Error> = await search(
-        query: query, page: page, rows: rows, fields: fields, sortFields: sortFields)
+        query: query,
+        page: page,
+        rows: rows,
+        fields: fields,
+        sortFields: sortFields
+      )
       switch results {
       case .success(let response):
         completion(response, nil)
@@ -99,8 +116,17 @@ public class InternetArchive: InternetArchiveProtocol {
 
   /** @inheritdoc */
   public func itemDetail(identifier: String) async -> Result<Item, Error> {
-    guard let metadataUrl: URL = urlGenerator.generateMetadataUrl(identifier: identifier) else {
-      os_log(.error, log: log, "itemDetail error generating metadata url, identifier: %{public}@", identifier)
+    guard
+      let metadataUrl: URL = urlGenerator.generateMetadataUrl(
+        identifier: identifier
+      )
+    else {
+      os_log(
+        .error,
+        log: log,
+        "itemDetail error generating metadata url, identifier: %{public}@",
+        identifier
+      )
       return .failure(InternetArchiveError.invalidUrl)
     }
 
@@ -108,9 +134,14 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   /** @inheritdoc */
-  public func itemDetail(identifier: String, completion: @escaping (InternetArchive.Item?, Error?) -> Void) {
+  public func itemDetail(
+    identifier: String,
+    completion: @escaping (InternetArchive.Item?, Error?) -> Void
+  ) {
     Task {
-      let results: Result<Item, Error> = await itemDetail(identifier: identifier)
+      let results: Result<Item, Error> = await itemDetail(
+        identifier: identifier
+      )
       switch results {
       case .success(let response):
         completion(response, nil)
@@ -120,23 +151,43 @@ public class InternetArchive: InternetArchiveProtocol {
     }
   }
 
-  private func makeRequest<T>(url: URL) async -> Result<T, Error> where T: Decodable {
-    os_log(.info, log: log, "makeRequest start, url: %{public}@", url.absoluteString)
+  private func makeRequest<T>(url: URL) async -> Result<T, Error>
+  where T: Decodable {
+    os_log(
+      .info,
+      log: log,
+      "makeRequest start, url: %{public}@",
+      url.absoluteString
+    )
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
       let (data, _) = try await urlSession.data(from: url)
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
-      os_log(.info, log: log, "makeRequest completed in %{public}f s, url: %{public}@", timeElapsed, url.absoluteString)
+      os_log(
+        .info,
+        log: log,
+        "makeRequest completed in %{public}f s, url: %{public}@",
+        timeElapsed,
+        url.absoluteString
+      )
       let results: T = try jsonDecoder.decode(T.self, from: data)
       return .success(results)
     } catch {
-      os_log(.error, log: log, "makeRequest, error: %{public}@", error.localizedDescription)
+      os_log(
+        .error,
+        log: log,
+        "makeRequest, error: %{public}@",
+        error.localizedDescription
+      )
       return .failure(error)
     }
   }
 
   private let urlSession: URLSession
 
-  private let log: OSLog = OSLog(subsystem: logSubsystemId, category: "InternetArchive")
+  private let log: OSLog = OSLog(
+    subsystem: logSubsystemId,
+    category: "InternetArchive"
+  )
 }

@@ -30,8 +30,15 @@ class DateParser {
 
   // the parsers to try in order of priority
   private lazy var parsers: [DateParserProtocol] = {
-    return [isoFormatter, dateTimeFormatter, yearMonthDayFormatter, yearMonthFormatter, yearFormatter,
-            yearBracketFormatter, yearCircaFormatter]
+    return [
+      isoFormatter,
+      dateTimeFormatter,
+      yearMonthDayFormatter,
+      yearMonthFormatter,
+      yearFormatter,
+      yearBracketFormatter,
+      yearCircaFormatter,
+    ]
   }()
 
   private lazy var yearFormatter: DateParserProtocol = {

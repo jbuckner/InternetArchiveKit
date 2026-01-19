@@ -51,24 +51,33 @@ extension InternetArchive {
   */
   public struct Query: InternetArchiveURLStringProtocol {
     public var clauses: [InternetArchiveURLStringProtocol]
-    public var asURLString: String? { // eg `collection:(etree) AND -title:(foo)`
+    public var asURLString: String? {  // eg `collection:(etree) AND -title:(foo)`
       guard clauses.count > 0 else { return nil }
       let paramStrings: [String] = clauses.compactMap { $0.asURLString }
-      let joinedClauses = paramStrings.joined(separator: " \(booleanOperator.rawValue) ")
+      let joinedClauses = paramStrings.joined(
+        separator: " \(booleanOperator.rawValue) "
+      )
       let surroundedClauses = "(\(joinedClauses))"
       return surroundedClauses
     }
     public let booleanOperator: QueryBooleanOperator
 
     // Convenience initializer to just pass in a bunch of key:values
-    public init(clauses: [String: String], booleanOperator: QueryBooleanOperator = .and) {
-      let params: [QueryClause] = clauses.compactMap { (param: (key: String, value: String)) -> QueryClause? in
+    public init(
+      clauses: [String: String],
+      booleanOperator: QueryBooleanOperator = .and
+    ) {
+      let params: [QueryClause] = clauses.compactMap {
+        (param: (key: String, value: String)) -> QueryClause? in
         return QueryClause(field: param.key, value: param.value)
       }
       self.init(clauses: params, booleanOperator: booleanOperator)
     }
 
-    public init(clauses: [InternetArchiveURLStringProtocol], booleanOperator: QueryBooleanOperator = .and) {
+    public init(
+      clauses: [InternetArchiveURLStringProtocol],
+      booleanOperator: QueryBooleanOperator = .and
+    ) {
       self.clauses = clauses
       self.booleanOperator = booleanOperator
     }
@@ -76,7 +85,7 @@ extension InternetArchive {
 
   public enum QueryBooleanOperator: String {
     case and = "AND"
-    case or = "OR" // swiftlint:disable:this identifier_name
+    case or = "OR"
   }
 
   /**
@@ -100,7 +109,7 @@ extension InternetArchive {
     public let values: [String]
     public let exactMatch: Bool
     public let booleanOperator: QueryClauseBooleanOperator
-    public var asURLString: String? { // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
+    public var asURLString: String? {  // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
         return exactMatch ? "\"\(value)\"" : "(\(value))"
@@ -117,7 +126,12 @@ extension InternetArchive {
       booleanOperator: QueryClauseBooleanOperator = .and,
       exactMatch: Bool = false
     ) {
-      self.init(field: field, values: [value], booleanOperator: booleanOperator, exactMatch: exactMatch)
+      self.init(
+        field: field,
+        values: [value],
+        booleanOperator: booleanOperator,
+        exactMatch: exactMatch
+      )
     }
 
     // field can be empty if you just want to search
@@ -194,10 +208,12 @@ extension InternetArchive {
     public let rangeStart: Double
     public let rangeEnd: Double
     public var asURLString: String? {
-      let startString: String = rangeStart.truncatingRemainder(dividingBy: 1) == 0 ?
-        "\(Int(rangeStart))" : "\(rangeStart)"
-      let endString: String = rangeEnd.truncatingRemainder(dividingBy: 1) == 0 ?
-        "\(Int(rangeEnd))" : "\(rangeEnd)"
+      let startString: String =
+        rangeStart.truncatingRemainder(dividingBy: 1) == 0
+        ? "\(Int(rangeStart))" : "\(rangeStart)"
+      let endString: String =
+        rangeEnd.truncatingRemainder(dividingBy: 1) == 0
+        ? "\(Int(rangeEnd))" : "\(rangeEnd)"
       return QueryRangeFormatter.formatRangeString(
         queryField: queryField,
         rangeStart: startString,
@@ -258,7 +274,7 @@ extension InternetArchive {
 
   public enum QueryClauseBooleanOperator: String {
     case and = ""
-    case not = "-" // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
+    case not = "-"  // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
   }
 }
 
@@ -278,7 +294,10 @@ extension InternetArchive {
     public let field: String
     public let direction: SortDirection
     public var asQueryItem: URLQueryItem {
-      return URLQueryItem(name: "sort[]", value: "\(self.field) \(self.direction)")
+      return URLQueryItem(
+        name: "sort[]",
+        value: "\(self.field) \(self.direction)"
+      )
     }
 
     public init(field: String, direction: SortDirection) {

@@ -11,7 +11,7 @@ import Foundation
 extension InternetArchive {
   /**
    Internet Archive `Int` field
-
+  
    ### Example Usage
    ```
    let intField = IAInt(fromString: "3")
@@ -19,7 +19,7 @@ extension InternetArchive {
    ```
    */
   public class IAInt: ModelFieldProtocol {
-    public typealias FieldType = Int // swiftlint:disable:this nesting
+    public typealias FieldType = Int
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -31,7 +31,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `String` field
-
+  
    ### Example Usage
    ```
    let stringField = IAInt(fromString: "Foo")
@@ -39,7 +39,7 @@ extension InternetArchive {
    ```
    */
   public class IAString: ModelFieldProtocol {
-    public typealias FieldType = String // swiftlint:disable:this nesting
+    public typealias FieldType = String
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = string
@@ -51,7 +51,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Double` field
-
+  
    ### Example Usage
    ```
    let doubleField = IADouble(fromString: "13.54")
@@ -59,7 +59,7 @@ extension InternetArchive {
    ```
    */
   public class IADouble: ModelFieldProtocol {
-    public typealias FieldType = Double // swiftlint:disable:this nesting
+    public typealias FieldType = Double
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -71,7 +71,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Bool` field
-
+  
    ### Example Usage
    ```
    let boolField = IABool(fromString: "true")
@@ -79,7 +79,7 @@ extension InternetArchive {
    ```
    */
   public class IABool: ModelFieldProtocol {
-    public typealias FieldType = Bool // swiftlint:disable:this nesting
+    public typealias FieldType = Bool
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string)
@@ -91,7 +91,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `URL` field
-
+  
    ### Example Usage
    ```
    let urlField = IAURL(fromString: "https://archive.org")
@@ -99,7 +99,7 @@ extension InternetArchive {
    ```
    */
   public class IAURL: ModelFieldProtocol {
-    public typealias FieldType = URL // swiftlint:disable:this nesting
+    public typealias FieldType = URL
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = FieldType.init(string: string)
@@ -111,7 +111,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Date` field
-
+  
    Parses the following formats:
    - ISO8601 (`2018-11-15T08:23:41Z`, `2018-11-15T08:23:41-07:00`, etc)
    - Date Time (`2018-03-25 14:51:24`)
@@ -120,10 +120,10 @@ extension InternetArchive {
    - Year Month (`2018-09`)
    - Approximate Year (`[2018]`)
    - Circa Year (`c.a. 2018`)
-
+  
    **Note:** The "approximate" and "circa" formats do not have a representation that they're approximate,
    since the `Date` type has no way of representing it.
-
+  
    ### Example Usage
    ```
    let dateField = IADate(fromString: "2018-11-15T08:23:41Z")
@@ -131,7 +131,7 @@ extension InternetArchive {
    ```
    */
   public class IADate: ModelFieldProtocol {
-    public typealias FieldType = Date // swiftlint:disable:this nesting
+    public typealias FieldType = Date
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = parseString(string: string)
@@ -148,22 +148,22 @@ extension InternetArchive {
 
   /**
    Internet Archive `TimeInterval` field. Used for fields like `length` of an audio file.
-
+  
    Parses the following formats:
    - Seconds.Milliseconds (`323.4`)
    - Duration (`5:23.4`)
-
+  
    ### Example Usage
    ```
    let timeIntervalField1 = IATimeInterval(fromString: "12:37.4")
    timeIntervalField1.value => TimeInterval 757.4
-
+  
    let timeIntervalField2 = IATimeInterval(fromString: "526.7")
    timeIntervalField2.value => TimeInterval 526.7
    ```
    */
   public class IATimeInterval: ModelFieldProtocol {
-    public typealias FieldType = TimeInterval // swiftlint:disable:this nesting
+    public typealias FieldType = TimeInterval
     public var value: FieldType?
     required public init?(fromString string: String) {
       self.value = parseString(string: string)
@@ -178,7 +178,8 @@ extension InternetArchive {
 
       let componentArray: [String] = string.components(separatedBy: ":")
       let componentCount: Int = componentArray.count
-      let seconds: Double = componentArray.enumerated().compactMap({ (offset: Int, element: String) -> Double? in
+      let seconds: Double = componentArray.enumerated().compactMap({
+        (offset: Int, element: String) -> Double? in
         guard let componentValue: Double = Double(element) else { return nil }
         let exponent: Int = (componentCount - 1) - offset
         let multiplier: Decimal = pow(60, exponent)

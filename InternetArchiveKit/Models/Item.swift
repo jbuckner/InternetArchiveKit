@@ -19,8 +19,8 @@ extension InternetArchive {
     public let collection: ModelField<IAString>?
     public let creator: ModelField<IAString>?
     public let metadata: ItemMetadata?
-    public let d1: ModelField<IAString>? // swiftlint:disable:this identifier_name
-    public let d2: ModelField<IAString>? // swiftlint:disable:this identifier_name
+    public let d1: ModelField<IAString>?
+    public let d2: ModelField<IAString>?
     public let dir: ModelField<IAString>?
     public let isCollection: ModelField<IABool>?
     public let isDark: Bool?
@@ -32,22 +32,24 @@ extension InternetArchive {
     public let files: [File]?
     public let reviews: [Review]?
 
-    public init(created: ModelField<IAInt>? = nil,
-                collection: ModelField<IAString>? = nil,
-                creator: ModelField<IAString>? = nil,
-                metadata: ItemMetadata? = nil,
-                d1: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
-                d2: ModelField<IAString>? = nil, // swiftlint:disable:this identifier_name
-                dir: ModelField<IAString>? = nil,
-                isCollection: ModelField<IABool>? = nil,
-                isDark: Bool? = nil,
-                filesCount: ModelField<IAInt>? = nil,
-                itemSize: ModelField<IAInt>? = nil,
-                server: ModelField<IAString>? = nil,
-                uniq: ModelField<IAInt>? = nil,
-                workableServers: ModelField<IAString>? = nil,
-                files: [File]? = nil,
-                reviews: [Review]? = nil) {
+    public init(
+      created: ModelField<IAInt>? = nil,
+      collection: ModelField<IAString>? = nil,
+      creator: ModelField<IAString>? = nil,
+      metadata: ItemMetadata? = nil,
+      d1: ModelField<IAString>? = nil,
+      d2: ModelField<IAString>? = nil,
+      dir: ModelField<IAString>? = nil,
+      isCollection: ModelField<IABool>? = nil,
+      isDark: Bool? = nil,
+      filesCount: ModelField<IAInt>? = nil,
+      itemSize: ModelField<IAInt>? = nil,
+      server: ModelField<IAString>? = nil,
+      uniq: ModelField<IAInt>? = nil,
+      workableServers: ModelField<IAString>? = nil,
+      files: [File]? = nil,
+      reviews: [Review]? = nil
+    ) {
       self.created = created
       self.collection = collection
       self.creator = creator

@@ -17,10 +17,10 @@ extension InternetArchive {
 
     /**
      Generate the metadata url for an Internet Archive search
-
+    
      - parameters:
      - identifier: The item identifier
-
+    
      - returns: Optional metadata `URL`
      */
     public func generateMetadataUrl(identifier: String) -> URL? {
@@ -31,10 +31,10 @@ extension InternetArchive {
 
     /**
      Generate the item image url for an Internet Archive item
-
+    
      - parameters:
      - itemIdentifier: The item identifier
-
+    
      - returns: Optional item image `URL`
      */
     public func generateItemImageUrl(itemIdentifier: String) -> URL? {
@@ -45,35 +45,41 @@ extension InternetArchive {
 
     /**
      Generate the download url for an Internet Archive file
-
+    
      - parameters:
      - itemIdentifier: The item identifier
      - fileName: The file name
-
+    
      - returns: Optional file download `URL`
      */
-    public func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
+    public func generateDownloadUrl(itemIdentifier: String, fileName: String)
+      -> URL?
+    {
       var urlComponents: URLComponents = getBaseUrlComponents()
       urlComponents.path = "/download/\(itemIdentifier)/\(fileName)"
       return urlComponents.url
     }
 
-    // swiftlint:disable:next function_parameter_count
-    public func generateSearchUrl(query: InternetArchiveURLStringProtocol,
-                                  page: Int,
-                                  rows: Int,
-                                  fields: [String],
-                                  sortFields: [InternetArchiveURLQueryItemProtocol],
-                                  additionalQueryParams: [URLQueryItem]) -> URL? {
+    public func generateSearchUrl(
+      query: InternetArchiveURLStringProtocol,
+      page: Int,
+      rows: Int,
+      fields: [String],
+      sortFields: [InternetArchiveURLQueryItemProtocol],
+      additionalQueryParams: [URLQueryItem]
+    ) -> URL? {
 
-      let fieldParams: [URLQueryItem] = fields.compactMap { URLQueryItem(name: "fl[]", value: $0) }
+      let fieldParams: [URLQueryItem] = fields.compactMap {
+        URLQueryItem(name: "fl[]", value: $0)
+      }
       let sortParams: [URLQueryItem] = sortFields.compactMap { $0.asQueryItem }
-      let params: [URLQueryItem] = sortParams + fieldParams + additionalQueryParams + [
-        URLQueryItem(name: "q", value: query.asURLString),
-        URLQueryItem(name: "output", value: "json"),
-        URLQueryItem(name: "rows", value: "\(rows)"),
-        URLQueryItem(name: "page", value: "\(page)")
-      ]
+      let params: [URLQueryItem] =
+        sortParams + fieldParams + additionalQueryParams + [
+          URLQueryItem(name: "q", value: query.asURLString),
+          URLQueryItem(name: "output", value: "json"),
+          URLQueryItem(name: "rows", value: "\(rows)"),
+          URLQueryItem(name: "page", value: "\(page)"),
+        ]
 
       var urlComponents: URLComponents = getBaseUrlComponents()
       urlComponents.path = "/advancedsearch.php"

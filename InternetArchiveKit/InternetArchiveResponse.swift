@@ -16,7 +16,7 @@ extension InternetArchive {
   public struct SearchResponse: Decodable {
     public let responseHeader: ResponseHeader
     public let response: Response
-    
+
     public init(
       responseHeader: ResponseHeader,
       response: Response
@@ -33,7 +33,7 @@ extension InternetArchive {
     public let status: Int
     public let QTime: Int
     public let params: ResponseParams
-    
+
     public init(
       status: Int,
       QTime: Int,
@@ -52,7 +52,7 @@ extension InternetArchive {
     public let numFound: Int
     public let start: Int
     public let docs: [ItemMetadata]
-    
+
     public init(
       numFound: Int,
       start: Int,
@@ -66,20 +66,20 @@ extension InternetArchive {
 
   /**
    The response parameters from a search request
-
+  
    This contains the query information that you sent in the search request.
    */
   public struct ResponseParams: Decodable {
     public let query: String
     public let qin: String
     public let fields: String
-    public let wt: String // swiftlint:disable:this identifier_name
+    public let wt: String
     // this is a ModelField<IAInt> because the Archive switched
     // from a string to a number and broke parsing so this
     // adds resiliency to the data type
     public let rows: ModelField<IAInt>?
     public let start: Int
-    
+
     public init(
       query: String,
       qin: String,
