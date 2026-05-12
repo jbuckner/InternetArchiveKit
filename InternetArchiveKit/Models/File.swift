@@ -47,7 +47,7 @@ extension InternetArchive {
     public let mtime: ModelField<IAInt>?
     public let name: String
     public let original: ModelField<IAString>?
-    public let `private`: ModelField<IAString>?
+    public let `private`: ModelField<IABool>?
     public let sha1: ModelField<IAString>?
     public let size: ModelField<IAInt>?
     public let source: ModelField<IAString>?
@@ -67,7 +67,7 @@ extension InternetArchive {
       mtime: ModelField<IAInt>? = nil,
       name: String,
       original: ModelField<IAString>? = nil,
-      private: ModelField<IAString>? = nil,
+      private: ModelField<IABool>? = nil,
       sha1: ModelField<IAString>? = nil,
       size: ModelField<IAInt>? = nil,
       source: ModelField<IAString>? = nil,

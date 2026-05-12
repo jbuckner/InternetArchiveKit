@@ -30,7 +30,10 @@ class FileTests: XCTestCase {
     XCTAssertEqual(file.name, "foo")
   }
 
-  func testDecodesPrivateField() throws {
+  func testDecodesPrivateFieldFromString() throws {
+    // The Internet Archive metadata API returns `"private"` as a JSON string ("true"),
+    // not a JSON boolean. `ModelField<IABool>` falls back to `IABool(fromString:)`,
+    // which uses `Bool.init(_ description: String)` to parse "true" / "false".
     let json = #"""
     {
       "name": "frtr100312d1_01_Ripple.flac",
@@ -42,7 +45,7 @@ class FileTests: XCTestCase {
 
     let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
     XCTAssertEqual(file.name, "frtr100312d1_01_Ripple.flac")
-    XCTAssertEqual(file.private?.value, "true")
+    XCTAssertEqual(file.private?.value, true)
   }
 
   func testPrivateFieldNilWhenAbsent() throws {
