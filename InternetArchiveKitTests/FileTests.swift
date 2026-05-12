@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import ZippyJSON
 import InternetArchiveKit
 
 class FileTests: XCTestCase {
@@ -27,6 +28,33 @@ class FileTests: XCTestCase {
     XCTAssertEqual(file.title?.value, "boop")
     XCTAssertEqual(file.track?.value, 3)
     XCTAssertEqual(file.name, "foo")
+  }
+
+  func testDecodesPrivateField() throws {
+    let json = #"""
+    {
+      "name": "frtr100312d1_01_Ripple.flac",
+      "format": "Flac",
+      "source": "original",
+      "private": "true"
+    }
+    """#.data(using: .utf8)!
+
+    let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
+    XCTAssertEqual(file.name, "frtr100312d1_01_Ripple.flac")
+    XCTAssertEqual(file.private?.value, "true")
+  }
+
+  func testPrivateFieldNilWhenAbsent() throws {
+    let json = #"""
+    {
+      "name": "frtr100312d1_01_Ripple.mp3",
+      "format": "VBR MP3"
+    }
+    """#.data(using: .utf8)!
+
+    let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
+    XCTAssertNil(file.private)
   }
 
 }
