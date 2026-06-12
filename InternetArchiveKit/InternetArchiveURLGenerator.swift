@@ -7,9 +7,17 @@
 //
 
 import Foundation
+import os.log
 
 extension InternetArchive {
   public class URLGenerator: InternetArchiveURLGeneratorProtocol {
+    /// archive.org's search gateway rejects `q` values somewhere above
+    /// ~1,900–2,000 characters — HTTP 200 with an `{"error": "…"}` body
+    /// (surfaced as `InternetArchiveError.apiError`). This budget leaves
+    /// headroom below the measured limit; clients batching values into a
+    /// single clause should chunk against it.
+    public static let recommendedMaxQueryLength: Int = 1_800
+
     public init(host: String = "archive.org", scheme: String = "https") {
       self.host = host
       self.scheme = scheme
@@ -68,6 +76,7 @@ extension InternetArchive {
       sortFields: [InternetArchiveURLQueryItemProtocol],
       additionalQueryParams: [URLQueryItem]
     ) -> URL? {
+      warnIfQueryExceedsRecommendedLength(query.asURLString)
 
       let fieldParams: [URLQueryItem] = fields.compactMap {
         URLQueryItem(name: "fl[]", value: $0)
@@ -94,7 +103,40 @@ extension InternetArchive {
       return urlComponents
     }
 
+    /// `true` when the assembled `q` string is over
+    /// `recommendedMaxQueryLength`. Split out from the warning so the
+    /// predicate is testable without tripping `assertionFailure`.
+    static func queryExceedsRecommendedLength(_ queryString: String?) -> Bool {
+      (queryString?.count ?? 0) > recommendedMaxQueryLength
+    }
+
+    /// The request is still sent — the gateway's `{"error": …}` body comes
+    /// back as `InternetArchiveError.apiError` — but an oversized query is
+    /// almost certainly a batching bug, so fail loudly in development.
+    private func warnIfQueryExceedsRecommendedLength(_ queryString: String?) {
+      guard Self.queryExceedsRecommendedLength(queryString),
+            let queryString = queryString else { return }
+      os_log(
+        .error,
+        log: log,
+        "search query is %d chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (%d). Query prefix: %{public}@",
+        queryString.count,
+        Self.recommendedMaxQueryLength,
+        String(queryString.prefix(120))
+      )
+      assertionFailure(
+        "archive.org search query is \(queryString.count) chars — over the "
+          + "~2,000-char gateway limit. Chunk the query against "
+          + "URLGenerator.recommendedMaxQueryLength."
+      )
+    }
+
     private let host: String
     private let scheme: String
+
+    private let log: OSLog = OSLog(
+      subsystem: logSubsystemId,
+      category: "URLGenerator"
+    )
   }
 }

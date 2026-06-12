@@ -12,7 +12,35 @@ extension InternetArchive {
   /**
    Errors that may be returned by the InternetArchive class
    */
-  public enum InternetArchiveError: Error {
+  public enum InternetArchiveError: Error, Equatable {
     case invalidUrl
+
+    /// The API answered HTTP 200 but the body was an error envelope
+    /// (`{"error": "…"}`) instead of the expected payload. archive.org
+    /// signals rejected searches this way — for example a `q` parameter
+    /// over ~2,000 characters returns
+    /// `{"error": "[UNSUPPORTED_VALUE] …"}` with no `response` block.
+    /// `message` carries the API's error string.
+    case apiError(message: String)
+  }
+}
+
+extension InternetArchive.InternetArchiveError: LocalizedError {
+  public var errorDescription: String? {
+    switch self {
+    case .invalidUrl:
+      return "Invalid URL"
+    case .apiError(let message):
+      return "Internet Archive API error: \(message)"
+    }
+  }
+}
+
+extension InternetArchive {
+  /// The HTTP-200 error envelope shape, e.g.
+  /// `{"error": "[UNSUPPORTED_VALUE] …"}`. Used to distinguish an API
+  /// rejection from a payload-shape decoding failure in `makeRequest`.
+  struct APIErrorEnvelope: Decodable {
+    let error: String
   }
 }
