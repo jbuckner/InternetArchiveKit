@@ -15,7 +15,7 @@ extension InternetArchive {
     public let reviewbody: ModelField<IAString>?
     public let reviewtitle: String?
     public let reviewer: String?
-    public let reviewer_itemname: String?
+    public let reviewerItemname: String?
     public let reviewdate: ModelField<IADate>?
     public let createdate: ModelField<IADate>?
     public let stars: ModelField<IADouble>?
@@ -24,7 +24,7 @@ extension InternetArchive {
       reviewbody: ModelField<IAString>? = nil,
       reviewtitle: String? = nil,
       reviewer: String? = nil,
-      reviewer_itemname: String? = nil,
+      reviewerItemname: String? = nil,
       reviewdate: ModelField<IADate>? = nil,
       createdate: ModelField<IADate>? = nil,
       stars: ModelField<IADouble>? = nil
@@ -32,7 +32,7 @@ extension InternetArchive {
       self.reviewbody = reviewbody
       self.reviewtitle = reviewtitle
       self.reviewer = reviewer
-      self.reviewer_itemname = reviewer_itemname
+      self.reviewerItemname = reviewerItemname
       self.reviewdate = reviewdate
       self.createdate = createdate
       self.stars = stars
