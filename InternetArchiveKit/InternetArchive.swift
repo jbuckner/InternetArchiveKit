@@ -171,7 +171,7 @@ public class InternetArchive: InternetArchiveProtocol {
         timeElapsed,
         url.absoluteString
       )
-      let results: T = try jsonDecoder.decode(T.self, from: data)
+      let results: T = try decodeResponse(data)
       return .success(results)
     } catch {
       os_log(
@@ -181,6 +181,24 @@ public class InternetArchive: InternetArchiveProtocol {
         error.localizedDescription
       )
       return .failure(error)
+    }
+  }
+
+  /// Decode the expected payload. If that fails and the body is an
+  /// HTTP-200 error envelope (`{"error": "…"}`), surface the API's
+  /// message as `InternetArchiveError.apiError` instead of the
+  /// shape-mismatch decoding error it would otherwise cause.
+  private func decodeResponse<T>(_ data: Data) throws -> T
+  where T: Decodable {
+    do {
+      return try jsonDecoder.decode(T.self, from: data)
+    } catch {
+      if let envelope = try? jsonDecoder.decode(
+        APIErrorEnvelope.self, from: data
+      ) {
+        throw InternetArchiveError.apiError(message: envelope.error)
+      }
+      throw error
     }
   }
 

@@ -5,7 +5,7 @@ let package = Package(
   name: "InternetArchiveKit",
   platforms: [
     .iOS(.v13),
-    .macOS(.v10_13)
+    .macOS(.v10_15)
   ],
   products: [
     .library(name: "InternetArchiveKit", targets: ["InternetArchiveKit"])
