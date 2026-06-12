@@ -119,7 +119,7 @@ extension InternetArchive {
       os_log(
         .error,
         log: log,
-        "search query is %d chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (%d). Query prefix: %{public}@",
+        "search query is %{public}d chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (%{public}d). Query prefix: %{public}@",
         queryString.count,
         Self.recommendedMaxQueryLength,
         String(queryString.prefix(120))
