@@ -51,4 +51,24 @@ class ReviewTests: XCTestCase {
     XCTAssertEqual(review.reviewerItemname, "@hughmcqtoo")
   }
 
+  // Deprecated context so the deprecated `reviewer_itemname` spellings can be
+  // exercised without compiler warnings.
+  @available(*, deprecated)
+  func testDeprecatedSnakeCaseSpellingsStillWork() throws {
+    let decoder = ZippyJSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+    let review = try decoder.decode(InternetArchive.Review.self, from: reviewJson)
+    XCTAssertEqual(review.reviewer_itemname, "@hughmcqtoo")
+
+    let constructed = InternetArchive.Review(reviewer_itemname: "@someuser")
+    XCTAssertEqual(constructed.reviewerItemname, "@someuser")
+    XCTAssertEqual(constructed.reviewer_itemname, "@someuser")
+
+    // Zero-argument and label-free calls must still resolve to the primary
+    // init — guards against overload ambiguity.
+    XCTAssertNil(InternetArchive.Review().reviewerItemname)
+    XCTAssertNil(InternetArchive.Review(reviewer: "someuser").reviewerItemname)
+  }
+
 }
