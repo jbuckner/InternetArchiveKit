@@ -21,7 +21,6 @@ extension InternetArchive {
     public let stars: ModelField<IADouble>?
 
     @available(*, deprecated, renamed: "reviewerItemname")
-    // swiftlint:disable:next identifier_name
     public var reviewer_itemname: String? { reviewerItemname }
 
     public init(
@@ -49,7 +48,6 @@ extension InternetArchive {
       reviewbody: ModelField<IAString>? = nil,
       reviewtitle: String? = nil,
       reviewer: String? = nil,
-      // swiftlint:disable:next identifier_name
       reviewer_itemname: String?,
       reviewdate: ModelField<IADate>? = nil,
       createdate: ModelField<IADate>? = nil,

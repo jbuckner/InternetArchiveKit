@@ -4,7 +4,7 @@ excluded:
   - InternetArchiveKitExample
 identifier_name:
   excluded:
-    - reviewer_itemname  # matches the Internet Archive API field name
+    - reviewer_itemname  # deprecated alias for reviewerItemname, kept for source compatibility
 type_name:
   min_length: 3
   max_length:
