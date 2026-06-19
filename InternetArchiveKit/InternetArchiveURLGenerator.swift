@@ -119,6 +119,8 @@ extension InternetArchive {
       os_log(
         .error,
         log: log,
+        // os_log formats are StaticStrings and can't be split across lines
+        // swiftlint:disable:next line_length
         "search query is %{public}d chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (%{public}d). Query prefix: %{public}@",
         queryString.count,
         Self.recommendedMaxQueryLength,

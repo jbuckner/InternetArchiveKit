@@ -1,6 +1,10 @@
 excluded:
+  - .build
   - InternetArchiveKitTests
   - InternetArchiveKitExample
+identifier_name:
+  excluded:
+    - reviewer_itemname  # matches the Internet Archive API field name
 type_name:
   min_length: 3
   max_length:
