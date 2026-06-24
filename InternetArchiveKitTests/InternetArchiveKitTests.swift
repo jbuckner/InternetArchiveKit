@@ -430,4 +430,29 @@ class InternetArchiveKitTests: XCTestCase {
     wait(for: [expectation], timeout: 30.0)
   }
 
+  func testScrapeAsyncThrows() async throws {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(
+      query: query,
+      fields: ["identifier"],
+      sortFields: nil,
+      cursor: nil
+    )
+    XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
+    XCTAssertTrue(response.items.count > 0)
+  }
+
+  func testScrapeAsyncThrowsInvalidUrl() async {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    do {
+      // the type annotation selects the `async throws` overload over the `async -> Result` one
+      let _: InternetArchive.ScrapeResponse = try await archive.scrape(
+        query: query, fields: nil, sortFields: nil, cursor: nil)
+      XCTFail("expected an error")
+    } catch {
+      XCTAssertEqual(error as? InternetArchive.InternetArchiveError, .invalidUrl)
+    }
+  }
+
 }
