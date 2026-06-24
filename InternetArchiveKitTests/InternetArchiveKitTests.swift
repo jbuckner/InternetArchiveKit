@@ -522,4 +522,31 @@ class InternetArchiveKitTests: XCTestCase {
     }
   }
 
+  // archive.org rejects a scrape sort where `identifier` is not the last key. The library catches
+  // it client-side and fails before sending the request.
+  func testScrapeRejectsMisplacedIdentifierSort() {
+    let expectation = XCTestExpectation(description: "Test Scrape Rejects Misplaced Identifier Sort")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let sortFields: [InternetArchive.SortField] = [
+      InternetArchive.SortField(field: "identifier", direction: .asc),
+      InternetArchive.SortField(field: "date", direction: .desc)
+    ]
+    InternetArchive().scrape(
+      query: query,
+      fields: ["identifier"],
+      sortFields: sortFields,
+      completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
+        XCTAssertNil(response)
+        XCTAssertEqual(
+          error as? InternetArchive.InternetArchiveError,
+          .invalidSortFields(message: "'identifier' must be the last sort field"))
+        XCTAssertEqual(
+          (error as? InternetArchive.InternetArchiveError)?.errorDescription,
+          "Invalid sort fields: 'identifier' must be the last sort field")
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 10)
+  }
+
 }

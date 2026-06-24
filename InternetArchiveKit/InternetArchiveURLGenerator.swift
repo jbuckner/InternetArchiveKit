@@ -183,6 +183,25 @@ extension InternetArchive {
       (queryString?.count ?? 0) > recommendedMaxQueryLength
     }
 
+    /// `true` when a scrape `sorts` lists `identifier` somewhere other than the
+    /// final position. archive.org rejects that (`identifier`, if present, must
+    /// be the last sort key); `identifier` alone or last is fine. Split out as a
+    /// static predicate so it is testable without a request — `scrape()` turns a
+    /// `true` here into `InternetArchiveError.invalidSortFields` before sending.
+    static func scrapeSortMisplacesIdentifier(
+      _ sortFields: [InternetArchiveURLQueryItemProtocol]
+    ) -> Bool {
+      // `SortField.asQueryItem` formats each value as "<field> <direction>", so
+      // the field name is the value's first whitespace-delimited token.
+      let fieldNames: [String] = sortFields.map {
+        String($0.asQueryItem.value?.split(separator: " ").first ?? "")
+      }
+      guard let identifierIndex = fieldNames.firstIndex(of: "identifier") else {
+        return false
+      }
+      return identifierIndex != fieldNames.count - 1
+    }
+
     /// The request is still sent — the gateway's `{"error": …}` body comes
     /// back as `InternetArchiveError.apiError` — but an oversized query is
     /// almost certainly a batching bug, so fail loudly in development.

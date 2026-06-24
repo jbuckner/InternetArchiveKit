@@ -93,7 +93,7 @@ A few nuances:
 
 - **Pagination is a single value, by design.** `pagination` is either `.cursor(...)` to resume or `.count(n)` to size a batch, never both: archive.org ignores the cursor if you also send a `count`, so the type makes that broken combination unrepresentable. Pass `nil` for the first batch at the server's default size (~5,000 items).
 - **`.count` is for a bounded pull.** Use `.count(n)` (100–10,000) to grab up to 10,000 matches in one request, or a smaller first page before scrolling. It sizes only the batch it rides on; once you continue with `.cursor`, batches revert to the server default (~5,000). To page through everything, leave `pagination` `nil` and scroll by cursor (what archive.org's own `internetarchive` Python client does).
-- **A custom sort caps scraping at 10,000 results.** Leave `sortFields` empty to scroll the full set (it walks in `identifier` order). If you do sort and include `identifier`, it has to be the last sort field.
+- **A custom sort caps scraping at 10,000 results.** Leave `sortFields` empty to scroll the full set (it walks in `identifier` order). If you do sort and include `identifier`, it has to be the last sort field; otherwise `scrape()` fails fast with `InternetArchiveError.invalidSortFields` before sending the request.
 - **No relevance ranking or faceting.** The Scrape API doesn't offer either; if you need them, use `search()`.
 
 Need only the count? `scrapeTotal(query:)` returns the match total without fetching any items:

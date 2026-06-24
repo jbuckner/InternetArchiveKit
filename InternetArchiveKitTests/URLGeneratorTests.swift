@@ -105,6 +105,23 @@ class APIControllerTests: XCTestCase {
     XCTAssertFalse(names.contains("count"))
   }
 
+  func testScrapeSortMisplacesIdentifier() {
+    let id = InternetArchive.SortField(field: "identifier", direction: .asc)
+    let date = InternetArchive.SortField(field: "date", direction: .desc)
+    let downloads = InternetArchive.SortField(field: "downloads", direction: .desc)
+
+    // valid: identifier absent, alone, or last
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([date]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([date, id]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([downloads, id]))
+
+    // invalid: identifier present but not last
+    XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, date]))
+    XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, downloads, date]))
+  }
+
   func testGenerateDownloadUrl() {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     if let url: URL = urlGenerator.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {

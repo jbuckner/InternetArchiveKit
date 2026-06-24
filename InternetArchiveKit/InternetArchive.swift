@@ -121,6 +121,14 @@ public class InternetArchive: InternetArchiveProtocol {
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
     pagination: ScrapePagination?
   ) async -> Result<ScrapeResponse, Error> {
+    if URLGenerator.scrapeSortMisplacesIdentifier(sortFields ?? []) {
+      return .failure(
+        InternetArchiveError.invalidSortFields(
+          message: "'identifier' must be the last sort field"
+        )
+      )
+    }
+
     guard
       let scrapeUrl: URL = urlGenerator.generateScrapeUrl(
         query: query,
