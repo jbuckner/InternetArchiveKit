@@ -79,8 +79,9 @@ public protocol InternetArchiveProtocol {
 
    The Scrape API walks through an entire result set with a `cursor`, so it can
    read past the 10,000-result ceiling that `search()` is bound by. Start with
-   `cursor: nil`, then pass each `ScrapeResponse.cursor` back in to fetch the
-   next batch until `cursor` comes back `nil`. archive.org fixes the batch size
+   `pagination: nil` (or `.count(n)` to size the first batch), then pass
+   `.cursor(response.cursor)` back in to fetch each next batch until the
+   response's `cursor` comes back `nil`. archive.org fixes the cursor batch size
    server-side (~5,000 items).
 
    - parameters:
@@ -89,14 +90,14 @@ public protocol InternetArchiveProtocol {
    which returns all metadata fields
    - sortFields: The fields by which you want to sort the results. archive.org requires `identifier`, if sorted
    on, to be the last sort field, and caps custom-sorted paging at 10,000 results
-   - cursor: The cursor from the previous batch, or `nil` for the first batch
+   - pagination: `.cursor` to resume, `.count` to size a one-shot or first batch, or `nil` for the default first batch
    - returns: Result<InternetArchive.ScrapeResponse, Error>
    */
   func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    cursor: String?
+    pagination: InternetArchive.ScrapePagination?
   ) async throws -> InternetArchive.ScrapeResponse
 
   /**
@@ -108,14 +109,14 @@ public protocol InternetArchiveProtocol {
    which returns all metadata fields
    - sortFields: The fields by which you want to sort the results. archive.org requires `identifier`, if sorted
    on, to be the last sort field, and caps custom-sorted paging at 10,000 results
-   - cursor: The cursor from the previous batch, or `nil` for the first batch
+   - pagination: `.cursor` to resume, `.count` to size a one-shot or first batch, or `nil` for the default first batch
    - returns: Result<InternetArchive.ScrapeResponse, Error>
    */
   func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    cursor: String?
+    pagination: InternetArchive.ScrapePagination?
   ) async -> Result<InternetArchive.ScrapeResponse, Error>
 
   /**
@@ -127,14 +128,14 @@ public protocol InternetArchiveProtocol {
    which returns all metadata fields
    - sortFields: The fields by which you want to sort the results. archive.org requires `identifier`, if sorted
    on, to be the last sort field, and caps custom-sorted paging at 10,000 results
-   - cursor: The cursor from the previous batch, or `nil` for the first batch
+   - pagination: `.cursor` to resume, `.count` to size a one-shot or first batch, or `nil` for the default first batch
    - completion: Returns optional `InternetArchive.ScrapeResponse` and `Error` objects
    */
   func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    cursor: String?,
+    pagination: InternetArchive.ScrapePagination?,
     completion: @escaping (InternetArchive.ScrapeResponse?, Error?) -> Void
   )
 
@@ -191,7 +192,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
     query: InternetArchiveURLStringProtocol,
     fields: [String],
     sortFields: [InternetArchiveURLQueryItemProtocol],
-    cursor: String?,
+    pagination: InternetArchive.ScrapePagination?,
     additionalQueryParams: [URLQueryItem]
   ) -> URL?
 }
@@ -238,13 +239,13 @@ extension InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    cursor: String?
+    pagination: InternetArchive.ScrapePagination?
   ) async throws -> InternetArchive.ScrapeResponse {
     let result: Result<InternetArchive.ScrapeResponse, Error> = await scrape(
       query: query,
       fields: fields,
       sortFields: sortFields,
-      cursor: cursor
+      pagination: pagination
     )
 
     switch result {

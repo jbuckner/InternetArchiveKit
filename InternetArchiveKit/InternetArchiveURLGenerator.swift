@@ -101,14 +101,11 @@ extension InternetArchive {
 
      The Scrape API scrolls through an entire result set with a `cursor` instead
      of `page`/`rows`, so it can read past the 10,000-result ceiling that
-     `generateSearchUrl` is bound by. Omit `cursor` for the first batch, then
-     pass the `cursor` from each `ScrapeResponse` to fetch the next; archive.org
-     fixes the batch size server-side (~5,000 items) and drops `cursor` from the
-     final batch.
-
-     Note: archive.org ignores `cursor` if a `count` is also sent, silently
-     re-returning the first batch, so this deliberately exposes no `count` and
-     paginates by cursor alone.
+     `generateSearchUrl` is bound by. `pagination` is `.cursor` to resume or
+     `.count` to size a batch; archive.org ignores `cursor` when a `count` is
+     also sent, so the two are modelled as one mutually-exclusive value. Pass
+     `nil` for the first batch at the server default size (~5,000 items); the
+     response drops its `cursor` on the final batch.
 
      - parameters:
        - query: The search query
@@ -116,7 +113,8 @@ extension InternetArchive {
        - sortFields: The fields to sort by. archive.org requires `identifier`,
          if sorted on, to be the last sort field, and caps custom-sorted paging
          at 10,000 results.
-       - cursor: The cursor from the previous batch, or `nil` for the first
+       - pagination: `.cursor` to resume a scroll, `.count` to size a one-shot
+         or first batch, or `nil` for the default first batch
        - additionalQueryParams: Any extra query items to append
 
      - returns: Optional scrape `URL`
@@ -125,7 +123,7 @@ extension InternetArchive {
       query: InternetArchiveURLStringProtocol,
       fields: [String],
       sortFields: [InternetArchiveURLQueryItemProtocol],
-      cursor: String?,
+      pagination: InternetArchive.ScrapePagination?,
       additionalQueryParams: [URLQueryItem]
     ) -> URL? {
       warnIfQueryExceedsRecommendedLength(query.asURLString)
@@ -152,8 +150,15 @@ extension InternetArchive {
         )
       }
 
-      if let cursor = cursor {
-        params.append(URLQueryItem(name: "cursor", value: cursor))
+      // archive.org rejects `count` and `cursor` together, which is why
+      // `ScrapePagination` makes them mutually exclusive.
+      if let pagination = pagination {
+        switch pagination {
+        case .count(let count):
+          params.append(URLQueryItem(name: "count", value: "\(count)"))
+        case .cursor(let cursor):
+          params.append(URLQueryItem(name: "cursor", value: cursor))
+        }
       }
 
       params += additionalQueryParams

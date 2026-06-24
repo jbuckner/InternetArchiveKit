@@ -119,14 +119,14 @@ public class InternetArchive: InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    cursor: String?
+    pagination: ScrapePagination?
   ) async -> Result<ScrapeResponse, Error> {
     guard
       let scrapeUrl: URL = urlGenerator.generateScrapeUrl(
         query: query,
         fields: fields ?? [],
         sortFields: sortFields ?? [],
-        cursor: cursor,
+        pagination: pagination,
         additionalQueryParams: []
       )
     else {
@@ -147,7 +147,7 @@ public class InternetArchive: InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol,
     fields: [String]? = nil,
     sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
-    cursor: String? = nil,
+    pagination: ScrapePagination? = nil,
     completion: @escaping (InternetArchive.ScrapeResponse?, Error?) -> Void
   ) {
     Task {
@@ -155,7 +155,7 @@ public class InternetArchive: InternetArchiveProtocol {
         query: query,
         fields: fields,
         sortFields: sortFields,
-        cursor: cursor
+        pagination: pagination
       )
       switch results {
       case .success(let response):

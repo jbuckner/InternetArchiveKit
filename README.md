@@ -55,7 +55,7 @@ Both run the same Lucene-style query against the same index, but they're built f
 | --- | --- | --- |
 | Pagination | random access (`page` / `rows`) | forward-only `cursor` |
 | Results reachable | first 10,000 | the whole set |
-| Batch size | you choose (`rows`) | fixed server-side (~5,000) |
+| Batch size | you choose (`rows`) | `.count` for one batch, else ~5,000 |
 | Total match count | `response.numFound` | `total` |
 | Results live in | `response.docs` | `items` |
 | Sorting | any | any, but a custom sort caps out at 10,000 results |
@@ -65,33 +65,34 @@ Rule of thumb: if you're showing results to a person a page at a time, reach for
 
 ### Scraping
 
-`scrape()` pages forward with a cursor. Start with `cursor: nil`, then pass each response's `cursor` back in until it comes back `nil`:
+`scrape()` pages forward with a cursor. Start with `pagination: nil`, then pass each response's `cursor` back as `.cursor(...)` until it comes back `nil`:
 
 ```swift
 let query = InternetArchive.Query(
   clauses: ["collection": "etree", "mediatype": "collection"])
 let archive = InternetArchive()
 
-var cursor: String? = nil
+var pagination: InternetArchive.ScrapePagination? = nil
 var identifiers: [String] = []
 
 repeat {
   let result = await archive.scrape(
-    query: query, fields: ["identifier"], sortFields: nil, cursor: cursor)
+    query: query, fields: ["identifier"], sortFields: nil, pagination: pagination)
   switch result {
   case .success(let response):
     identifiers += response.items.map { $0.identifier }
-    cursor = response.cursor  // nil on the last batch
+    pagination = response.cursor.map { .cursor($0) }  // nil on the last batch ends the loop
   case .failure(let error):
     // debugPrint(error)
-    cursor = nil
+    pagination = nil
   }
-} while cursor != nil
+} while pagination != nil
 ```
 
 A few nuances:
 
-- **There's no page-size parameter, on purpose.** archive.org ignores the cursor if you also send a `count`, silently re-serving the first batch every time. So `scrape()` pages by cursor alone at the server's default batch size (~5,000 items). This is what archive.org's own `internetarchive` Python client does.
+- **Pagination is a single value, by design.** `pagination` is either `.cursor(...)` to resume or `.count(n)` to size a batch, never both: archive.org ignores the cursor if you also send a `count`, so the type makes that broken combination unrepresentable. Pass `nil` for the first batch at the server's default size (~5,000 items).
+- **`.count` is for a bounded pull.** Use `.count(n)` (100–10,000) to grab up to 10,000 matches in one request, or a smaller first page before scrolling. It sizes only the batch it rides on; once you continue with `.cursor`, batches revert to the server default (~5,000). To page through everything, leave `pagination` `nil` and scroll by cursor (what archive.org's own `internetarchive` Python client does).
 - **A custom sort caps scraping at 10,000 results.** Leave `sortFields` empty to scroll the full set (it walks in `identifier` order). If you do sort and include `identifier`, it has to be the last sort field.
 - **No relevance ranking or faceting.** The Scrape API doesn't offer either; if you need them, use `search()`.
 

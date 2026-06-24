@@ -44,7 +44,7 @@ class APIControllerTests: XCTestCase {
       let url: URL = urlGenerator.generateScrapeUrl(query: query,
                                                     fields: ["identifier", "title"],
                                                     sortFields: [sortField],
-                                                    cursor: "abc123",
+                                                    pagination: .cursor("abc123"),
                                                     additionalQueryParams: []),
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
         XCTFail("Error generating scrape URL")
@@ -61,6 +61,26 @@ class APIControllerTests: XCTestCase {
     XCTAssertEqual(items["fields"], "identifier,title")  // comma-delimited, not repeated fl[]
     XCTAssertEqual(items["sorts"], "date desc")  // comma-delimited, not repeated sort[]
     XCTAssertEqual(items["cursor"], "abc123")
+    XCTAssertNil(items["count"])  // `.cursor` and `.count` are mutually exclusive
+  }
+
+  func testGenerateScrapeUrlWithCount() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
+    guard
+      let url: URL = urlGenerator.generateScrapeUrl(query: query,
+                                                    fields: [],
+                                                    sortFields: [],
+                                                    pagination: .count(500),
+                                                    additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        XCTFail("Error generating scrape URL")
+        return
+    }
+
+    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) { $0[$1.name] = $1.value }
+    XCTAssertEqual(items["count"], "500")
+    XCTAssertNil(items["cursor"])  // `.count` and `.cursor` are mutually exclusive
   }
 
   func testGenerateScrapeUrlOmitsEmptyParams() {
@@ -70,7 +90,7 @@ class APIControllerTests: XCTestCase {
       let url: URL = urlGenerator.generateScrapeUrl(query: query,
                                                     fields: [],
                                                     sortFields: [],
-                                                    cursor: nil,
+                                                    pagination: nil,
                                                     additionalQueryParams: []),
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
         XCTFail("Error generating scrape URL")
@@ -82,6 +102,7 @@ class APIControllerTests: XCTestCase {
     XCTAssertFalse(names.contains("fields"))
     XCTAssertFalse(names.contains("sorts"))
     XCTAssertFalse(names.contains("cursor"))
+    XCTAssertFalse(names.contains("count"))
   }
 
   func testGenerateDownloadUrl() {
