@@ -32,6 +32,9 @@ class EtreeCollectionViewController: UITableViewController {
     navigationItem.searchController = searchController
     definesPresentationContext = true
 
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      title: "Scrape", style: .plain, target: self, action: #selector(showScrapeDemo))
+
     // Setup the Scope Bar
 //    searchController.searchBar.scopeButtonTitles = ["All", "Chocolate", "Hard", "Other"]
     searchController.searchBar.delegate = self
@@ -50,6 +53,10 @@ class EtreeCollectionViewController: UITableViewController {
           self.tableView.reloadData()
         }
     })
+  }
+
+  @objc private func showScrapeDemo() {
+    navigationController?.pushViewController(ScrapeViewController(), animated: true)
   }
 
   override func viewWillAppear(_ animated: Bool) {

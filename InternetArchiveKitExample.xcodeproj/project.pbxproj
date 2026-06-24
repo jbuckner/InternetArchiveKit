@@ -21,6 +21,7 @@
 		96AC727B219D2E6A007C7910 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC727A219D2E6A007C7910 /* MusicPlayer.swift */; };
 		96BAF7CE219BC016004B512D /* AlbumExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7CD219BC016004B512D /* AlbumExtensions.swift */; };
 		96BAF7D8219BD6FE004B512D /* Collection+InternetArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */; };
+		9653CDC62770140000000002 /* ScrapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9653CDC52770140000000001 /* ScrapeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +54,7 @@
 		96AC727A219D2E6A007C7910 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		96BAF7CD219BC016004B512D /* AlbumExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumExtensions.swift; sourceTree = "<group>"; };
 		96BAF7D7219BD6FE004B512D /* Collection+InternetArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+InternetArchive.swift"; sourceTree = "<group>"; };
+		9653CDC52770140000000001 /* ScrapeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			children = (
 				9669B0232197B91200E7CE2A /* AppDelegate.swift */,
 				9669B0252197B91200E7CE2A /* EtreeCollectionViewController.swift */,
+				9653CDC52770140000000001 /* ScrapeViewController.swift */,
 				96AC7278219C64F1007C7910 /* Debouncer.swift */,
 				96BAF7CF219BC9C7004B512D /* ArtistDetail */,
 				96BAF7D0219BC9DD004B512D /* AlbumDetail */,
@@ -183,6 +186,9 @@
 				Base,
 			);
 			mainGroup = 96ECE0CE21913AE100A0C8A6;
+			packageReferences = (
+				9653CDC4277013A0006D0C5C /* XCLocalSwiftPackageReference "." */,
+			);
 			productRefGroup = 96ECE0D921913AE100A0C8A6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -218,6 +224,7 @@
 				9694E66A219A6F3E00F6D26B /* ConcertsDataSource.swift in Sources */,
 				9669B0282197B91200E7CE2A /* ArtistDetailViewController.swift in Sources */,
 				9669B0262197B91200E7CE2A /* EtreeCollectionViewController.swift in Sources */,
+				9653CDC62770140000000002 /* ScrapeViewController.swift in Sources */,
 				96AC727B219D2E6A007C7910 /* MusicPlayer.swift in Sources */,
 				9669B0242197B91200E7CE2A /* AppDelegate.swift in Sources */,
 			);
@@ -432,9 +439,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		9653CDC4277013A0006D0C5C /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ".";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9653CDC1277012B6006D0C5C /* InternetArchiveKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 9653CDC4277013A0006D0C5C /* XCLocalSwiftPackageReference "." */;
 			productName = InternetArchiveKit;
 		};
 /* End XCSwiftPackageProductDependency section */
