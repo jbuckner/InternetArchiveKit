@@ -12,7 +12,10 @@ import Foundation
 public protocol InternetArchiveProtocol {
   /**
    Search the Internet Archive
-  
+
+   This is for interactive, paged queries. archive.org caps paged search at the
+   10,000th result; to read an entire result set past that, use `scrape()`.
+
    - parameters:
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - page: The results pagination page number

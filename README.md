@@ -44,9 +44,28 @@ case .failure(let error):
 
 For more advanced usage, see the test suite and the included sample app.
 
-## Scraping large result sets
+## `search()` vs `scrape()`
 
-`search()` is great for paged, sorted, interactive queries, but archive.org caps it at the 10,000th result. To walk an entire result set (a whole collection, every recording for an artist), use `scrape()`. It pages forward with a cursor instead of page numbers, so it can read past that ceiling. Start with `cursor: nil`, then pass each response's `cursor` back in until it comes back `nil`:
+Both run the same Lucene-style query against the same index, but they're built for different jobs.
+
+- **`search()`** (advancedsearch.php) is for **interactive, paged queries**: show page 3, sort by relevance, get a result count. Use it behind a search box or a paginated list.
+- **`scrape()`** (the Scrape API) is for **reading an entire result set**: every recording in a collection, every show for an artist. It's the only way to get more than 10,000 results.
+
+| | `search()` | `scrape()` |
+| --- | --- | --- |
+| Pagination | random access (`page` / `rows`) | forward-only `cursor` |
+| Results reachable | first 10,000 | the whole set |
+| Batch size | you choose (`rows`) | fixed server-side (~5,000) |
+| Total match count | `response.numFound` | `total` |
+| Results live in | `response.docs` | `items` |
+| Sorting | any | any, but a custom sort caps out at 10,000 results |
+| Relevance ranking and facets | yes | no |
+
+Rule of thumb: if you're showing results to a person a page at a time, reach for `search()`. If you're pulling a whole collection down to process or cache, reach for `scrape()`.
+
+### Scraping
+
+`scrape()` pages forward with a cursor. Start with `cursor: nil`, then pass each response's `cursor` back in until it comes back `nil`:
 
 ```swift
 let query = InternetArchive.Query(
@@ -70,7 +89,11 @@ repeat {
 } while cursor != nil
 ```
 
-archive.org fixes the batch size server-side (~5,000 items per request). If you pass `sortFields`, custom-sorted scraping is still capped at 10,000 results, and `identifier`, if you sort on it, must be the last sort field.
+A few nuances:
+
+- **There's no page-size parameter, on purpose.** archive.org ignores the cursor if you also send a `count`, silently re-serving the first batch every time. So `scrape()` pages by cursor alone at the server's default batch size (~5,000 items). This is what archive.org's own `internetarchive` Python client does.
+- **A custom sort caps scraping at 10,000 results.** Leave `sortFields` empty to scroll the full set (it walks in `identifier` order). If you do sort and include `identifier`, it has to be the last sort field.
+- **No relevance ranking or faceting.** The Scrape API doesn't offer either; if you need them, use `search()`.
 
 ## Limitations
 
