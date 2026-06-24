@@ -35,6 +35,10 @@ class InternetArchiveKitTests: XCTestCase {
     func generateSearchUrl(query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]) -> URL? {
       return nil
     }
+
+    func generateScrapeUrl(query: InternetArchiveURLStringProtocol, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], cursor: String?, additionalQueryParams: [URLQueryItem]) -> URL? {
+      return nil
+    }
   }
 
   func testBadSearchUrl() {
@@ -44,6 +48,19 @@ class InternetArchiveKitTests: XCTestCase {
     let mockSession = URLSession.mock
     let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.search(query: query, page: 0, rows: 10) { (_: InternetArchive.SearchResponse?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testBadScrapeUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad Scrape URL")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let urlGenerator = BadUrlGenerator()
+    let mockSession = URLSession.mock
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
+    archive.scrape(query: query) { (_: InternetArchive.ScrapeResponse?, error: Error?) in
       XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
@@ -346,6 +363,71 @@ class InternetArchiveKitTests: XCTestCase {
 
     wait(for: [expectation], timeout: 20.0)
 
+  }
+
+  func testScrape() {
+    let expectation = XCTestExpectation(description: "Test Scrape")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().scrape(
+      query: query,
+      fields: ["identifier", "title"],
+      completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
+        if let error: Error = error {
+          XCTFail("error, \(error.localizedDescription)")
+          expectation.fulfill()
+          return
+        }
+
+        if let response = response {
+          XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
+          XCTAssertTrue(response.items.count > 100)  // archive.org returns a large server-sized batch
+          XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
+          XCTAssertNotNil(response.items.first?.title)
+          XCTAssertNotNil(response.cursor)  // more results remain, so a cursor is returned
+        } else {
+          XCTFail("no response")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+  // The Scrape API scrolls forward with a cursor: pass the cursor from the first batch into a second
+  // request and the results should continue where the first left off, with no overlap.
+  func testScrapeCursor() {
+    let expectation = XCTestExpectation(description: "Test Scrape Cursor")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let archive = InternetArchive()
+
+    archive.scrape(
+      query: query,
+      fields: ["identifier"],
+      completion: { (firstBatch: InternetArchive.ScrapeResponse?, error: Error?) in
+        guard let firstBatch = firstBatch, let cursor = firstBatch.cursor else {
+          XCTFail("no first batch or cursor")
+          expectation.fulfill()
+          return
+        }
+
+        archive.scrape(
+          query: query,
+          fields: ["identifier"],
+          cursor: cursor,
+          completion: { (secondBatch: InternetArchive.ScrapeResponse?, error: Error?) in
+            if let secondBatch = secondBatch {
+              XCTAssertTrue(secondBatch.items.count > 0)
+              let firstIds: Set<String> = Set(firstBatch.items.map { $0.identifier })
+              let secondIds: Set<String> = Set(secondBatch.items.map { $0.identifier })
+              XCTAssertTrue(firstIds.isDisjoint(with: secondIds))  // the cursor advanced past the first batch
+            } else {
+              XCTFail("no second batch")
+            }
+            expectation.fulfill()
+        })
+    })
+
+    wait(for: [expectation], timeout: 30.0)
   }
 
 }

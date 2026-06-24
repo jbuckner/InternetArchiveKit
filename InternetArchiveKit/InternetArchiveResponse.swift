@@ -96,4 +96,42 @@ extension InternetArchive {
       self.start = start
     }
   }
+
+  /**
+   The top-level response from a Scrape API (`/services/search/v1/scrape`) request.
+
+   The Scrape API is built for exhaustively exporting a result set: it scrolls
+   forward with an opaque `cursor` rather than random-access `page` numbers, and
+   it can walk past the 10,000-result ceiling that `search()` is bound by. Pass
+   `cursor` back into the next `scrape()` call to continue where this batch left
+   off; when `cursor` comes back `nil` the end of the result set has been reached.
+   */
+  public struct ScrapeResponse: Decodable {
+    /// The items in this batch. These are the same `ItemMetadata` documents
+    /// `search()` returns in `Response.docs`.
+    public let items: [ItemMetadata]
+    /// The number of items in this batch (`items.count`).
+    public let count: Int
+    /// The total number of items matching the query across every batch.
+    public let total: Int
+    /// The cursor to pass to the next `scrape()` call to fetch the following
+    /// batch. `nil` on the final batch, signalling the end of the result set.
+    public let cursor: String?
+    /// The cursor for the preceding batch, present from the second batch onward.
+    public let previous: String?
+
+    public init(
+      items: [ItemMetadata],
+      count: Int,
+      total: Int,
+      cursor: String? = nil,
+      previous: String? = nil
+    ) {
+      self.items = items
+      self.count = count
+      self.total = total
+      self.cursor = cursor
+      self.previous = previous
+    }
+  }
 }

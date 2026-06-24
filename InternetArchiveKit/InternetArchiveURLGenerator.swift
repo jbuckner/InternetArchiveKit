@@ -96,6 +96,74 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate a Scrape API (`/services/search/v1/scrape`) url.
+
+     The Scrape API scrolls through an entire result set with a `cursor` instead
+     of `page`/`rows`, so it can read past the 10,000-result ceiling that
+     `generateSearchUrl` is bound by. Omit `cursor` for the first batch, then
+     pass the `cursor` from each `ScrapeResponse` to fetch the next; archive.org
+     fixes the batch size server-side (~5,000 items) and drops `cursor` from the
+     final batch.
+
+     Note: archive.org ignores `cursor` if a `count` is also sent, silently
+     re-returning the first batch, so this deliberately exposes no `count` and
+     paginates by cursor alone.
+
+     - parameters:
+       - query: The search query
+       - fields: The metadata fields to return
+       - sortFields: The fields to sort by. archive.org requires `identifier`,
+         if sorted on, to be the last sort field, and caps custom-sorted paging
+         at 10,000 results.
+       - cursor: The cursor from the previous batch, or `nil` for the first
+       - additionalQueryParams: Any extra query items to append
+
+     - returns: Optional scrape `URL`
+     */
+    public func generateScrapeUrl(
+      query: InternetArchiveURLStringProtocol,
+      fields: [String],
+      sortFields: [InternetArchiveURLQueryItemProtocol],
+      cursor: String?,
+      additionalQueryParams: [URLQueryItem]
+    ) -> URL? {
+      warnIfQueryExceedsRecommendedLength(query.asURLString)
+
+      var params: [URLQueryItem] = [
+        URLQueryItem(name: "q", value: query.asURLString)
+      ]
+
+      // The Scrape API takes single comma-delimited `fields` and `sorts`
+      // parameters rather than the repeated `fl[]`/`sort[]` items that
+      // advancedsearch.php uses.
+      if !fields.isEmpty {
+        params.append(
+          URLQueryItem(name: "fields", value: fields.joined(separator: ","))
+        )
+      }
+
+      // `SortField.asQueryItem` already formats each value as
+      // "<field> <direction>", so reuse those values and join them.
+      let sortValues: [String] = sortFields.compactMap { $0.asQueryItem.value }
+      if !sortValues.isEmpty {
+        params.append(
+          URLQueryItem(name: "sorts", value: sortValues.joined(separator: ","))
+        )
+      }
+
+      if let cursor = cursor {
+        params.append(URLQueryItem(name: "cursor", value: cursor))
+      }
+
+      params += additionalQueryParams
+
+      var urlComponents: URLComponents = getBaseUrlComponents()
+      urlComponents.path = "/services/search/v1/scrape"
+      urlComponents.queryItems = params
+      return urlComponents.url
+    }
+
     private func getBaseUrlComponents() -> URLComponents {
       var urlComponents: URLComponents = URLComponents()
       urlComponents.scheme = scheme

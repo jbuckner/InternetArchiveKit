@@ -44,6 +44,34 @@ case .failure(let error):
 
 For more advanced usage, see the test suite and the included sample app.
 
+## Scraping large result sets
+
+`search()` is great for paged, sorted, interactive queries, but archive.org caps it at the 10,000th result. To walk an entire result set (a whole collection, every recording for an artist), use `scrape()`. It pages forward with a cursor instead of page numbers, so it can read past that ceiling. Start with `cursor: nil`, then pass each response's `cursor` back in until it comes back `nil`:
+
+```swift
+let query = InternetArchive.Query(
+  clauses: ["collection": "etree", "mediatype": "collection"])
+let archive = InternetArchive()
+
+var cursor: String? = nil
+var identifiers: [String] = []
+
+repeat {
+  let result = await archive.scrape(
+    query: query, fields: ["identifier"], sortFields: nil, cursor: cursor)
+  switch result {
+  case .success(let response):
+    identifiers += response.items.map { $0.identifier }
+    cursor = response.cursor  // nil on the last batch
+  case .failure(let error):
+    // debugPrint(error)
+    cursor = nil
+  }
+} while cursor != nil
+```
+
+archive.org fixes the batch size server-side (~5,000 items per request). If you pass `sortFields`, custom-sorted scraping is still capped at 10,000 results, and `identifier`, if you sort on it, must be the last sort field.
+
 ## Limitations
 
 Currently, InternetArchiveKit is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!

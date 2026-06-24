@@ -115,6 +115,58 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   /** @inheritdoc */
+  public func scrape(
+    query: InternetArchiveURLStringProtocol,
+    fields: [String]?,
+    sortFields: [InternetArchiveURLQueryItemProtocol]?,
+    cursor: String?
+  ) async -> Result<ScrapeResponse, Error> {
+    guard
+      let scrapeUrl: URL = urlGenerator.generateScrapeUrl(
+        query: query,
+        fields: fields ?? [],
+        sortFields: sortFields ?? [],
+        cursor: cursor,
+        additionalQueryParams: []
+      )
+    else {
+      os_log(
+        .error,
+        log: log,
+        "Error generating scrape url: %@",
+        query.asURLString ?? "Unknown query.asURLString"
+      )
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    return await makeRequest(url: scrapeUrl)
+  }
+
+  /** @inheritdoc */
+  public func scrape(
+    query: InternetArchiveURLStringProtocol,
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
+    cursor: String? = nil,
+    completion: @escaping (InternetArchive.ScrapeResponse?, Error?) -> Void
+  ) {
+    Task {
+      let results: Result<ScrapeResponse, Error> = await scrape(
+        query: query,
+        fields: fields,
+        sortFields: sortFields,
+        cursor: cursor
+      )
+      switch results {
+      case .success(let response):
+        completion(response, nil)
+      case .failure(let error):
+        completion(nil, error)
+      }
+    }
+  }
+
+  /** @inheritdoc */
   public func itemDetail(identifier: String) async -> Result<Item, Error> {
     guard
       let metadataUrl: URL = urlGenerator.generateMetadataUrl(
