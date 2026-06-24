@@ -475,4 +475,51 @@ class InternetArchiveKitTests: XCTestCase {
     }
   }
 
+  // `scrapeTotal` returns just the match count (the Scrape API's `total_only`), fetching no items.
+  func testScrapeTotal() {
+    let expectation = XCTestExpectation(description: "Test Scrape Total")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().scrapeTotal(
+      query: query,
+      completion: { (total: Int?, error: Error?) in
+        if let total = total {
+          XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+        } else {
+          XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+  func testBadScrapeTotalUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad Scrape Total URL")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    archive.scrapeTotal(query: query) { (_: Int?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testScrapeTotalAsyncThrows() async throws {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let total: Int = try await InternetArchive().scrapeTotal(query: query)
+    XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+  }
+
+  func testScrapeTotalAsyncThrowsInvalidUrl() async {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    do {
+      // the type annotation selects the `async throws` overload over the `async -> Result` one
+      let _: Int = try await archive.scrapeTotal(query: query)
+      XCTFail("expected an error")
+    } catch {
+      XCTAssertEqual(error as? InternetArchive.InternetArchiveError, .invalidUrl)
+    }
+  }
+
 }

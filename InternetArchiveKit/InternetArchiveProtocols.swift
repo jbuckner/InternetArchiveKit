@@ -140,6 +140,44 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Count the results of a Scrape API query
+
+   Returns the total number of matching items without fetching any of them
+   (the Scrape API's `total_only`). Cheaper than reading `total` off a regular
+   `scrape()` batch, which also pulls down a batch of items.
+
+   - parameters:
+   - query: The search query as an `InternetArchiveURLStringProtocol` object
+   - returns: Result<Int, Error>
+   */
+  func scrapeTotal(
+    query: InternetArchiveURLStringProtocol
+  ) async throws -> Int
+
+  /**
+   Count the results of a Scrape API query
+
+   - parameters:
+   - query: The search query as an `InternetArchiveURLStringProtocol` object
+   - returns: Result<Int, Error>
+   */
+  func scrapeTotal(
+    query: InternetArchiveURLStringProtocol
+  ) async -> Result<Int, Error>
+
+  /**
+   Count the results of a Scrape API query
+
+   - parameters:
+   - query: The search query as an `InternetArchiveURLStringProtocol` object
+   - completion: Returns an optional total count and `Error` object
+   */
+  func scrapeTotal(
+    query: InternetArchiveURLStringProtocol,
+    completion: @escaping (Int?, Error?) -> Void
+  )
+
+  /**
    Fetch a single item from the Internet Archive
 
    - parameters:
@@ -248,6 +286,19 @@ extension InternetArchiveProtocol {
       pagination: pagination
     )
 
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func scrapeTotal(
+    query: InternetArchiveURLStringProtocol
+  ) async throws -> Int {
+    let result: Result<Int, Error> = await scrapeTotal(query: query)
     switch result {
     case .success(let success):
       return success

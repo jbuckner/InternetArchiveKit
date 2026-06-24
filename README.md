@@ -96,6 +96,13 @@ A few nuances:
 - **A custom sort caps scraping at 10,000 results.** Leave `sortFields` empty to scroll the full set (it walks in `identifier` order). If you do sort and include `identifier`, it has to be the last sort field.
 - **No relevance ranking or faceting.** The Scrape API doesn't offer either; if you need them, use `search()`.
 
+Need only the count? `scrapeTotal(query:)` returns the match total without fetching any items:
+
+```swift
+let result = await archive.scrapeTotal(query: query)
+// result == .success(9250)
+```
+
 ## Limitations
 
 Currently, InternetArchiveKit is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!

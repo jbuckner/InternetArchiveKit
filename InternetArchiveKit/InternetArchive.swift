@@ -167,6 +167,51 @@ public class InternetArchive: InternetArchiveProtocol {
   }
 
   /** @inheritdoc */
+  public func scrapeTotal(
+    query: InternetArchiveURLStringProtocol
+  ) async -> Result<Int, Error> {
+    guard
+      let scrapeUrl: URL = urlGenerator.generateScrapeUrl(
+        query: query,
+        fields: [],
+        sortFields: [],
+        pagination: nil,
+        // `total_only=true` returns the match count with no items
+        additionalQueryParams: [
+          URLQueryItem(name: "total_only", value: "true")
+        ]
+      )
+    else {
+      os_log(
+        .error,
+        log: log,
+        "Error generating scrapeTotal url: %@",
+        query.asURLString ?? "Unknown query.asURLString"
+      )
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    let result: Result<ScrapeResponse, Error> = await makeRequest(url: scrapeUrl)
+    return result.map { $0.total }
+  }
+
+  /** @inheritdoc */
+  public func scrapeTotal(
+    query: InternetArchiveURLStringProtocol,
+    completion: @escaping (Int?, Error?) -> Void
+  ) {
+    Task {
+      let result: Result<Int, Error> = await scrapeTotal(query: query)
+      switch result {
+      case .success(let total):
+        completion(total, nil)
+      case .failure(let error):
+        completion(nil, error)
+      }
+    }
+  }
+
+  /** @inheritdoc */
   public func itemDetail(identifier: String) async -> Result<Item, Error> {
     guard
       let metadataUrl: URL = urlGenerator.generateMetadataUrl(
