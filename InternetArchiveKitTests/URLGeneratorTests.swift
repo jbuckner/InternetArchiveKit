@@ -36,6 +36,92 @@ class APIControllerTests: XCTestCase {
     }
   }
 
+  func testGenerateScrapeUrl() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
+    let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "date", direction: .desc)
+    guard
+      let url: URL = urlGenerator.generateScrapeUrl(query: query,
+                                                    fields: ["identifier", "title"],
+                                                    sortFields: [sortField],
+                                                    pagination: .cursor("abc123"),
+                                                    additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        XCTFail("Error generating scrape URL")
+        return
+    }
+
+    XCTAssertEqual(components.scheme, "gopher")
+    XCTAssertEqual(components.host, "foohost.org")
+    XCTAssertEqual(components.path, "/services/search/v1/scrape")
+
+    // parse the query items back so the assertions don't depend on percent-encoding
+    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) { $0[$1.name] = $1.value }
+    XCTAssertEqual(items["q"], "(foo:(bar))")
+    XCTAssertEqual(items["fields"], "identifier,title")  // comma-delimited, not repeated fl[]
+    XCTAssertEqual(items["sorts"], "date desc")  // comma-delimited, not repeated sort[]
+    XCTAssertEqual(items["cursor"], "abc123")
+    XCTAssertNil(items["count"])  // `.cursor` and `.count` are mutually exclusive
+  }
+
+  func testGenerateScrapeUrlWithCount() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
+    guard
+      let url: URL = urlGenerator.generateScrapeUrl(query: query,
+                                                    fields: [],
+                                                    sortFields: [],
+                                                    pagination: .count(500),
+                                                    additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        XCTFail("Error generating scrape URL")
+        return
+    }
+
+    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) { $0[$1.name] = $1.value }
+    XCTAssertEqual(items["count"], "500")
+    XCTAssertNil(items["cursor"])  // `.count` and `.cursor` are mutually exclusive
+  }
+
+  func testGenerateScrapeUrlOmitsEmptyParams() {
+    let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
+    guard
+      let url: URL = urlGenerator.generateScrapeUrl(query: query,
+                                                    fields: [],
+                                                    sortFields: [],
+                                                    pagination: nil,
+                                                    additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        XCTFail("Error generating scrape URL")
+        return
+    }
+
+    let names: Set<String> = Set((components.queryItems ?? []).map { $0.name })
+    XCTAssertTrue(names.contains("q"))
+    XCTAssertFalse(names.contains("fields"))
+    XCTAssertFalse(names.contains("sorts"))
+    XCTAssertFalse(names.contains("cursor"))
+    XCTAssertFalse(names.contains("count"))
+  }
+
+  func testScrapeSortMisplacesIdentifier() {
+    let id = InternetArchive.SortField(field: "identifier", direction: .asc)
+    let date = InternetArchive.SortField(field: "date", direction: .desc)
+    let downloads = InternetArchive.SortField(field: "downloads", direction: .desc)
+
+    // valid: identifier absent, alone, or last
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([date]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([date, id]))
+    XCTAssertFalse(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([downloads, id]))
+
+    // invalid: identifier present but not last
+    XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, date]))
+    XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, downloads, date]))
+  }
+
   func testGenerateDownloadUrl() {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     if let url: URL = urlGenerator.generateDownloadUrl(itemIdentifier: "foo", fileName: "bar") {

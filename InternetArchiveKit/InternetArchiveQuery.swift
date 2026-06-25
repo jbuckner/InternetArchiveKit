@@ -311,3 +311,35 @@ extension InternetArchive {
     case desc
   }
 }
+
+// MARK: Scrape Pagination
+extension InternetArchive {
+  /**
+   How a `scrape()` request is positioned and sized.
+
+   archive.org's Scrape API accepts a `count` (batch size) **or** a `cursor`
+   (resume token), but not both — sending a `count` makes it ignore the `cursor`
+   and re-serve the first batch. This models that exclusivity so it can't be
+   expressed incorrectly. Pass `nil` for the first batch at the server's default
+   size (~5,000 items).
+
+   ### Example Usage:
+   ```
+   // a bounded one-shot pull of up to 500 items
+   await archive.scrape(query: query, pagination: .count(500))
+
+   // resume from a previous batch
+   await archive.scrape(query: query, pagination: .cursor(previous.cursor!))
+   ```
+   */
+  public enum ScrapePagination {
+    /// Return this many items (archive.org allows 100–10,000) in a single
+    /// batch. Use for a bounded one-shot pull, or as a smaller first page
+    /// before scrolling. `count` sizes only the batch it is on; continuing
+    /// with `.cursor` reverts to the server's default batch size.
+    case count(Int)
+    /// Resume after the given cursor (from a previous `ScrapeResponse`), at the
+    /// server's default batch size.
+    case cursor(String)
+  }
+}
