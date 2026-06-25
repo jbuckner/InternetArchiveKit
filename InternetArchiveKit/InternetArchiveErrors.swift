@@ -22,6 +22,12 @@ extension InternetArchive {
     /// `{"error": "[UNSUPPORTED_VALUE] …"}` with no `response` block.
     /// `message` carries the API's error string.
     case apiError(message: String)
+
+    /// A `scrape()` request was given sort fields archive.org would reject,
+    /// caught client-side before the request is sent. archive.org requires
+    /// `identifier`, if it appears in a scrape sort, to be the last sort field.
+    /// `message` explains what to fix.
+    case invalidSortFields(message: String)
   }
 }
 
@@ -32,6 +38,8 @@ extension InternetArchive.InternetArchiveError: LocalizedError {
       return "Invalid URL"
     case .apiError(let message):
       return "Internet Archive API error: \(message)"
+    case .invalidSortFields(let message):
+      return "Invalid sort fields: \(message)"
     }
   }
 }

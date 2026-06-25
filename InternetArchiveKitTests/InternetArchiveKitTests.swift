@@ -35,6 +35,10 @@ class InternetArchiveKitTests: XCTestCase {
     func generateSearchUrl(query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]) -> URL? {
       return nil
     }
+
+    func generateScrapeUrl(query: InternetArchiveURLStringProtocol, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], pagination: InternetArchive.ScrapePagination?, additionalQueryParams: [URLQueryItem]) -> URL? {
+      return nil
+    }
   }
 
   func testBadSearchUrl() {
@@ -44,6 +48,19 @@ class InternetArchiveKitTests: XCTestCase {
     let mockSession = URLSession.mock
     let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.search(query: query, page: 0, rows: 10) { (_: InternetArchive.SearchResponse?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testBadScrapeUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad Scrape URL")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let urlGenerator = BadUrlGenerator()
+    let mockSession = URLSession.mock
+    let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
+    archive.scrape(query: query) { (_: InternetArchive.ScrapeResponse?, error: Error?) in
       XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
@@ -346,6 +363,190 @@ class InternetArchiveKitTests: XCTestCase {
 
     wait(for: [expectation], timeout: 20.0)
 
+  }
+
+  func testScrape() {
+    let expectation = XCTestExpectation(description: "Test Scrape")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().scrape(
+      query: query,
+      fields: ["identifier", "title"],
+      completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
+        if let error: Error = error {
+          XCTFail("error, \(error.localizedDescription)")
+          expectation.fulfill()
+          return
+        }
+
+        if let response = response {
+          XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
+          XCTAssertTrue(response.items.count > 100)  // archive.org returns a large server-sized batch
+          XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
+          XCTAssertNotNil(response.items.first?.title)
+          XCTAssertNotNil(response.cursor)  // more results remain, so a cursor is returned
+        } else {
+          XCTFail("no response")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+  // The Scrape API scrolls forward with a cursor: pass the cursor from the first batch into a second
+  // request and the results should continue where the first left off, with no overlap.
+  func testScrapeCursor() {
+    let expectation = XCTestExpectation(description: "Test Scrape Cursor")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let archive = InternetArchive()
+
+    archive.scrape(
+      query: query,
+      fields: ["identifier"],
+      completion: { (firstBatch: InternetArchive.ScrapeResponse?, error: Error?) in
+        guard let firstBatch = firstBatch, let cursor = firstBatch.cursor else {
+          XCTFail("no first batch or cursor")
+          expectation.fulfill()
+          return
+        }
+
+        archive.scrape(
+          query: query,
+          fields: ["identifier"],
+          pagination: .cursor(cursor),
+          completion: { (secondBatch: InternetArchive.ScrapeResponse?, error: Error?) in
+            if let secondBatch = secondBatch {
+              XCTAssertTrue(secondBatch.items.count > 0)
+              let firstIds: Set<String> = Set(firstBatch.items.map { $0.identifier })
+              let secondIds: Set<String> = Set(secondBatch.items.map { $0.identifier })
+              XCTAssertTrue(firstIds.isDisjoint(with: secondIds))  // the cursor advanced past the first batch
+            } else {
+              XCTFail("no second batch")
+            }
+            expectation.fulfill()
+        })
+    })
+
+    wait(for: [expectation], timeout: 30.0)
+  }
+
+  // `.count(n)` returns exactly n items in a single bounded batch.
+  func testScrapeCount() {
+    let expectation = XCTestExpectation(description: "Test Scrape Count")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().scrape(
+      query: query,
+      fields: ["identifier"],
+      pagination: .count(150),
+      completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
+        if let response = response {
+          XCTAssertEqual(response.items.count, 150)
+        } else {
+          XCTFail("no response, error: \(error?.localizedDescription ?? "unknown")")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+  func testScrapeAsyncThrows() async throws {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(
+      query: query,
+      fields: ["identifier"],
+      sortFields: nil,
+      pagination: nil
+    )
+    XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
+    XCTAssertTrue(response.items.count > 0)
+  }
+
+  func testScrapeAsyncThrowsInvalidUrl() async {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    do {
+      // the type annotation selects the `async throws` overload over the `async -> Result` one
+      let _: InternetArchive.ScrapeResponse = try await archive.scrape(
+        query: query, fields: nil, sortFields: nil, pagination: nil)
+      XCTFail("expected an error")
+    } catch {
+      XCTAssertEqual(error as? InternetArchive.InternetArchiveError, .invalidUrl)
+    }
+  }
+
+  // `scrapeTotal` returns just the match count (the Scrape API's `total_only`), fetching no items.
+  func testScrapeTotal() {
+    let expectation = XCTestExpectation(description: "Test Scrape Total")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    InternetArchive().scrapeTotal(
+      query: query,
+      completion: { (total: Int?, error: Error?) in
+        if let total = total {
+          XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+        } else {
+          XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
+        }
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 20.0)
+  }
+
+  func testBadScrapeTotalUrl() {
+    let expectation = XCTestExpectation(description: "Test Bad Scrape Total URL")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    archive.scrapeTotal(query: query) { (_: Int?, error: Error?) in
+      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+
+  func testScrapeTotalAsyncThrows() async throws {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let total: Int = try await InternetArchive().scrapeTotal(query: query)
+    XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+  }
+
+  func testScrapeTotalAsyncThrowsInvalidUrl() async {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
+    do {
+      // the type annotation selects the `async throws` overload over the `async -> Result` one
+      let _: Int = try await archive.scrapeTotal(query: query)
+      XCTFail("expected an error")
+    } catch {
+      XCTAssertEqual(error as? InternetArchive.InternetArchiveError, .invalidUrl)
+    }
+  }
+
+  // archive.org rejects a scrape sort where `identifier` is not the last key. The library catches
+  // it client-side and fails before sending the request.
+  func testScrapeRejectsMisplacedIdentifierSort() {
+    let expectation = XCTestExpectation(description: "Test Scrape Rejects Misplaced Identifier Sort")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let sortFields: [InternetArchive.SortField] = [
+      InternetArchive.SortField(field: "identifier", direction: .asc),
+      InternetArchive.SortField(field: "date", direction: .desc)
+    ]
+    InternetArchive().scrape(
+      query: query,
+      fields: ["identifier"],
+      sortFields: sortFields,
+      completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
+        XCTAssertNil(response)
+        XCTAssertEqual(
+          error as? InternetArchive.InternetArchiveError,
+          .invalidSortFields(message: "'identifier' must be the last sort field"))
+        XCTAssertEqual(
+          (error as? InternetArchive.InternetArchiveError)?.errorDescription,
+          "Invalid sort fields: 'identifier' must be the last sort field")
+        expectation.fulfill()
+    })
+
+    wait(for: [expectation], timeout: 10)
   }
 
 }

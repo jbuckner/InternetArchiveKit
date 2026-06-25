@@ -24,6 +24,11 @@ struct ArtistsView: View {
         }
       }
       .navigationTitle("Artists")
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          NavigationLink("Scrape") { ScrapeView() }
+        }
+      }
       .navigationDestination(for: ArtistRoute.self) { route in
         ConcertsView(artist: route)
       }
