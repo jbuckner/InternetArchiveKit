@@ -83,7 +83,7 @@ extension InternetArchive {
     }
   }
 
-  public enum QueryBooleanOperator: String {
+  public enum QueryBooleanOperator: String, Sendable {
     case and = "AND"
     case or = "OR"
   }
@@ -272,7 +272,7 @@ extension InternetArchive {
     }
   }
 
-  public enum QueryClauseBooleanOperator: String {
+  public enum QueryClauseBooleanOperator: String, Sendable {
     case and = ""
     case not = "-"  // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
   }
@@ -306,7 +306,7 @@ extension InternetArchive {
     }
   }
 
-  public enum SortDirection: String {
+  public enum SortDirection: String, Sendable {
     case asc
     case desc
   }
@@ -332,7 +332,7 @@ extension InternetArchive {
    await archive.scrape(query: query, pagination: .cursor(previous.cursor!))
    ```
    */
-  public enum ScrapePagination {
+  public enum ScrapePagination: Sendable {
     /// Return this many items (archive.org allows 100–10,000) in a single
     /// batch. Use for a bounded one-shot pull, or as a smaller first page
     /// before scrolling. `count` sizes only the batch it is on; continuing

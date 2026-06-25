@@ -238,12 +238,12 @@ public protocol InternetArchiveURLGeneratorProtocol {
 /// A protocol for abstracting URL search query strings
 ///
 /// All of the search queries components like Query and DateQuery conform to this
-public protocol InternetArchiveURLStringProtocol {
+public protocol InternetArchiveURLStringProtocol: Sendable {
   var asURLString: String? { get }
 }
 
 /// A protocol for abstracting URL query items for a search
-public protocol InternetArchiveURLQueryItemProtocol {
+public protocol InternetArchiveURLQueryItemProtocol: Sendable {
   var asQueryItem: URLQueryItem { get }
 }
 
