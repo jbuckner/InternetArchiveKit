@@ -57,6 +57,34 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(clause.asURLString, "foo:(\"bar\" OR \"baz\")")
   }
 
+  func testQueryClauseExactMatchDoesNotModifyRegexChars() {
+    let replacementStrings = [":", "[", "]", "(", ")", "OR", "or", "AND", "and"]
+
+    replacementStrings.forEach {
+      let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+        field: "foo", values: ["\($0)boop\($0)"], exactMatch: true)
+      XCTAssertEqual(clause.asURLString, "foo:\"\($0)boop\($0)\"")
+    }
+  }
+
+  func testQueryClauseFuzzyMatchRegexFix() {
+    let replacementStrings = [":", "[", "]", "(", ")", "OR", "or", "AND", "and"]
+
+    replacementStrings.forEach {
+      let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+        field: "foo", values: ["\($0)boop\($0)"], exactMatch: false)
+      XCTAssertEqual(clause.asURLString, "foo:(\"\($0)\"boop\"\($0)\")")
+    }
+  }
+
+  func testMultipleQueryClauseFuzzyMatchRegexFix() {
+    let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "(bar)", booleanOperator: .and, exactMatch: false)
+    let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "[boop]", booleanOperator: .not, exactMatch: true)
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [param1, param2])
+
+    XCTAssertEqual(query.asURLString, "(foo:(\"(\"bar\")\") AND -baz:\"[boop]\")")
+  }
+
   func testSubQueryString() {
     let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar")
     let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "boop", booleanOperator: .not)
