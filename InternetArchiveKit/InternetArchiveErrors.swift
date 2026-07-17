@@ -28,6 +28,10 @@ extension InternetArchive {
     /// `identifier`, if it appears in a scrape sort, to be the last sort field.
     /// `message` explains what to fix.
     case invalidSortFields(message: String)
+
+    /// The server answered with a non-2xx HTTP status and the body carried
+    /// no `{"error": …}` envelope to explain it.
+    case httpError(statusCode: Int)
   }
 }
 
@@ -40,6 +44,8 @@ extension InternetArchive.InternetArchiveError: LocalizedError {
       return "Internet Archive API error: \(message)"
     case .invalidSortFields(let message):
       return "Invalid sort fields: \(message)"
+    case .httpError(let statusCode):
+      return "HTTP error \(statusCode)"
     }
   }
 }

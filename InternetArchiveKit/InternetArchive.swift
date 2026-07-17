@@ -270,7 +270,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
-      let (data, _) = try await urlSession.data(from: url)
+      let (data, response) = try await urlSession.data(from: url)
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       os_log(
         .info,
@@ -279,6 +279,20 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         timeElapsed,
         url.absoluteString
       )
+
+      if let httpResponse = response as? HTTPURLResponse,
+        !(200..<300).contains(httpResponse.statusCode) {
+        // a rejected request can still carry the API's `{"error": …}`
+        // envelope, so prefer its message over a bare status code
+        if let envelope = try? jsonDecoder.decode(
+          APIErrorEnvelope.self, from: data
+        ) {
+          throw InternetArchiveError.apiError(message: envelope.error)
+        }
+        throw InternetArchiveError.httpError(
+          statusCode: httpResponse.statusCode)
+      }
+
       let results: T = try decodeResponse(data)
       return .success(results)
     } catch {
