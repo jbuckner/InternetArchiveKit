@@ -4,8 +4,8 @@ import PackageDescription
 let package = Package(
   name: "InternetArchiveKit",
   platforms: [
-    .iOS(.v13),
-    .macOS(.v10_15)
+    .iOS(.v15),
+    .macOS(.v12)
   ],
   products: [
     .library(name: "InternetArchiveKit", targets: ["InternetArchiveKit"])
