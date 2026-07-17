@@ -169,6 +169,21 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate an xauthn (`/services/xauthn/`) url
+
+     - parameters:
+       - operation: The xauthn operation, e.g. `login`
+
+     - returns: Optional xauthn `URL`
+     */
+    public func generateXauthnUrl(operation: String) -> URL? {
+      var urlComponents: URLComponents = getBaseUrlComponents()
+      urlComponents.path = "/services/xauthn/"
+      urlComponents.queryItems = [URLQueryItem(name: "op", value: operation)]
+      return urlComponents.url
+    }
+
     private func getBaseUrlComponents() -> URLComponents {
       var urlComponents: URLComponents = URLComponents()
       urlComponents.scheme = scheme

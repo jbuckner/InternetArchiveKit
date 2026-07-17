@@ -103,6 +103,24 @@ let result = await archive.scrapeTotal(query: query)
 // result == .success(9250)
 ```
 
+## Authentication
+
+Most of the library needs no credentials. For endpoints that do, pass an S3 key pair (from [archive.org/account/s3.php](https://archive.org/account/s3.php)) and requests get an `Authorization: LOW access:secret` header:
+
+```swift
+let credentials = InternetArchive.Credentials(accessKey: "...", secretKey: "...")
+let archive = InternetArchive(credentials: credentials)
+```
+
+You can also fetch keys programmatically with `login(email:password:)`, which wraps archive.org's xauthn endpoint. It's stateless: the password only exists for that one call and nothing is stored. Persisting the returned credentials (for example in the Keychain) is your app's job:
+
+```swift
+let result = await InternetArchive().login(email: "you@example.com", password: "...")
+if case .success(let account) = result {
+  let archive = InternetArchive(credentials: account.credentials)
+}
+```
+
 ## Limitations
 
 Currently, InternetArchiveKit is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!

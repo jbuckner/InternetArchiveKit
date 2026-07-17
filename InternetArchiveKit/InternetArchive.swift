@@ -40,20 +40,27 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   // Safe to share across concurrency domains: every stored property is a `let`
   // and requests run through the thread-safe `URLSession`. `@unchecked` is only
   // needed because the injected URL generator and JSON decoder aren't `Sendable`.
-  public convenience init() {
+  public convenience init(credentials: Credentials? = nil) {
     let urlGenerator = URLGenerator()
-    self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
+    self.init(
+      urlGenerator: urlGenerator,
+      urlSession: URLSession.shared,
+      credentials: credentials
+    )
   }
 
   public init(
     urlGenerator: InternetArchiveURLGeneratorProtocol,
-    urlSession: URLSession
+    urlSession: URLSession,
+    credentials: Credentials? = nil
   ) {
     self.urlGenerator = urlGenerator
     self.urlSession = urlSession
+    self.credentials = credentials
   }
 
   private let urlGenerator: InternetArchiveURLGeneratorProtocol
+  private let credentials: Credentials?
 
   private let jsonDecoder: ZippyJSONDecoder = {
     let decoder = ZippyJSONDecoder()
@@ -259,6 +266,78 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
+  /** @inheritdoc */
+  public func login(
+    email: String,
+    password: String
+  ) async -> Result<Account, Error> {
+    guard let loginUrl: URL = urlGenerator.generateXauthnUrl(operation: "login")
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    // nothing in this method is logged: it handles the account password
+    var request = URLRequest(url: loginUrl)
+    request.httpMethod = "POST"
+    request.setValue(
+      "application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.httpBody = Self.formEncode([
+      ("email", email),
+      ("password", password),
+    ])
+
+    do {
+      let (data, _) = try await urlSession.data(for: request)
+      let envelope = try jsonDecoder.decode(XAuthnEnvelope.self, from: data)
+      guard
+        envelope.success,
+        let values = envelope.values,
+        let access = values.s3?.access,
+        let secret = values.s3?.secret
+      else {
+        let reason = envelope.values?.reason ?? "login failed"
+        return .failure(InternetArchiveError.apiError(message: reason))
+      }
+      let credentials = Credentials(
+        accessKey: access,
+        secretKey: secret,
+        cookies: values.cookies ?? [:]
+      )
+      return .success(
+        Account(credentials: credentials, screenname: values.screenname))
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /// The request for `url` with the configured credentials attached, if any
+  private func authorizedRequest(url: URL) -> URLRequest {
+    var request = URLRequest(url: url)
+    if let credentials = credentials {
+      request.setValue(
+        credentials.authorizationHeaderValue, forHTTPHeaderField: "Authorization")
+      if let cookieHeader = credentials.cookieHeaderValue {
+        request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+      }
+    }
+    return request
+  }
+
+  /// Percent-encode fields into an `application/x-www-form-urlencoded` body
+  static func formEncode(_ fields: [(String, String)]) -> Data? {
+    var allowed = CharacterSet.alphanumerics
+    allowed.insert(charactersIn: "-._~")
+    return fields.compactMap { (key: String, value: String) -> String? in
+      guard
+        let encodedKey = key.addingPercentEncoding(withAllowedCharacters: allowed),
+        let encodedValue = value.addingPercentEncoding(withAllowedCharacters: allowed)
+      else { return nil }
+      return "\(encodedKey)=\(encodedValue)"
+    }
+    .joined(separator: "&")
+    .data(using: .utf8)
+  }
+
   private func makeRequest<T>(url: URL) async -> Result<T, Error>
   where T: Decodable {
     os_log(
@@ -270,7 +349,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
-      let (data, _) = try await urlSession.data(from: url)
+      let (data, _) = try await urlSession.data(for: authorizedRequest(url: url))
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       os_log(
         .info,
