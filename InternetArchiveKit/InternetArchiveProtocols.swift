@@ -140,6 +140,40 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Write metadata to an Internet Archive item
+
+   Applies an RFC 6902 JSON Patch to the item's `target` (usually
+   `metadata`). Requires credentials. The write is queued as a catalog task;
+   the returned result carries the task id and log url.
+
+   - parameters:
+   - identifier: The item identifier
+   - target: The patch destination, e.g. `metadata` or `files/{filename}`
+   - patch: The patch operations to apply
+   - returns: InternetArchive.MetadataWriteResult
+   */
+  func modifyMetadata(
+    identifier: String,
+    target: String,
+    patch: [InternetArchive.MetadataPatchOperation]
+  ) async throws -> InternetArchive.MetadataWriteResult
+
+  /**
+   Write metadata to an Internet Archive item
+
+   - parameters:
+   - identifier: The item identifier
+   - target: The patch destination, e.g. `metadata` or `files/{filename}`
+   - patch: The patch operations to apply
+   - returns: Result<InternetArchive.MetadataWriteResult, Error>
+   */
+  func modifyMetadata(
+    identifier: String,
+    target: String,
+    patch: [InternetArchive.MetadataPatchOperation]
+  ) async -> Result<InternetArchive.MetadataWriteResult, Error>
+
+  /**
    Count the results of a Scrape API query
 
    Returns the total number of matching items without fetching any of them
@@ -318,6 +352,25 @@ extension InternetArchiveProtocol {
       pagination: pagination
     )
 
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func modifyMetadata(
+    identifier: String,
+    target: String,
+    patch: [InternetArchive.MetadataPatchOperation]
+  ) async throws -> InternetArchive.MetadataWriteResult {
+    let result: Result<InternetArchive.MetadataWriteResult, Error> = await modifyMetadata(
+      identifier: identifier,
+      target: target,
+      patch: patch
+    )
     switch result {
     case .success(let success):
       return success

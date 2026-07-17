@@ -185,6 +185,56 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  public func modifyMetadata(
+    identifier: String,
+    target: String = "metadata",
+    patch: [MetadataPatchOperation]
+  ) async -> Result<MetadataWriteResult, Error> {
+    guard let credentials = credentials else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let metadataUrl: URL = urlGenerator.generateMetadataUrl(
+        identifier: identifier
+      )
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    let patchData: Data
+    do {
+      patchData = try JSONEncoder().encode(patch)
+    } catch {
+      return .failure(error)
+    }
+
+    // credentials travel in the POST body, so nothing in this path is logged
+    var request = URLRequest(url: metadataUrl)
+    request.httpMethod = "POST"
+    request.setValue(
+      "application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.httpBody = Self.formEncode([
+      ("-target", target),
+      ("-patch", String(decoding: patchData, as: UTF8.self)),
+      ("access", credentials.accessKey),
+      ("secret", credentials.secretKey),
+    ])
+
+    do {
+      let (data, _) = try await urlSession.data(for: request)
+      let envelope: MetadataWriteEnvelope = try decodeResponse(data)
+      guard envelope.success == true else {
+        let message = envelope.error ?? "metadata write failed"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(
+        MetadataWriteResult(taskId: envelope.taskId, log: envelope.log))
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /** @inheritdoc */
   public func scrapeTotal(
     query: InternetArchiveURLStringProtocol
   ) async -> Result<Int, Error> {
