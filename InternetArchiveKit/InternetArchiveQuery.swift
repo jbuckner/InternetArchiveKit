@@ -96,12 +96,18 @@ extension InternetArchive {
 
    `field` can be empty to search any field
 
+   Lucene syntax characters in non-`exactMatch` values are backslash-escaped
+   so values like `foo fest [bar stage]` can't break the query parser. `*` and
+   `?` pass through so wildcard searches keep working. Use `RawQueryClause` to
+   pass raw Lucene syntax through untouched.
+
    ### Example Usage:
    ```
    let clause1 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and) => foo:(var)
    let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not) => -bar:(foo)
    let clause3 = InternetArchive.QueryClause(field: "bar", value: "foo", exactMatch: true) => bar:"foo"
    let clause4 = InternetArchive.QueryClause(field: "foo", values: ["bar", "baz"]) => foo:(bar OR baz)
+   let clause5 = InternetArchive.QueryClause(field: "venue", value: "foo [bar]") => venue:(foo \[bar\])
    ```
    */
   public struct QueryClause: InternetArchiveURLStringProtocol {
@@ -112,11 +118,31 @@ extension InternetArchive {
     public var asURLString: String? {  // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
-        return exactMatch ? "\"\(value)\"" : "(\(value))"
+        return exactMatch
+          ? "\"\(value)\""
+          : "(\(Self.escapingLuceneSyntax(in: value)))"
       }
       let joinedValues = surroundedValues.joined(separator: " OR ")
       let finalValue = values.count == 1 ? joinedValues : "(\(joinedValues))"
       return "\(booleanOperator.rawValue)\(fieldKey)\(finalValue)"
+    }
+
+    /// Lucene syntax characters that get backslash-escaped in values. `*` and
+    /// `?` are deliberately absent so wildcard searches keep working.
+    private static let luceneSpecialCharacters: Set<Character> = [
+      "+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", ":", "\\", "/",
+    ]
+
+    static func escapingLuceneSyntax(in value: String) -> String {
+      var escaped = ""
+      escaped.reserveCapacity(value.count)
+      for character in value {
+        if Self.luceneSpecialCharacters.contains(character) {
+          escaped.append("\\")
+        }
+        escaped.append(character)
+      }
+      return escaped
     }
 
     // convenience initializer for single-values
@@ -145,6 +171,27 @@ extension InternetArchive {
       self.values = values
       self.booleanOperator = booleanOperator
       self.exactMatch = exactMatch
+    }
+  }
+
+  /**
+   A query clause that passes a raw Lucene query string through untouched.
+
+   `QueryClause` backslash-escapes Lucene syntax characters in its values, so
+   use this for hand-built query fragments that need operators, ranges, or
+   grouping.
+
+   ### Example Usage:
+   ```
+   let clause = InternetArchive.RawQueryClause("title:(foo AND bar~2)")
+   ```
+   */
+  public struct RawQueryClause: InternetArchiveURLStringProtocol {
+    public let rawString: String
+    public var asURLString: String? { rawString }
+
+    public init(_ rawString: String) {
+      self.rawString = rawString
     }
   }
 
