@@ -259,7 +259,31 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
-  private func makeRequest<T>(url: URL) async -> Result<T, Error>
+  /** @inheritdoc */
+  public func views(
+    identifiers: [String]
+  ) async -> Result<[String: ItemViews], Error> {
+    guard
+      let viewsUrl: URL = urlGenerator.generateViewsUrl(
+        identifiers: identifiers
+      )
+    else {
+      os_log(
+        .error,
+        log: log,
+        "Error generating views url, identifiers: %{public}@",
+        identifiers.joined(separator: ",")
+      )
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    return await makeRequest(url: viewsUrl, decoder: viewsDecoder)
+  }
+
+  private func makeRequest<T>(
+    url: URL,
+    decoder: ZippyJSONDecoder? = nil
+  ) async -> Result<T, Error>
   where T: Decodable {
     os_log(
       .info,
@@ -279,7 +303,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         timeElapsed,
         url.absoluteString
       )
-      let results: T = try decodeResponse(data)
+      let results: T = try decodeResponse(data, decoder: decoder ?? jsonDecoder)
       return .success(results)
     } catch {
       os_log(
@@ -296,10 +320,10 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   /// HTTP-200 error envelope (`{"error": "…"}`), surface the API's
   /// message as `InternetArchiveError.apiError` instead of the
   /// shape-mismatch decoding error it would otherwise cause.
-  private func decodeResponse<T>(_ data: Data) throws -> T
+  private func decodeResponse<T>(_ data: Data, decoder: ZippyJSONDecoder) throws -> T
   where T: Decodable {
     do {
-      return try jsonDecoder.decode(T.self, from: data)
+      return try decoder.decode(T.self, from: data)
     } catch {
       if let envelope = try? jsonDecoder.decode(
         APIErrorEnvelope.self, from: data
@@ -309,6 +333,11 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
       throw error
     }
   }
+
+  // the Views service response is keyed by raw identifiers, and
+  // convertFromSnakeCase would mangle identifiers containing underscores,
+  // so views requests decode with ItemViews' explicit CodingKeys instead
+  private let viewsDecoder: ZippyJSONDecoder = ZippyJSONDecoder()
 
   private let urlSession: URLSession
 

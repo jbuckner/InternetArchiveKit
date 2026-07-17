@@ -39,6 +39,10 @@ class InternetArchiveKitTests: XCTestCase {
     func generateScrapeUrl(query: InternetArchiveURLStringProtocol, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], pagination: InternetArchive.ScrapePagination?, additionalQueryParams: [URLQueryItem]) -> URL? {
       return nil
     }
+
+    func generateViewsUrl(identifiers: [String]) -> URL? {
+      return nil
+    }
   }
 
   func testBadSearchUrl() {

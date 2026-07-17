@@ -178,6 +178,31 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Fetch view counts for items from the Views Data Service
+
+   Returns per-item view stats (all time, last 30 days, last 7 days) keyed by
+   identifier.
+
+   - parameters:
+   - identifiers: The item identifiers to fetch view counts for
+   - returns: [String: InternetArchive.ItemViews]
+   */
+  func views(
+    identifiers: [String]
+  ) async throws -> [String: InternetArchive.ItemViews]
+
+  /**
+   Fetch view counts for items from the Views Data Service
+
+   - parameters:
+   - identifiers: The item identifiers to fetch view counts for
+   - returns: Result<[String: InternetArchive.ItemViews], Error>
+   */
+  func views(
+    identifiers: [String]
+  ) async -> Result<[String: InternetArchive.ItemViews], Error>
+
+  /**
    Fetch a single item from the Internet Archive
 
    - parameters:
@@ -226,6 +251,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
     sortFields: [InternetArchiveURLQueryItemProtocol],
     additionalQueryParams: [URLQueryItem]
   ) -> URL?
+  func generateViewsUrl(identifiers: [String]) -> URL?
   func generateScrapeUrl(
     query: InternetArchiveURLStringProtocol,
     fields: [String],
@@ -299,6 +325,21 @@ extension InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol
   ) async throws -> Int {
     let result: Result<Int, Error> = await scrapeTotal(query: query)
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func views(
+    identifiers: [String]
+  ) async throws -> [String: InternetArchive.ItemViews] {
+    let result: Result<[String: InternetArchive.ItemViews], Error> = await views(
+      identifiers: identifiers
+    )
     switch result {
     case .success(let success):
       return success
