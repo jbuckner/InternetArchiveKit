@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import os.log
+import OSLog
 
 extension InternetArchive {
   public class URLGenerator: InternetArchiveURLGeneratorProtocol {
@@ -208,15 +208,10 @@ extension InternetArchive {
     private func warnIfQueryExceedsRecommendedLength(_ queryString: String?) {
       guard Self.queryExceedsRecommendedLength(queryString),
             let queryString = queryString else { return }
-      os_log(
-        .error,
-        log: log,
-        // os_log formats are StaticStrings and can't be split across lines
+      logger.error(
+        // Logger messages are single string-interpolation literals and can't be split across lines
         // swiftlint:disable:next line_length
-        "search query is %{public}d chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (%{public}d). Query prefix: %{public}@",
-        queryString.count,
-        Self.recommendedMaxQueryLength,
-        String(queryString.prefix(120))
+        "search query is \(queryString.count, privacy: .public) chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (\(Self.recommendedMaxQueryLength, privacy: .public)). Query prefix: \(String(queryString.prefix(120)), privacy: .public)"
       )
       assertionFailure(
         "archive.org search query is \(queryString.count) chars — over the "
@@ -228,7 +223,7 @@ extension InternetArchive {
     private let host: String
     private let scheme: String
 
-    private let log: OSLog = OSLog(
+    private let logger: Logger = Logger(
       subsystem: logSubsystemId,
       category: "URLGenerator"
     )

@@ -8,7 +8,7 @@
 
 import Foundation
 import ZippyJSON
-import os.log
+import OSLog
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
@@ -79,11 +79,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         additionalQueryParams: []
       )
     else {
-      os_log(
-        .error,
-        log: log,
-        "Error generating search url: %@",
-        query.asURLString ?? "Unknown query.asURLString"
+      logger.error(
+        "Error generating search url: \(query.asURLString ?? "Unknown query.asURLString")"
       )
       return .failure(InternetArchiveError.invalidUrl)
     }
@@ -141,11 +138,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         additionalQueryParams: []
       )
     else {
-      os_log(
-        .error,
-        log: log,
-        "Error generating scrape url: %@",
-        query.asURLString ?? "Unknown query.asURLString"
+      logger.error(
+        "Error generating scrape url: \(query.asURLString ?? "Unknown query.asURLString")"
       )
       return .failure(InternetArchiveError.invalidUrl)
     }
@@ -193,11 +187,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         ]
       )
     else {
-      os_log(
-        .error,
-        log: log,
-        "Error generating scrapeTotal url: %@",
-        query.asURLString ?? "Unknown query.asURLString"
+      logger.error(
+        "Error generating scrapeTotal url: \(query.asURLString ?? "Unknown query.asURLString")"
       )
       return .failure(InternetArchiveError.invalidUrl)
     }
@@ -229,11 +220,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         identifier: identifier
       )
     else {
-      os_log(
-        .error,
-        log: log,
-        "itemDetail error generating metadata url, identifier: %{public}@",
-        identifier
+      logger.error(
+        "itemDetail error generating metadata url, identifier: \(identifier, privacy: .public)"
       )
       return .failure(InternetArchiveError.invalidUrl)
     }
@@ -261,32 +249,20 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
 
   private func makeRequest<T>(url: URL) async -> Result<T, Error>
   where T: Decodable {
-    os_log(
-      .info,
-      log: log,
-      "makeRequest start, url: %{public}@",
-      url.absoluteString
-    )
+    logger.info("makeRequest start, url: \(url.absoluteString, privacy: .public)")
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
       let (data, _) = try await urlSession.data(from: url)
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
-      os_log(
-        .info,
-        log: log,
-        "makeRequest completed in %{public}f s, url: %{public}@",
-        timeElapsed,
-        url.absoluteString
+      logger.info(
+        "makeRequest completed in \(timeElapsed, privacy: .public) s, url: \(url.absoluteString, privacy: .public)"
       )
       let results: T = try decodeResponse(data)
       return .success(results)
     } catch {
-      os_log(
-        .error,
-        log: log,
-        "makeRequest, error: %{public}@",
-        error.localizedDescription
+      logger.error(
+        "makeRequest, error: \(error.localizedDescription, privacy: .public)"
       )
       return .failure(error)
     }
@@ -312,7 +288,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
 
   private let urlSession: URLSession
 
-  private let log: OSLog = OSLog(
+  private let logger: Logger = Logger(
     subsystem: logSubsystemId,
     category: "InternetArchive"
   )
