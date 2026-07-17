@@ -28,6 +28,10 @@ extension InternetArchive {
     /// `identifier`, if it appears in a scrape sort, to be the last sort field.
     /// `message` explains what to fix.
     case invalidSortFields(message: String)
+
+    /// The request needs credentials and this `InternetArchive` instance was
+    /// created without them. Pass `Credentials` at init.
+    case missingCredentials
   }
 }
 
@@ -40,6 +44,8 @@ extension InternetArchive.InternetArchiveError: LocalizedError {
       return "Internet Archive API error: \(message)"
     case .invalidSortFields(let message):
       return "Invalid sort fields: \(message)"
+    case .missingCredentials:
+      return "This request requires credentials"
     }
   }
 }

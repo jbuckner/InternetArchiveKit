@@ -242,6 +242,89 @@ public protocol InternetArchiveProtocol {
     identifier: String,
     completion: @escaping (InternetArchive.Item?, Error?) -> Void
   )
+
+  /**
+   Upload a file to an Internet Archive item over IAS3
+
+   Requires credentials, and the account needs write access to the item. The
+   file body is held in memory, so this suits metadata-sized and audio-sized
+   files rather than multi-gigabyte ones.
+
+   - parameters:
+   - itemIdentifier: The item (bucket) identifier
+   - fileName: The file name to store
+   - data: The file contents
+   - contentType: The MIME type to send
+   - metadata: Item metadata for `x-archive-meta-*` headers, applied when
+     the bucket is created
+   - autoMakeBucket: Create the item if it doesn't exist yet
+   - queueDerive: Queue a derive task after the upload
+   - sizeHint: The expected final item size in bytes, for large items
+   */
+  func upload(
+    itemIdentifier: String,
+    fileName: String,
+    data: Data,
+    contentType: String?,
+    metadata: [String: String],
+    autoMakeBucket: Bool,
+    queueDerive: Bool,
+    sizeHint: Int?
+  ) async throws
+
+  /**
+   Upload a file to an Internet Archive item over IAS3
+
+   - parameters:
+   - itemIdentifier: The item (bucket) identifier
+   - fileName: The file name to store
+   - data: The file contents
+   - contentType: The MIME type to send
+   - metadata: Item metadata for `x-archive-meta-*` headers
+   - autoMakeBucket: Create the item if it doesn't exist yet
+   - queueDerive: Queue a derive task after the upload
+   - sizeHint: The expected final item size in bytes
+   - returns: Result<Void, Error>
+   */
+  func upload(
+    itemIdentifier: String,
+    fileName: String,
+    data: Data,
+    contentType: String?,
+    metadata: [String: String],
+    autoMakeBucket: Bool,
+    queueDerive: Bool,
+    sizeHint: Int?
+  ) async -> Result<Void, Error>
+
+  /**
+   Delete a file from an Internet Archive item over IAS3
+
+   - parameters:
+   - itemIdentifier: The item (bucket) identifier
+   - fileName: The file name to delete
+   - cascadeDerivatives: Also delete the file's derivatives
+   */
+  func deleteFile(
+    itemIdentifier: String,
+    fileName: String,
+    cascadeDerivatives: Bool
+  ) async throws
+
+  /**
+   Delete a file from an Internet Archive item over IAS3
+
+   - parameters:
+   - itemIdentifier: The item (bucket) identifier
+   - fileName: The file name to delete
+   - cascadeDerivatives: Also delete the file's derivatives
+   - returns: Result<Void, Error>
+   */
+  func deleteFile(
+    itemIdentifier: String,
+    fileName: String,
+    cascadeDerivatives: Bool
+  ) async -> Result<Void, Error>
 }
 
 /// A protocol to which the main `InternetArchive.URLGenerator` class conforms
@@ -258,6 +341,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
     sortFields: [InternetArchiveURLQueryItemProtocol],
     additionalQueryParams: [URLQueryItem]
   ) -> URL?
+  func generateUploadUrl(itemIdentifier: String, fileName: String) -> URL?
   func generateScrapeUrl(
     query: InternetArchiveURLStringProtocol,
     fields: [String],
@@ -368,6 +452,48 @@ extension InternetArchiveProtocol {
       return success
     case .failure(let failure):
       throw failure
+    }
+  }
+
+  /** @inheritdoc */
+  public func upload(
+    itemIdentifier: String,
+    fileName: String,
+    data: Data,
+    contentType: String?,
+    metadata: [String: String],
+    autoMakeBucket: Bool,
+    queueDerive: Bool,
+    sizeHint: Int?
+  ) async throws {
+    let result: Result<Void, Error> = await upload(
+      itemIdentifier: itemIdentifier,
+      fileName: fileName,
+      data: data,
+      contentType: contentType,
+      metadata: metadata,
+      autoMakeBucket: autoMakeBucket,
+      queueDerive: queueDerive,
+      sizeHint: sizeHint
+    )
+    if case .failure(let error) = result {
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func deleteFile(
+    itemIdentifier: String,
+    fileName: String,
+    cascadeDerivatives: Bool
+  ) async throws {
+    let result: Result<Void, Error> = await deleteFile(
+      itemIdentifier: itemIdentifier,
+      fileName: fileName,
+      cascadeDerivatives: cascadeDerivatives
+    )
+    if case .failure(let error) = result {
+      throw error
     }
   }
 }
