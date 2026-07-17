@@ -117,3 +117,5 @@ extension InternetArchive {
     }
   }
 }
+
+extension InternetArchive.ModelField: Sendable where T.FieldType: Sendable {}

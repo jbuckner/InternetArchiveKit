@@ -13,7 +13,7 @@ extension InternetArchive {
   /**
    The top-level response from a search request
    */
-  public struct SearchResponse: Decodable {
+  public struct SearchResponse: Decodable, Sendable {
     public let responseHeader: ResponseHeader
     public let response: Response
 
@@ -29,7 +29,7 @@ extension InternetArchive {
   /**
    The response headers from a search request
    */
-  public struct ResponseHeader: Decodable {
+  public struct ResponseHeader: Decodable, Sendable {
     public let status: Int
     public let QTime: Int
     public let params: ResponseParams
@@ -48,7 +48,7 @@ extension InternetArchive {
   /**
    The response from a search request, containing the search results (`docs`)
    */
-  public struct Response: Decodable {
+  public struct Response: Decodable, Sendable {
     public let numFound: Int
     public let start: Int
     public let docs: [ItemMetadata]
@@ -69,7 +69,7 @@ extension InternetArchive {
   
    This contains the query information that you sent in the search request.
    */
-  public struct ResponseParams: Decodable {
+  public struct ResponseParams: Decodable, Sendable {
     public let query: String
     public let qin: String
     public let fields: String
@@ -106,7 +106,7 @@ extension InternetArchive {
    `cursor` back into the next `scrape()` call to continue where this batch left
    off; when `cursor` comes back `nil` the end of the result set has been reached.
    */
-  public struct ScrapeResponse: Decodable {
+  public struct ScrapeResponse: Decodable, Sendable {
     /// The items in this batch. These are the same `ItemMetadata` documents
     /// `search()` returns in `Response.docs`.
     public let items: [ItemMetadata]
