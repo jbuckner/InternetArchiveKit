@@ -66,7 +66,7 @@ extension InternetArchive {
 
   /**
    The response parameters from a search request
-  
+
    This contains the query information that you sent in the search request.
    */
   public struct ResponseParams: Decodable {
