@@ -92,6 +92,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  @available(*, deprecated, message: "Use the async version instead")
   public func search(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -154,6 +155,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  @available(*, deprecated, message: "Use the async version instead")
   public func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]? = nil,
@@ -207,6 +209,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  @available(*, deprecated, message: "Use the async version instead")
   public func scrapeTotal(
     query: InternetArchiveURLStringProtocol,
     completion: @escaping (Int?, Error?) -> Void
@@ -242,6 +245,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  @available(*, deprecated, message: "Use the async version instead")
   public func itemDetail(
     identifier: String,
     completion: @escaping (InternetArchive.Item?, Error?) -> Void

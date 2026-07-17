@@ -65,6 +65,7 @@ public protocol InternetArchiveProtocol {
    - sortFields: The fields by which you want to sort the results as an `InternetArchiveURLQueryItemProtocol` object
    - completion: Returns optional `InternetArchive.SearchResponse` and `Error` objects
    */
+  @available(*, deprecated, message: "Use the async version instead")
   func search(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -131,6 +132,7 @@ public protocol InternetArchiveProtocol {
    - pagination: `.cursor` to resume, `.count` to size a one-shot or first batch, or `nil` for the default first batch
    - completion: Returns optional `InternetArchive.ScrapeResponse` and `Error` objects
    */
+  @available(*, deprecated, message: "Use the async version instead")
   func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
@@ -172,6 +174,7 @@ public protocol InternetArchiveProtocol {
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - completion: Returns an optional total count and `Error` object
    */
+  @available(*, deprecated, message: "Use the async version instead")
   func scrapeTotal(
     query: InternetArchiveURLStringProtocol,
     completion: @escaping (Int?, Error?) -> Void
@@ -207,6 +210,7 @@ public protocol InternetArchiveProtocol {
    - completion: Returns optional `InternetArchive.Item` and `Error` objects
    - returns: No value
    */
+  @available(*, deprecated, message: "Use the async version instead")
   func itemDetail(
     identifier: String,
     completion: @escaping (InternetArchive.Item?, Error?) -> Void
