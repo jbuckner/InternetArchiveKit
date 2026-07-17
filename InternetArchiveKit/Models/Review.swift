@@ -1,8 +1,9 @@
 //
-//  File 2.swift
-//
+//  Review.swift
+//  InternetArchiveKit
 //
 //  Created by Jason Buckner on 1/27/21.
+//  Copyright © 2021 Jason Buckner. All rights reserved.
 //
 
 import Foundation
