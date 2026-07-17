@@ -209,6 +209,32 @@ public protocol InternetArchiveProtocol {
   ) async -> Result<InternetArchive.Account, Error>
 
   /**
+   Fetch items changed since a point in the Changes API's feed
+
+   Requires credentials. Start with `.coldStart` to enumerate everything,
+   `.startDate` for changes since a date, or nil for the current head; then
+   pass each response's `nextToken` back as `.token` to keep reading.
+
+   - parameters:
+   - start: Where to read from, or nil for the current head
+   - returns: InternetArchive.ChangesResponse
+   */
+  func changes(
+    start: InternetArchive.ChangesStart?
+  ) async throws -> InternetArchive.ChangesResponse
+
+  /**
+   Fetch items changed since a point in the Changes API's feed
+
+   - parameters:
+   - start: Where to read from, or nil for the current head
+   - returns: Result<InternetArchive.ChangesResponse, Error>
+   */
+  func changes(
+    start: InternetArchive.ChangesStart?
+  ) async -> Result<InternetArchive.ChangesResponse, Error>
+
+  /**
    Fetch a single item from the Internet Archive
 
    - parameters:
@@ -249,6 +275,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
   func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateXauthnUrl(operation: String) -> URL?
+  func generateChangesUrl() -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
   func generateSearchUrl(
     query: InternetArchiveURLStringProtocol,
@@ -347,6 +374,21 @@ extension InternetArchiveProtocol {
     let result: Result<InternetArchive.Account, Error> = await login(
       email: email,
       password: password
+    )
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func changes(
+    start: InternetArchive.ChangesStart?
+  ) async throws -> InternetArchive.ChangesResponse {
+    let result: Result<InternetArchive.ChangesResponse, Error> = await changes(
+      start: start
     )
     switch result {
     case .success(let success):

@@ -32,6 +32,10 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
+    func generateChangesUrl() -> URL? {
+      return nil
+    }
+
     func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
       return nil
     }
