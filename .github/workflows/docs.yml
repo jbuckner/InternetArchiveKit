@@ -38,6 +38,9 @@ jobs:
           <script>window.location.href = "documentation/internetarchivekit/"</script>
           HTML
 
+      - name: Add the demo page
+        run: cp -R demo site/demo
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

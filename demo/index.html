@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InternetArchiveKit demo</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --accent: #4a7ab5;
+    --border: color-mix(in srgb, currentColor 18%, transparent);
+    --muted: color-mix(in srgb, currentColor 55%, transparent);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    line-height: 1.5;
+  }
+  h1 { font-size: 1.5rem; }
+  p.tagline { color: var(--muted); }
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0 1rem;
+  }
+  input, select, button {
+    font: inherit;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+  }
+  input { flex: 1 1 12rem; }
+  button {
+    background: var(--accent);
+    color: white;
+    border-color: transparent;
+    cursor: pointer;
+  }
+  pre.query {
+    background: color-mix(in srgb, currentColor 6%, transparent);
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  ul.results { list-style: none; padding: 0; }
+  ul.results li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  ul.results .id { color: var(--muted); font-size: 0.85rem; }
+  .status { color: var(--muted); }
+  a { color: var(--accent); }
+  footer { margin-top: 3rem; font-size: 0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>InternetArchiveKit demo</h1>
+<p class="tagline">
+  Live queries against the same archive.org endpoints
+  <a href="https://github.com/jbuckner/InternetArchiveKit">InternetArchiveKit</a>
+  wraps. The Swift equivalent of each request is shown below the form.
+</p>
+
+<form id="search-form">
+  <select id="field">
+    <option value="collection">collection</option>
+    <option value="creator">creator</option>
+    <option value="title">title</option>
+    <option value="">any field</option>
+  </select>
+  <input id="value" value="etree" placeholder="value" required>
+  <button type="submit">Search</button>
+</form>
+
+<pre class="query" id="swift-snippet"></pre>
+
+<p class="status" id="status"></p>
+<ul class="results" id="results"></ul>
+
+<footer>
+  Requests go straight from your browser to
+  <code>archive.org/advancedsearch.php</code>, the endpoint behind
+  <code>InternetArchive.search()</code>.
+  See the <a href="../documentation/internetarchivekit/">API documentation</a>.
+</footer>
+
+<script>
+  const form = document.getElementById("search-form");
+  const statusEl = document.getElementById("status");
+  const resultsEl = document.getElementById("results");
+  const snippetEl = document.getElementById("swift-snippet");
+
+  function updateSnippet(field, value) {
+    snippetEl.textContent =
+      `let query = InternetArchive.Query(clauses: ["${field}": "${value}"])\n` +
+      `let results = await InternetArchive().search(query: query, page: 1, rows: 25)`;
+  }
+
+  async function runSearch(field, value) {
+    // the same query string InternetArchive.Query generates
+    const q = field ? `${field}:(${value})` : `(${value})`;
+    const url = new URL("https://archive.org/advancedsearch.php");
+    url.searchParams.set("q", q);
+    url.searchParams.set("output", "json");
+    url.searchParams.set("rows", "25");
+    url.searchParams.set("page", "1");
+    ["identifier", "title", "creator"].forEach((f) =>
+      url.searchParams.append("fl[]", f));
+
+    statusEl.textContent = "Loading…";
+    resultsEl.replaceChildren();
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      if (json.error) throw new Error(json.error);
+      const docs = json.response.docs;
+      statusEl.textContent =
+        `${json.response.numFound.toLocaleString()} results, showing ${docs.length}`;
+      for (const doc of docs) {
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `https://archive.org/details/${doc.identifier}`;
+        link.textContent = Array.isArray(doc.title) ? doc.title[0] : (doc.title ?? doc.identifier);
+        const id = document.createElement("div");
+        id.className = "id";
+        id.textContent = doc.identifier;
+        li.append(link, id);
+        resultsEl.append(li);
+      }
+    } catch (error) {
+      statusEl.textContent = `Error: ${error.message}`;
+    }
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const field = document.getElementById("field").value;
+    const value = document.getElementById("value").value.trim();
+    updateSnippet(field, value);
+    runSearch(field, value);
+  });
+
+  updateSnippet("collection", "etree");
+  runSearch("collection", "etree");
+</script>
+</body>
+</html>
