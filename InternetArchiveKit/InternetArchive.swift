@@ -66,8 +66,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     query: InternetArchiveURLStringProtocol,
     page: Int,
     rows: Int,
-    fields: [String]?,
-    sortFields: [InternetArchiveURLQueryItemProtocol]?
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil
   ) async -> Result<SearchResponse, Error> {
     guard
       let searchUrl: URL = urlGenerator.generateSearchUrl(
@@ -120,9 +120,9 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   /** @inheritdoc */
   public func scrape(
     query: InternetArchiveURLStringProtocol,
-    fields: [String]?,
-    sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    pagination: ScrapePagination?
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
+    pagination: ScrapePagination? = nil
   ) async -> Result<ScrapeResponse, Error> {
     if URLGenerator.scrapeSortMisplacesIdentifier(sortFields ?? []) {
       return .failure(
