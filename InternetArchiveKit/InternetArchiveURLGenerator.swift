@@ -184,6 +184,22 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate a Changes API (`/changes/v1`) url
+
+     The Changes API lives on the `be-api.us.archive.org` host. Credentials
+     and paging parameters travel in the POST body, so the url is static.
+
+     - returns: Optional changes `URL`
+     */
+    public func generateChangesUrl() -> URL? {
+      var urlComponents: URLComponents = URLComponents()
+      urlComponents.scheme = scheme
+      urlComponents.host = "be-api.us.archive.org"
+      urlComponents.path = "/changes/v1"
+      return urlComponents.url
+    }
+
     private func getBaseUrlComponents() -> URLComponents {
       var urlComponents: URLComponents = URLComponents()
       urlComponents.scheme = scheme

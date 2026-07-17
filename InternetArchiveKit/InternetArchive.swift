@@ -310,6 +310,58 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
+  /** @inheritdoc */
+  public func changes(
+    start: ChangesStart? = nil
+  ) async -> Result<ChangesResponse, Error> {
+    guard let credentials = credentials else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard let changesUrl: URL = urlGenerator.generateChangesUrl() else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    var fields: [(String, String)] = [
+      ("access", credentials.accessKey),
+      ("secret", credentials.secretKey),
+    ]
+    switch start {
+    case .coldStart:
+      fields.append(("start_date", "0"))
+    case .startDate(let date):
+      fields.append(("start_date", Self.changesDateFormatter.string(from: date)))
+    case .token(let token):
+      fields.append(("token", token))
+    case nil:
+      break
+    }
+
+    // built by hand rather than through makeRequest: the body carries the
+    // secret key, so nothing in this path is logged
+    var request = URLRequest(url: changesUrl)
+    request.httpMethod = "POST"
+    request.setValue(
+      "application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.httpBody = Self.formEncode(fields)
+
+    do {
+      let (data, _) = try await urlSession.data(for: request)
+      let results: ChangesResponse = try decodeResponse(data)
+      return .success(results)
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /// Formats `ChangesStart.startDate` dates as the API's `YYYYMMDD`
+  private static let changesDateFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.dateFormat = "yyyyMMdd"
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return dateFormatter
+  }()
+
   /// The request for `url` with the configured credentials attached, if any
   private func authorizedRequest(url: URL) -> URLRequest {
     var request = URLRequest(url: url)
