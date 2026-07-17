@@ -57,6 +57,39 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(clause.asURLString, "foo:(\"bar\" OR \"baz\")")
   }
 
+  func testQueryClauseEscapesLuceneSyntax() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "venue", value: "foo fest [bar stage]")
+    XCTAssertEqual(clause.asURLString, "venue:(foo fest \\[bar stage\\])")
+  }
+
+  func testQueryClauseEscapesEveryLuceneSpecialCharacter() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "foo", value: "a+b-c&d|e!f(g)h{i}j[k]l^m\"n~o:p\\q/r")
+    XCTAssertEqual(
+      clause.asURLString,
+      "foo:(a\\+b\\-c\\&d\\|e\\!f\\(g\\)h\\{i\\}j\\[k\\]l\\^m\\\"n\\~o\\:p\\\\q\\/r)")
+  }
+
+  func testQueryClauseKeepsWildcards() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "title", value: "grateful* dea?")
+    XCTAssertEqual(clause.asURLString, "title:(grateful* dea?)")
+  }
+
+  func testQueryClauseExactMatchLeavesValueUntouched() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "venue", value: "foo [bar]", exactMatch: true)
+    XCTAssertEqual(clause.asURLString, "venue:\"foo [bar]\"")
+  }
+
+  func testRawQueryClausePassesThrough() {
+    let clause: InternetArchive.RawQueryClause = InternetArchive.RawQueryClause("title:(foo AND [bar])")
+    XCTAssertEqual(clause.asURLString, "title:(foo AND [bar])")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [clause])
+    XCTAssertEqual(query.asURLString, "(title:(foo AND [bar]))")
+  }
+
   func testSubQueryString() {
     let param1: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "foo", value: "bar")
     let param2: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "baz", value: "boop", booleanOperator: .not)

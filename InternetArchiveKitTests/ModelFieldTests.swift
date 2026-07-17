@@ -94,13 +94,65 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  // string-typed fields sometimes arrive as JSON numbers; they decode as their string form
+  func testIAStringDecodesNumericValues() {
+    struct Foo: Decodable {
+      let foo: InternetArchive.ModelField<InternetArchive.IAString>
+      let bar: InternetArchive.ModelField<InternetArchive.IAString>
+      let baz: InternetArchive.ModelField<InternetArchive.IAString>
+    }
+
+    let json: String = """
+      { "foo": 1, "bar": 2.5, "baz": [1, "two", 3] }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    do {
+      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      XCTAssertEqual(results.foo.value, "1")
+      XCTAssertEqual(results.bar.value, "2.5")
+      XCTAssertEqual(results.baz.values, ["1", "two", "3"])
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
+
+  func testIADateDecodesNumericYear() {
+    struct Foo: Decodable {
+      let year: InternetArchive.ModelField<InternetArchive.IADate>
+    }
+
+    let json: String = """
+      { "year": 2018 }
+    """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    let formatter = DateFormatter()
+    formatter.timeZone = TimeZone(abbreviation: "GMT")
+    formatter.dateFormat = "yyyy"
+    let comparisonYear = formatter.date(from: "2018")
+
+    do {
+      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      XCTAssertEqual(results.year.value, comparisonYear)
+    } catch {
+      XCTFail("error decoding")
+    }
+  }
+
   func testTypeMismatchFailure() {
     struct Foo: Decodable {
       let foo: InternetArchive.ModelField<InternetArchive.IAString>
     }
 
     let json: String = """
-      { "foo": 1 }
+      { "foo": true }
     """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
@@ -373,6 +425,12 @@ class ModelFieldTests: XCTestCase {
     }
   }
 
+  func testIATimeIntervalUnparseableStringIsNil() {
+    XCTAssertNil(InternetArchive.IATimeInterval(fromString: "abc")?.value)
+    XCTAssertNil(InternetArchive.IATimeInterval(fromString: "1:ab")?.value)
+    XCTAssertNil(InternetArchive.IATimeInterval(fromString: "")?.value)
+  }
+
   func testIATimeIntervalDecoder() {
     struct Foo: Decodable {
       let decimal: InternetArchive.ModelField<InternetArchive.IATimeInterval>
@@ -416,7 +474,6 @@ class ModelFieldTests: XCTestCase {
     let comparisonColonSecondsMinutesHours = TimeInterval(smhSeconds)
     let smhdSeconds = (4 * 3600) + (43 * 60) + 21.273
     let comparisonColonSecondsMinutesHoursDecimal = TimeInterval(smhdSeconds)
-    let comparisonBadString = TimeInterval(0)
 
     do {
       let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
@@ -429,8 +486,8 @@ class ModelFieldTests: XCTestCase {
       XCTAssertEqual(results.colonSecondsMinutes.value, comparisonColonSecondsMinutes)
       XCTAssertEqual(results.colonSecondsMinutesHours.value, comparisonColonSecondsMinutesHours)
       XCTAssertEqual(results.colonSecondsMinutesHoursDecimal.value, comparisonColonSecondsMinutesHoursDecimal)
-      XCTAssertEqual(results.badString1.value, comparisonBadString)
-      XCTAssertEqual(results.badString2.value, comparisonBadString)
+      XCTAssertNil(results.badString1.value)
+      XCTAssertNil(results.badString2.value)
     } catch {
       XCTFail("error decoding")
     }

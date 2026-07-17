@@ -475,6 +475,26 @@ class InternetArchiveKitTests: XCTestCase {
     }
   }
 
+  // The README's minimal call forms: `fields`, `sortFields`, and `pagination` all default to nil,
+  // so these also pin the defaults at compile time.
+  func testSearchMinimalArguments() async {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let result = await InternetArchive().search(query: query, page: 1, rows: 10)
+    switch result {
+    case .success(let response):
+      XCTAssertTrue(response.response.docs.count > 0)
+    case .failure(let error):
+      XCTFail("error, \(error.localizedDescription)")
+    }
+  }
+
+  func testScrapeMinimalArguments() async throws {
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    // the type annotation selects the `async throws` overload over the `async -> Result` one
+    let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(query: query)
+    XCTAssertTrue(response.items.count > 0)
+  }
+
   // `scrapeTotal` returns just the match count (the Scrape API's `total_only`), fetching no items.
   func testScrapeTotal() {
     let expectation = XCTestExpectation(description: "Test Scrape Total")

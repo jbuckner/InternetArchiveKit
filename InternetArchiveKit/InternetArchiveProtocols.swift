@@ -253,8 +253,8 @@ extension InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol,
     page: Int,
     rows: Int,
-    fields: [String]?,
-    sortFields: [InternetArchiveURLQueryItemProtocol]?
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil
   ) async throws -> InternetArchive.SearchResponse {
     let result: Result<InternetArchive.SearchResponse, Error> = await search(
       query: query,
@@ -275,9 +275,9 @@ extension InternetArchiveProtocol {
   /** @inheritdoc */
   public func scrape(
     query: InternetArchiveURLStringProtocol,
-    fields: [String]?,
-    sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    pagination: InternetArchive.ScrapePagination?
+    fields: [String]? = nil,
+    sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
+    pagination: InternetArchive.ScrapePagination? = nil
   ) async throws -> InternetArchive.ScrapeResponse {
     let result: Result<InternetArchive.ScrapeResponse, Error> = await scrape(
       query: query,

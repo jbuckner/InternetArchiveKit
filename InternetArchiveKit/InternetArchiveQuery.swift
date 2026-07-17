@@ -96,12 +96,18 @@ extension InternetArchive {
 
    `field` can be empty to search any field
 
+   Lucene syntax characters in non-`exactMatch` values are backslash-escaped
+   so values like `foo fest [bar stage]` can't break the query parser. `*` and
+   `?` pass through so wildcard searches keep working. Use `RawQueryClause` to
+   pass raw Lucene syntax through untouched.
+
    ### Example Usage:
    ```
    let clause1 = InternetArchive.QueryClause(field: "foo", value: "bar", booleanOperator: .and) => foo:(var)
    let clause2 = InternetArchive.QueryClause(field: "bar", value: "foo", booleanOperator: .not) => -bar:(foo)
    let clause3 = InternetArchive.QueryClause(field: "bar", value: "foo", exactMatch: true) => bar:"foo"
    let clause4 = InternetArchive.QueryClause(field: "foo", values: ["bar", "baz"]) => foo:(bar OR baz)
+   let clause5 = InternetArchive.QueryClause(field: "venue", value: "foo [bar]") => venue:(foo \[bar\])
    ```
    */
   public struct QueryClause: InternetArchiveURLStringProtocol {
@@ -112,11 +118,31 @@ extension InternetArchive {
     public var asURLString: String? {  // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
-        return exactMatch ? "\"\(value)\"" : "(\(value))"
+        return exactMatch
+          ? "\"\(value)\""
+          : "(\(Self.escapingLuceneSyntax(in: value)))"
       }
       let joinedValues = surroundedValues.joined(separator: " OR ")
       let finalValue = values.count == 1 ? joinedValues : "(\(joinedValues))"
       return "\(booleanOperator.rawValue)\(fieldKey)\(finalValue)"
+    }
+
+    /// Lucene syntax characters that get backslash-escaped in values. `*` and
+    /// `?` are deliberately absent so wildcard searches keep working.
+    private static let luceneSpecialCharacters: Set<Character> = [
+      "+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", ":", "\\", "/",
+    ]
+
+    static func escapingLuceneSyntax(in value: String) -> String {
+      var escaped = ""
+      escaped.reserveCapacity(value.count)
+      for character in value {
+        if Self.luceneSpecialCharacters.contains(character) {
+          escaped.append("\\")
+        }
+        escaped.append(character)
+      }
+      return escaped
     }
 
     // convenience initializer for single-values
@@ -149,6 +175,27 @@ extension InternetArchive {
   }
 
   /**
+   A query clause that passes a raw Lucene query string through untouched.
+
+   `QueryClause` backslash-escapes Lucene syntax characters in its values, so
+   use this for hand-built query fragments that need operators, ranges, or
+   grouping.
+
+   ### Example Usage:
+   ```
+   let clause = InternetArchive.RawQueryClause("title:(foo AND bar~2)")
+   ```
+   */
+  public struct RawQueryClause: InternetArchiveURLStringProtocol {
+    public let rawString: String
+    public var asURLString: String? { rawString }
+
+    public init(_ rawString: String) {
+      self.rawString = rawString
+    }
+  }
+
+  /**
    A query clause for use in generating a date range query.
 
    This is comprised of a `field` and `dateRange`.
@@ -166,16 +213,8 @@ extension InternetArchive {
     public let queryField: String
     public let dateRange: DateInterval
     public var asURLString: String? {
-      let startDate: Date = dateRange.start
-      let endDate: Date = dateRange.end
-      let dateFormatter: DateFormatter = DateFormatter()
-
-      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-      let startDateString: String = dateFormatter.string(from: startDate)
-      let endDateString: String = dateFormatter.string(from: endDate)
+      let startDateString: String = Self.dateFormatter.string(from: dateRange.start)
+      let endDateString: String = Self.dateFormatter.string(from: dateRange.end)
 
       return QueryRangeFormatter.formatRangeString(
         queryField: queryField,
@@ -183,6 +222,16 @@ extension InternetArchive {
         rangeEnd: endDateString
       )
     }
+
+    // DateFormatter allocation is expensive, so share one instance;
+    // DateFormatter is documented thread-safe
+    private static let dateFormatter: DateFormatter = {
+      let dateFormatter: DateFormatter = DateFormatter()
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+      return dateFormatter
+    }()
 
     public init(queryField: String, dateRange: DateInterval) {
       self.queryField = queryField

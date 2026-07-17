@@ -45,7 +45,20 @@ extension InternetArchive {
       self.value = string
     }
     required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
+      let container = try from.singleValueContainer()
+      do {
+        self.value = try container.decode(String.self)
+      } catch {
+        // the Archive sometimes flips a string field to a number;
+        // absorb that instead of failing the whole payload's decode
+        if let intValue = try? container.decode(Int.self) {
+          self.value = String(intValue)
+        } else if let doubleValue = try? container.decode(Double.self) {
+          self.value = String(doubleValue)
+        } else {
+          throw error
+        }
+      }
     }
   }
 
@@ -138,8 +151,17 @@ extension InternetArchive {
     }
     required public init(from: Decoder) throws {
       let container = try from.singleValueContainer()
-      let stringValue = try container.decode(String.self)
-      self.value = parseString(string: stringValue)
+      do {
+        let stringValue = try container.decode(String.self)
+        self.value = parseString(string: stringValue)
+      } catch {
+        // bare years sometimes arrive as JSON numbers, eg `"year": 2018`
+        if let intValue = try? container.decode(Int.self) {
+          self.value = parseString(string: String(intValue))
+        } else {
+          throw error
+        }
+      }
     }
     private func parseString(string: String) -> Date? {
       return DateParser.shared.date(from: string)
@@ -178,13 +200,13 @@ extension InternetArchive {
 
       let componentArray: [String] = string.components(separatedBy: ":")
       let componentCount: Int = componentArray.count
-      let seconds: Double = componentArray.enumerated().compactMap({
-        (offset: Int, element: String) -> Double? in
+      var seconds: Double = 0
+      for (offset, element) in componentArray.enumerated() {
         guard let componentValue: Double = Double(element) else { return nil }
         let exponent: Int = (componentCount - 1) - offset
         let multiplier: Decimal = pow(60, exponent)
-        return componentValue * Double(truncating: multiplier as NSNumber)
-      }).reduce(0) { $0 + $1 }
+        seconds += componentValue * Double(truncating: multiplier as NSNumber)
+      }
       return seconds
     }
   }

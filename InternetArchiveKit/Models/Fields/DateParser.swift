@@ -16,7 +16,12 @@ protocol DateParserProtocol {
 extension DateFormatter: DateParserProtocol {}
 extension JJLISO8601DateFormatter: DateParserProtocol {}
 
-class DateParser {
+/// Parses the date formats found in Internet Archive metadata.
+///
+/// The shared instance is safe to use from concurrent decodes: `parsers` is
+/// immutable after init, and both `DateFormatter` and
+/// `JJLISO8601DateFormatter` are documented thread-safe.
+final class DateParser {
   static let shared: DateParser = DateParser()
 
   func date(from string: String) -> Date? {
@@ -29,59 +34,20 @@ class DateParser {
   }
 
   // the parsers to try in order of priority
-  private lazy var parsers: [DateParserProtocol] = {
-    return [
-      isoFormatter,
-      dateTimeFormatter,
-      yearMonthDayFormatter,
-      yearMonthFormatter,
-      yearFormatter,
-      yearBracketFormatter,
-      yearCircaFormatter,
-    ]
-  }()
+  private let parsers: [DateParserProtocol] = [
+    JJLISO8601DateFormatter(),
+    makeFormatter(dateFormat: "yyyy-MM-dd HH:mm:ss"),
+    makeFormatter(dateFormat: "yyyy-MM-dd"),
+    makeFormatter(dateFormat: "yyyy-MM"),
+    makeFormatter(dateFormat: "yyyy"),
+    makeFormatter(dateFormat: "'['yyyy']'"),
+    makeFormatter(dateFormat: "'c.a.' yyyy"),
+  ]
 
-  private lazy var yearFormatter: DateParserProtocol = {
+  private static func makeFormatter(dateFormat: String) -> DateFormatter {
     let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy"
+    dateFormatter.dateFormat = dateFormat
     dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
     return dateFormatter
-  }()
-
-  private lazy var yearBracketFormatter: DateParserProtocol = {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "'['yyyy']'"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    return dateFormatter
-  }()
-
-  private lazy var yearCircaFormatter: DateParserProtocol = {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "'c.a.' yyyy"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    return dateFormatter
-  }()
-
-  private lazy var yearMonthFormatter: DateParserProtocol = {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    return dateFormatter
-  }()
-
-  private lazy var yearMonthDayFormatter: DateParserProtocol = {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    return dateFormatter
-  }()
-
-  private lazy var dateTimeFormatter: DateParserProtocol = {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    return dateFormatter
-  }()
-
-  private lazy var isoFormatter: DateParserProtocol = JJLISO8601DateFormatter()
+  }
 }
