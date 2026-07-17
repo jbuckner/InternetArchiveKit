@@ -24,6 +24,10 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
+    func generateReviewsUrl(identifier: String) -> URL? {
+      return nil
+    }
+
     func generateMetadataUrl(identifier: String) -> URL? {
       return nil
     }

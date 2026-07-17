@@ -75,6 +75,88 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Create or update the signed-in account's review on an item
+
+   Requires credentials. A user has one review per item, so submitting again
+   overwrites the existing review; the result's `reviewUpdated` reports which
+   happened.
+
+   - parameters:
+   - identifier: The item identifier
+   - title: The review title
+   - body: The review body
+   - stars: The star rating, 0 to 5
+   - returns: InternetArchive.ReviewWriteResult
+   */
+  func submitReview(
+    identifier: String,
+    title: String,
+    body: String,
+    stars: Int?
+  ) async throws -> InternetArchive.ReviewWriteResult
+
+  /**
+   Create or update the signed-in account's review on an item
+
+   - parameters:
+   - identifier: The item identifier
+   - title: The review title
+   - body: The review body
+   - stars: The star rating, 0 to 5
+   - returns: Result<InternetArchive.ReviewWriteResult, Error>
+   */
+  func submitReview(
+    identifier: String,
+    title: String,
+    body: String,
+    stars: Int?
+  ) async -> Result<InternetArchive.ReviewWriteResult, Error>
+
+  /**
+   Delete the signed-in account's review from an item
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: InternetArchive.ReviewWriteResult
+   */
+  func deleteReview(
+    identifier: String
+  ) async throws -> InternetArchive.ReviewWriteResult
+
+  /**
+   Delete the signed-in account's review from an item
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: Result<InternetArchive.ReviewWriteResult, Error>
+   */
+  func deleteReview(
+    identifier: String
+  ) async -> Result<InternetArchive.ReviewWriteResult, Error>
+
+  /**
+   Fetch the signed-in account's review on an item
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: InternetArchive.Review
+   */
+  func myReview(
+    identifier: String
+  ) async throws -> InternetArchive.Review
+
+  /**
+   Fetch the signed-in account's review on an item
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: Result<InternetArchive.Review, Error>
+   */
+  func myReview(
+    identifier: String
+  ) async -> Result<InternetArchive.Review, Error>
+
+  /**
    Scrape the Internet Archive
 
    The Scrape API walks through an entire result set with a `cursor`, so it can
@@ -247,6 +329,7 @@ public protocol InternetArchiveProtocol {
 /// A protocol to which the main `InternetArchive.URLGenerator` class conforms
 public protocol InternetArchiveURLGeneratorProtocol {
   func generateItemImageUrl(itemIdentifier: String) -> URL?
+  func generateReviewsUrl(identifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateXauthnUrl(operation: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
@@ -296,6 +379,57 @@ extension InternetArchiveProtocol {
       sortFields: sortFields
     )
 
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func submitReview(
+    identifier: String,
+    title: String,
+    body: String,
+    stars: Int?
+  ) async throws -> InternetArchive.ReviewWriteResult {
+    let result: Result<InternetArchive.ReviewWriteResult, Error> = await submitReview(
+      identifier: identifier,
+      title: title,
+      body: body,
+      stars: stars
+    )
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func deleteReview(
+    identifier: String
+  ) async throws -> InternetArchive.ReviewWriteResult {
+    let result: Result<InternetArchive.ReviewWriteResult, Error> = await deleteReview(
+      identifier: identifier
+    )
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func myReview(
+    identifier: String
+  ) async throws -> InternetArchive.Review {
+    let result: Result<InternetArchive.Review, Error> = await myReview(
+      identifier: identifier
+    )
     switch result {
     case .success(let success):
       return success

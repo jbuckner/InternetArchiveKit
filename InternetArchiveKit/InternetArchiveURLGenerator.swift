@@ -68,6 +68,23 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate a Reviews API (`/services/reviews.php`) url
+
+     - parameters:
+       - identifier: The item identifier
+
+     - returns: Optional reviews `URL`
+     */
+    public func generateReviewsUrl(identifier: String) -> URL? {
+      var urlComponents: URLComponents = getBaseUrlComponents()
+      urlComponents.path = "/services/reviews.php"
+      urlComponents.queryItems = [
+        URLQueryItem(name: "identifier", value: identifier)
+      ]
+      return urlComponents.url
+    }
+
     public func generateSearchUrl(
       query: InternetArchiveURLStringProtocol,
       page: Int,
