@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import InternetArchiveKit
-import ZippyJSON
 
 class ModelFieldTests: XCTestCase {
 
@@ -35,7 +34,7 @@ class ModelFieldTests: XCTestCase {
 
     measure {
       for _ in 0..<1000 {
-        _ = try? ZippyJSONDecoder().decode(Foo.self, from: data)
+        _ = try? JSONDecoder().decode(Foo.self, from: data)
       }
     }
   }
@@ -55,7 +54,7 @@ class ModelFieldTests: XCTestCase {
 
     measure {
       for _ in 0..<1000 {
-        _ = try? ZippyJSONDecoder().decode(Foo.self, from: data)
+        _ = try? JSONDecoder().decode(Foo.self, from: data)
       }
     }
   }
@@ -83,7 +82,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
       XCTAssertEqual(results.foo.values, ["bar"])
       XCTAssertEqual(results.foo.value, "bar")
 
@@ -108,7 +107,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     do {
-      _ = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      _ = try JSONDecoder().decode(Foo.self, from: data)
       XCTFail("This should not have succeeded")
     } catch {
       XCTAssertTrue(error is Swift.DecodingError)
@@ -142,7 +141,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
       XCTAssertEqual(results.foo.values, [1])
       XCTAssertEqual(results.foo.value, 1)
 
@@ -188,7 +187,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
       XCTAssertEqual(results.foo.values, [true])
       XCTAssertEqual(results.foo.value, true)
 
@@ -232,7 +231,7 @@ class ModelFieldTests: XCTestCase {
     }
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
       XCTAssertEqual(results.good.values, [1.2, 2.3])
       XCTAssertEqual(results.good.value, 1.2)
 
@@ -312,7 +311,7 @@ class ModelFieldTests: XCTestCase {
     let comparisonISODateTimeZoneOffset2 = isoFormatter.date(from: "2018-11-15T15:23:11+04:00")
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
 
       XCTAssertEqual(results.year.value, comparisonYear)
       XCTAssertEqual(results.yearBracket.value, comparisonYearBracket)
@@ -354,7 +353,7 @@ class ModelFieldTests: XCTestCase {
     let comparisonUrl = URL(string: "http://yondermountainstringband.com")
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
 
       XCTAssertEqual(results.foo.values, [comparisonUrl])
       XCTAssertEqual(results.foo.value, comparisonUrl)
@@ -419,7 +418,7 @@ class ModelFieldTests: XCTestCase {
     let comparisonBadString = TimeInterval(0)
 
     do {
-      let results: Foo = try ZippyJSONDecoder().decode(Foo.self, from: data)
+      let results: Foo = try JSONDecoder().decode(Foo.self, from: data)
 
       XCTAssertEqual(results.decimal.value, comparisonDecimal)
       XCTAssertEqual(results.intString.value, comparisonIntString)

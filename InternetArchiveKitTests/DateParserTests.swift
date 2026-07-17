@@ -12,7 +12,7 @@ import XCTest
 // formatters — ISO8601 first, then a series of DateFormatter patterns — so that IA
 // metadata dates, which arrive in several shapes, all decode to a Date. These tests
 // drive the parser directly (no JSON layer) to pin every supported shape and the nil
-// cases, isolating the parser from the ModelField / ZippyJSON decode path.
+// cases, isolating the parser from the ModelField decode path.
 class DateParserTests: XCTestCase {
   private let parser = DateParser.shared
 

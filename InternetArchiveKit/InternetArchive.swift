@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ZippyJSON
 import os.log
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
@@ -55,8 +54,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
 
   private let urlGenerator: InternetArchiveURLGeneratorProtocol
 
-  private let jsonDecoder: ZippyJSONDecoder = {
-    let decoder = ZippyJSONDecoder()
+  private let jsonDecoder: JSONDecoder = {
+    let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return decoder
   }()

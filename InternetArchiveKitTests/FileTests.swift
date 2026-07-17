@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import ZippyJSON
 import InternetArchiveKit
 
 class FileTests: XCTestCase {
@@ -43,7 +42,7 @@ class FileTests: XCTestCase {
     }
     """#.data(using: .utf8)!
 
-    let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
+    let file = try JSONDecoder().decode(InternetArchive.File.self, from: json)
     XCTAssertEqual(file.name, "frtr100312d1_01_Ripple.flac")
     XCTAssertEqual(file.private?.value, true)
   }
@@ -56,7 +55,7 @@ class FileTests: XCTestCase {
     }
     """#.data(using: .utf8)!
 
-    let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
+    let file = try JSONDecoder().decode(InternetArchive.File.self, from: json)
     XCTAssertNil(file.private)
   }
 

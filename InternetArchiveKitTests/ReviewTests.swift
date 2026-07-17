@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import ZippyJSON
 import InternetArchiveKit
 
 class ReviewTests: XCTestCase {
@@ -28,20 +27,8 @@ class ReviewTests: XCTestCase {
   }
   """#.data(using: .utf8)!
 
-  func testDecodesReviewerItemnameWithZippyJSON() throws {
+  func testDecodesReviewerItemname() throws {
     // Same decoder configuration as InternetArchive.swift
-    let decoder = ZippyJSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-    let review = try decoder.decode(InternetArchive.Review.self, from: reviewJson)
-    XCTAssertEqual(review.reviewer, "HughMcQToo")
-    XCTAssertEqual(review.stars?.value, 5)
-    XCTAssertEqual(review.reviewerItemname, "@hughmcqtoo")
-  }
-
-  func testDecodesReviewerItemnameWithFoundationJSONDecoder() throws {
-    // ZippyJSONDecoder falls back to Foundation's JSONDecoder on unsupported
-    // platforms, so both decoders must agree.
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 
@@ -55,7 +42,7 @@ class ReviewTests: XCTestCase {
   // exercised without compiler warnings.
   @available(*, deprecated)
   func testDeprecatedSnakeCaseSpellingsStillWork() throws {
-    let decoder = ZippyJSONDecoder()
+    let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 
     let review = try decoder.decode(InternetArchive.Review.self, from: reviewJson)
