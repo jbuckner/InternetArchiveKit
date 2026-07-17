@@ -242,6 +242,32 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  public func simpleLists(
+    identifier: String
+  ) async -> Result<SimpleListsResponse, Error> {
+    guard
+      let simpleListsUrl: URL = urlGenerator.generateSimpleListsUrl(
+        identifier: identifier
+      )
+    else {
+      os_log(
+        .error,
+        log: log,
+        "simpleLists error generating url, identifier: %{public}@",
+        identifier
+      )
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    return await makeRequest(url: simpleListsUrl, decoder: simpleListsDecoder)
+  }
+
+  // simple lists responses are keyed by raw list names and parent
+  // identifiers, and convertFromSnakeCase would mangle ones containing
+  // underscores, so they decode with explicit CodingKeys instead
+  private let simpleListsDecoder: ZippyJSONDecoder = ZippyJSONDecoder()
+
+  /** @inheritdoc */
   public func itemDetail(
     identifier: String,
     completion: @escaping (InternetArchive.Item?, Error?) -> Void
@@ -259,7 +285,10 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
-  private func makeRequest<T>(url: URL) async -> Result<T, Error>
+  private func makeRequest<T>(
+    url: URL,
+    decoder: ZippyJSONDecoder? = nil
+  ) async -> Result<T, Error>
   where T: Decodable {
     os_log(
       .info,
@@ -279,7 +308,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
         timeElapsed,
         url.absoluteString
       )
-      let results: T = try decodeResponse(data)
+      let results: T = try decodeResponse(data, decoder: decoder ?? jsonDecoder)
       return .success(results)
     } catch {
       os_log(
@@ -296,10 +325,10 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   /// HTTP-200 error envelope (`{"error": "…"}`), surface the API's
   /// message as `InternetArchiveError.apiError` instead of the
   /// shape-mismatch decoding error it would otherwise cause.
-  private func decodeResponse<T>(_ data: Data) throws -> T
+  private func decodeResponse<T>(_ data: Data, decoder: ZippyJSONDecoder) throws -> T
   where T: Decodable {
     do {
-      return try jsonDecoder.decode(T.self, from: data)
+      return try decoder.decode(T.self, from: data)
     } catch {
       if let envelope = try? jsonDecoder.decode(
         APIErrorEnvelope.self, from: data

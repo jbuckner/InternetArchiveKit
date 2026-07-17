@@ -178,6 +178,32 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Fetch an item's simple list memberships
+
+   Returns the lists the item belongs to, keyed by list name and then by
+   parent item identifier. Items with no list memberships get an API error
+   back from archive.org, surfaced as `InternetArchiveError.apiError`.
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: InternetArchive.SimpleListsResponse
+   */
+  func simpleLists(
+    identifier: String
+  ) async throws -> InternetArchive.SimpleListsResponse
+
+  /**
+   Fetch an item's simple list memberships
+
+   - parameters:
+   - identifier: The item identifier
+   - returns: Result<InternetArchive.SimpleListsResponse, Error>
+   */
+  func simpleLists(
+    identifier: String
+  ) async -> Result<InternetArchive.SimpleListsResponse, Error>
+
+  /**
    Fetch a single item from the Internet Archive
 
    - parameters:
@@ -218,6 +244,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
   func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
+  func generateSimpleListsUrl(identifier: String) -> URL?
   func generateSearchUrl(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -299,6 +326,21 @@ extension InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol
   ) async throws -> Int {
     let result: Result<Int, Error> = await scrapeTotal(query: query)
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func simpleLists(
+    identifier: String
+  ) async throws -> InternetArchive.SimpleListsResponse {
+    let result: Result<InternetArchive.SimpleListsResponse, Error> = await simpleLists(
+      identifier: identifier
+    )
     switch result {
     case .success(let success):
       return success
