@@ -32,6 +32,10 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
+    func generateSimpleListsUrl(identifier: String) -> URL? {
+      return nil
+    }
+
     func generateSearchUrl(query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]) -> URL? {
       return nil
     }

@@ -52,6 +52,21 @@ extension InternetArchive {
     }
 
     /**
+     Generate the simple lists url for an Internet Archive item
+     (`/metadata/{identifier}/simplelists`)
+
+     - parameters:
+     - identifier: The item identifier
+
+     - returns: Optional simple lists `URL`
+     */
+    public func generateSimpleListsUrl(identifier: String) -> URL? {
+      var urlComponents: URLComponents = getBaseUrlComponents()
+      urlComponents.path = "/metadata/\(identifier)/simplelists"
+      return urlComponents.url
+    }
+
+    /**
      Generate the download url for an Internet Archive file
     
      - parameters:
