@@ -18,9 +18,14 @@ extension InternetArchive {
     /// single clause should chunk against it.
     public static let recommendedMaxQueryLength: Int = 1_800
 
-    public init(host: String = "archive.org", scheme: String = "https") {
+    public init(
+      host: String = "archive.org",
+      scheme: String = "https",
+      statsHost: String = "be-api.us.archive.org"
+    ) {
       self.host = host
       self.scheme = scheme
+      self.statsHost = statsHost
     }
 
     /**
@@ -169,6 +174,26 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate a Views Data Service (`/views/v1/short`) url
+
+     The Views service lives on its own host (`statsHost`), not the main
+     archive.org host.
+
+     - parameters:
+       - identifiers: The item identifiers to fetch view counts for
+
+     - returns: Optional views `URL`
+     */
+    public func generateViewsUrl(identifiers: [String]) -> URL? {
+      guard !identifiers.isEmpty else { return nil }
+      var urlComponents: URLComponents = URLComponents()
+      urlComponents.scheme = scheme
+      urlComponents.host = statsHost
+      urlComponents.path = "/views/v1/short/\(identifiers.joined(separator: ","))"
+      return urlComponents.url
+    }
+
     private func getBaseUrlComponents() -> URLComponents {
       var urlComponents: URLComponents = URLComponents()
       urlComponents.scheme = scheme
@@ -227,6 +252,7 @@ extension InternetArchive {
 
     private let host: String
     private let scheme: String
+    private let statsHost: String
 
     private let log: OSLog = OSLog(
       subsystem: logSubsystemId,
