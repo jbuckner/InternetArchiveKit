@@ -14,7 +14,7 @@ extension InternetArchive {
 
    This will be returned from an `InternetArchive().itemDetail()` request.
    */
-  public struct Item: Decodable {
+  public struct Item: Decodable, Sendable {
     public let created: ModelField<IAInt>?
     public let collection: ModelField<IAString>?
     public let creator: ModelField<IAString>?
