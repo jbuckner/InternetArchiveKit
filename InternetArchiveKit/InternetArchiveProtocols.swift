@@ -35,7 +35,7 @@ public protocol InternetArchiveProtocol {
 
   /**
    Search the Internet Archive
-  
+
    - parameters:
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - page: The results pagination page number
@@ -55,7 +55,7 @@ public protocol InternetArchiveProtocol {
 
   /**
    Search the Internet Archive
-  
+
    - parameters:
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - page: The results pagination page number
@@ -190,7 +190,7 @@ public protocol InternetArchiveProtocol {
 
   /**
    Fetch a single item from the Internet Archive
-  
+
    - parameters:
    - identifier: The item identifier
    - returns: Result<InternetArchive.Item, Error>
@@ -201,7 +201,7 @@ public protocol InternetArchiveProtocol {
 
   /**
    Fetch a single item from the Internet Archive
-  
+
    - parameters:
    - identifier: The item identifier
    - completion: Returns optional `InternetArchive.Item` and `Error` objects

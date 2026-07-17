@@ -35,11 +35,10 @@ jobs:
           fail_ci_if_error: false
 
   lint:
-    name: SwiftLint
-    runs-on: ubuntu-latest
-    container: ghcr.io/realm/swiftlint:0.63.3
+    name: swift-format
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run SwiftLint
-        run: swiftlint --reporter github-actions-logging
+      - name: Run swift-format lint
+        run: swift format lint --strict --recursive InternetArchiveKit

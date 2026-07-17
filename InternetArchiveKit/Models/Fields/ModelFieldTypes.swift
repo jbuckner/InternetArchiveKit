@@ -11,7 +11,7 @@ import Foundation
 extension InternetArchive {
   /**
    Internet Archive `Int` field
-  
+
    ### Example Usage
    ```
    let intField = IAInt(fromString: "3")
@@ -31,7 +31,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `String` field
-  
+
    ### Example Usage
    ```
    let stringField = IAInt(fromString: "Foo")
@@ -51,7 +51,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Double` field
-  
+
    ### Example Usage
    ```
    let doubleField = IADouble(fromString: "13.54")
@@ -71,7 +71,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Bool` field
-  
+
    ### Example Usage
    ```
    let boolField = IABool(fromString: "true")
@@ -91,7 +91,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `URL` field
-  
+
    ### Example Usage
    ```
    let urlField = IAURL(fromString: "https://archive.org")
@@ -111,7 +111,7 @@ extension InternetArchive {
 
   /**
    Internet Archive `Date` field
-  
+
    Parses the following formats:
    - ISO8601 (`2018-11-15T08:23:41Z`, `2018-11-15T08:23:41-07:00`, etc)
    - Date Time (`2018-03-25 14:51:24`)
@@ -120,10 +120,10 @@ extension InternetArchive {
    - Year Month (`2018-09`)
    - Approximate Year (`[2018]`)
    - Circa Year (`c.a. 2018`)
-  
+
    **Note:** The "approximate" and "circa" formats do not have a representation that they're approximate,
    since the `Date` type has no way of representing it.
-  
+
    ### Example Usage
    ```
    let dateField = IADate(fromString: "2018-11-15T08:23:41Z")
@@ -148,16 +148,16 @@ extension InternetArchive {
 
   /**
    Internet Archive `TimeInterval` field. Used for fields like `length` of an audio file.
-  
+
    Parses the following formats:
    - Seconds.Milliseconds (`323.4`)
    - Duration (`5:23.4`)
-  
+
    ### Example Usage
    ```
    let timeIntervalField1 = IATimeInterval(fromString: "12:37.4")
    timeIntervalField1.value => TimeInterval 757.4
-  
+
    let timeIntervalField2 = IATimeInterval(fromString: "526.7")
    timeIntervalField2.value => TimeInterval 526.7
    ```
