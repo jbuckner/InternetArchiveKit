@@ -18,13 +18,13 @@ extension InternetArchive {
    intField.value => 3
    ```
    */
-  public class IAInt: ModelFieldProtocol {
+  public struct IAInt: ModelFieldProtocol {
     public typealias FieldType = Int
     public var value: FieldType?
-    required public init?(fromString string: String) {
+    public init?(fromString string: String) {
       self.value = FieldType.init(string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
   }
@@ -38,13 +38,13 @@ extension InternetArchive {
    stringField.value => "Foo"
    ```
    */
-  public class IAString: ModelFieldProtocol {
+  public struct IAString: ModelFieldProtocol {
     public typealias FieldType = String
     public var value: FieldType?
-    required public init?(fromString string: String) {
+    public init?(fromString string: String) {
       self.value = string
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
   }
@@ -58,13 +58,13 @@ extension InternetArchive {
    doubleField.value => 13.54
    ```
    */
-  public class IADouble: ModelFieldProtocol {
+  public struct IADouble: ModelFieldProtocol {
     public typealias FieldType = Double
     public var value: FieldType?
-    required public init?(fromString string: String) {
+    public init?(fromString string: String) {
       self.value = FieldType.init(string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
   }
@@ -78,13 +78,13 @@ extension InternetArchive {
    boolField.value => true
    ```
    */
-  public class IABool: ModelFieldProtocol {
+  public struct IABool: ModelFieldProtocol {
     public typealias FieldType = Bool
     public var value: FieldType?
-    required public init?(fromString string: String) {
+    public init?(fromString string: String) {
       self.value = FieldType.init(string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
   }
@@ -98,13 +98,13 @@ extension InternetArchive {
    urlField.value => URL "https://archive.org"
    ```
    */
-  public class IAURL: ModelFieldProtocol {
+  public struct IAURL: ModelFieldProtocol {
     public typealias FieldType = URL
     public var value: FieldType?
-    required public init?(fromString string: String) {
+    public init?(fromString string: String) {
       self.value = FieldType.init(string: string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
   }
@@ -130,18 +130,18 @@ extension InternetArchive {
    dateField.value => Date "2018-11-15T08:23:41Z"
    ```
    */
-  public class IADate: ModelFieldProtocol {
+  public struct IADate: ModelFieldProtocol {
     public typealias FieldType = Date
     public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = parseString(string: string)
+    public init?(fromString string: String) {
+      self.value = Self.parseString(string: string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       let container = try from.singleValueContainer()
       let stringValue = try container.decode(String.self)
-      self.value = parseString(string: stringValue)
+      self.value = Self.parseString(string: stringValue)
     }
-    private func parseString(string: String) -> Date? {
+    private static func parseString(string: String) -> Date? {
       return DateParser.shared.date(from: string)
     }
   }
@@ -162,16 +162,16 @@ extension InternetArchive {
    timeIntervalField2.value => TimeInterval 526.7
    ```
    */
-  public class IATimeInterval: ModelFieldProtocol {
+  public struct IATimeInterval: ModelFieldProtocol {
     public typealias FieldType = TimeInterval
     public var value: FieldType?
-    required public init?(fromString string: String) {
-      self.value = parseString(string: string)
+    public init?(fromString string: String) {
+      self.value = Self.parseString(string: string)
     }
-    required public init(from: Decoder) throws {
+    public init(from: Decoder) throws {
       self.value = try FieldType.init(from: from)
     }
-    private func parseString(string: String) -> TimeInterval? {
+    private static func parseString(string: String) -> TimeInterval? {
       if let timeInterval: TimeInterval = TimeInterval.init(string) {
         return timeInterval
       }
