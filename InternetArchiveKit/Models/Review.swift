@@ -11,7 +11,7 @@ extension InternetArchive {
   /**
    A review on an Internet Archive item
    */
-  public struct Review: Decodable, Sendable {
+  public struct Review: Codable, Sendable {
     public let reviewbody: ModelField<IAString>?
     public let reviewtitle: String?
     public let reviewer: String?

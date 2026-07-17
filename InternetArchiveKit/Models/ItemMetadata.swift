@@ -35,7 +35,7 @@ extension InternetArchive {
    **Note**: This is not an exhaustive list of metadata properties. If you need some that are missing,
    please open a pull request.
    */
-  public struct ItemMetadata: Decodable, Sendable {
+  public struct ItemMetadata: Codable, Sendable {
     public let addeddate: ModelField<IADate>?
     public let adder: ModelField<IAString>?
     public let avgRating: ModelField<IADouble>?

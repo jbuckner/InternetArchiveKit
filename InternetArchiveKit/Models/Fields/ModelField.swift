@@ -119,3 +119,20 @@ extension InternetArchive {
 }
 
 extension InternetArchive.ModelField: Sendable where T.FieldType: Sendable {}
+
+extension InternetArchive.ModelField: Encodable where T.FieldType: Encodable {
+  /// A single value encodes bare and multiple values encode as an array,
+  /// mirroring the shapes the Archive serves, so encoded output decodes
+  /// back through `init(from:)` unchanged.
+  ///
+  /// Date fields encode with the encoder's `dateEncodingStrategy`; use
+  /// `.iso8601` if the output needs to decode back into an `IADate` field.
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    if values.count == 1, let single = values.first {
+      try container.encode(single)
+    } else {
+      try container.encode(values)
+    }
+  }
+}

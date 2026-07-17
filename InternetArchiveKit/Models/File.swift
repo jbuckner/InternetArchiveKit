@@ -35,7 +35,7 @@ extension InternetArchive {
    **Note**: This is not an exhaustive list of properties. If you need some that are missing,
    please open a pull request.
    */
-  public struct File: Decodable, Sendable {
+  public struct File: Codable, Sendable {
     public let album: ModelField<IAString>?
     public let bitrate: ModelField<IAInt>?
     public let crc32: ModelField<IAString>?
