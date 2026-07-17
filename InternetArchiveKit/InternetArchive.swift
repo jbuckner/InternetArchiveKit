@@ -125,6 +125,94 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  public func submitReview(
+    identifier: String,
+    title: String,
+    body: String,
+    stars: Int? = nil
+  ) async -> Result<ReviewWriteResult, Error> {
+    await reviewWriteRequest(identifier: identifier, method: "POST") {
+      try JSONEncoder().encode(
+        ReviewSubmission(title: title, body: body, stars: stars))
+    }
+  }
+
+  /** @inheritdoc */
+  public func deleteReview(
+    identifier: String
+  ) async -> Result<ReviewWriteResult, Error> {
+    await reviewWriteRequest(identifier: identifier, method: "DELETE", body: nil)
+  }
+
+  /** @inheritdoc */
+  public func myReview(
+    identifier: String
+  ) async -> Result<Review, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let reviewsUrl: URL = urlGenerator.generateReviewsUrl(
+        identifier: identifier
+      )
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    let result: Result<ReviewReadEnvelope, Error> = await makeRequest(
+      url: reviewsUrl)
+    switch result {
+    case .success(let envelope):
+      guard envelope.success == true, let review = envelope.value else {
+        let message = envelope.error ?? "no review found"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(review)
+    case .failure(let error):
+      return .failure(error)
+    }
+  }
+
+  private func reviewWriteRequest(
+    identifier: String,
+    method: String,
+    body: (() throws -> Data)? = nil
+  ) async -> Result<ReviewWriteResult, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let reviewsUrl: URL = urlGenerator.generateReviewsUrl(
+        identifier: identifier
+      )
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    var request = authorizedRequest(url: reviewsUrl)
+    request.httpMethod = method
+    do {
+      if let body = body {
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try body()
+      }
+      let (data, _) = try await urlSession.data(for: request)
+      let envelope: ReviewWriteEnvelope = try decodeResponse(data)
+      guard envelope.success == true else {
+        let message = envelope.error ?? "review write failed"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(
+        ReviewWriteResult(
+          taskId: envelope.value?.taskId,
+          reviewUpdated: envelope.value?.reviewUpdated
+        ))
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /** @inheritdoc */
   public func scrape(
     query: InternetArchiveURLStringProtocol,
     fields: [String]?,
