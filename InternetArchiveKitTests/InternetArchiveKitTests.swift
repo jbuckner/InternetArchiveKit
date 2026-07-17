@@ -28,6 +28,10 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
+    func generateXauthnUrl(operation: String) -> URL? {
+      return nil
+    }
+
     func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL? {
       return nil
     }

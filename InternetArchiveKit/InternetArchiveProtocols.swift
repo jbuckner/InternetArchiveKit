@@ -178,6 +178,37 @@ public protocol InternetArchiveProtocol {
   )
 
   /**
+   Log in to archive.org and fetch the account's S3 keys and cookies
+
+   Wraps the xauthn login endpoint. Stateless: stores nothing and holds the
+   password only for the one request; persisting the returned credentials is
+   the caller's job. Pasting keys from https://archive.org/account/s3.php
+   skips passwords entirely.
+
+   - parameters:
+   - email: The account email
+   - password: The account password
+   - returns: InternetArchive.Account
+   */
+  func login(
+    email: String,
+    password: String
+  ) async throws -> InternetArchive.Account
+
+  /**
+   Log in to archive.org and fetch the account's S3 keys and cookies
+
+   - parameters:
+   - email: The account email
+   - password: The account password
+   - returns: Result<InternetArchive.Account, Error>
+   */
+  func login(
+    email: String,
+    password: String
+  ) async -> Result<InternetArchive.Account, Error>
+
+  /**
    Fetch a single item from the Internet Archive
 
    - parameters:
@@ -217,6 +248,7 @@ public protocol InternetArchiveProtocol {
 public protocol InternetArchiveURLGeneratorProtocol {
   func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
+  func generateXauthnUrl(operation: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
   func generateSearchUrl(
     query: InternetArchiveURLStringProtocol,
@@ -299,6 +331,23 @@ extension InternetArchiveProtocol {
     query: InternetArchiveURLStringProtocol
   ) async throws -> Int {
     let result: Result<Int, Error> = await scrapeTotal(query: query)
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func login(
+    email: String,
+    password: String
+  ) async throws -> InternetArchive.Account {
+    let result: Result<InternetArchive.Account, Error> = await login(
+      email: email,
+      password: password
+    )
     switch result {
     case .success(let success):
       return success
