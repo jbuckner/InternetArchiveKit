@@ -40,6 +40,10 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
+    func generateTasksUrl(queryItems: [URLQueryItem]) -> URL? {
+      return nil
+    }
+
     func generateScrapeUrl(query: InternetArchiveURLStringProtocol, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], pagination: InternetArchive.ScrapePagination?, additionalQueryParams: [URLQueryItem]) -> URL? {
       return nil
     }

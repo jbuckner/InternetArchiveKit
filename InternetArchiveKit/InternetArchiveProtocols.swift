@@ -11,6 +11,76 @@ import Foundation
 /// A protocol to which the main `InternetArchive` class conforms
 public protocol InternetArchiveProtocol {
   /**
+   Read task listings from the Tasks API
+
+   Requires credentials. Returns the summary counts plus catalog (queued and
+   running) and history rows, with a cursor for pagination.
+
+   - parameters:
+   - identifier: Limit to one item's tasks, or nil for the account's view
+   - limit: Rows per category, up to 500
+   - cursor: The previous listing's cursor, to continue
+   - returns: InternetArchive.TaskListing
+   */
+  func tasks(
+    identifier: String?,
+    limit: Int?,
+    cursor: String?
+  ) async throws -> InternetArchive.TaskListing
+
+  /**
+   Read task listings from the Tasks API
+
+   - parameters:
+   - identifier: Limit to one item's tasks, or nil for the account's view
+   - limit: Rows per category, up to 500
+   - cursor: The previous listing's cursor, to continue
+   - returns: Result<InternetArchive.TaskListing, Error>
+   */
+  func tasks(
+    identifier: String?,
+    limit: Int?,
+    cursor: String?
+  ) async -> Result<InternetArchive.TaskListing, Error>
+
+  /**
+   Submit a task to the Tasks API
+
+   Requires credentials, and the account needs permission for the command.
+   Common commands are `derive.php`, `fixer.php`, and `rename.php`.
+
+   - parameters:
+   - identifier: The item identifier
+   - cmd: The task command, e.g. `derive.php`
+   - args: The command's arguments
+   - priority: The task priority, -10 to 10
+   - returns: InternetArchive.TaskSubmission
+   */
+  func submitTask(
+    identifier: String,
+    cmd: String,
+    args: [String: String],
+    priority: Int?
+  ) async throws -> InternetArchive.TaskSubmission
+
+  /**
+   Submit a task to the Tasks API
+
+   - parameters:
+   - identifier: The item identifier
+   - cmd: The task command, e.g. `derive.php`
+   - args: The command's arguments
+   - priority: The task priority, -10 to 10
+   - returns: Result<InternetArchive.TaskSubmission, Error>
+   */
+  func submitTask(
+    identifier: String,
+    cmd: String,
+    args: [String: String],
+    priority: Int?
+  ) async -> Result<InternetArchive.TaskSubmission, Error>
+
+  /**
    Search the Internet Archive
 
    This is for interactive, paged queries. archive.org caps paged search at the
@@ -250,6 +320,7 @@ public protocol InternetArchiveURLGeneratorProtocol {
   func generateMetadataUrl(identifier: String) -> URL?
   func generateXauthnUrl(operation: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
+  func generateTasksUrl(queryItems: [URLQueryItem]) -> URL?
   func generateSearchUrl(
     query: InternetArchiveURLStringProtocol,
     page: Int,
@@ -280,6 +351,46 @@ public protocol InternetArchiveURLQueryItemProtocol: Sendable {
 }
 
 extension InternetArchiveProtocol {
+  /** @inheritdoc */
+  public func tasks(
+    identifier: String?,
+    limit: Int?,
+    cursor: String?
+  ) async throws -> InternetArchive.TaskListing {
+    let result: Result<InternetArchive.TaskListing, Error> = await tasks(
+      identifier: identifier,
+      limit: limit,
+      cursor: cursor
+    )
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
+  /** @inheritdoc */
+  public func submitTask(
+    identifier: String,
+    cmd: String,
+    args: [String: String],
+    priority: Int?
+  ) async throws -> InternetArchive.TaskSubmission {
+    let result: Result<InternetArchive.TaskSubmission, Error> = await submitTask(
+      identifier: identifier,
+      cmd: cmd,
+      args: args,
+      priority: priority
+    )
+    switch result {
+    case .success(let success):
+      return success
+    case .failure(let error):
+      throw error
+    }
+  }
+
   /** @inheritdoc */
   public func search(
     query: InternetArchiveURLStringProtocol,

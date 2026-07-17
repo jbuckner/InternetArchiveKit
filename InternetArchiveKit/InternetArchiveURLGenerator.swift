@@ -52,6 +52,22 @@ extension InternetArchive {
     }
 
     /**
+     Generate a Tasks API (`/services/tasks.php`) url
+
+     - parameters:
+       - queryItems: The query parameters, e.g. `identifier`, `catalog`,
+         `history`, `limit`, `cursor`
+
+     - returns: Optional tasks `URL`
+     */
+    public func generateTasksUrl(queryItems: [URLQueryItem]) -> URL? {
+      var urlComponents: URLComponents = getBaseUrlComponents()
+      urlComponents.path = "/services/tasks.php"
+      urlComponents.queryItems = queryItems
+      return urlComponents.url
+    }
+
+    /**
      Generate the download url for an Internet Archive file
     
      - parameters:
