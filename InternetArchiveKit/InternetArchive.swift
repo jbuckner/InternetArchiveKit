@@ -230,6 +230,119 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }
 
   /** @inheritdoc */
+  public func upload(
+    itemIdentifier: String,
+    fileName: String,
+    data: Data,
+    contentType: String? = nil,
+    metadata: [String: String] = [:],
+    autoMakeBucket: Bool = true,
+    queueDerive: Bool = true,
+    sizeHint: Int? = nil
+  ) async -> Result<Void, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let uploadUrl: URL = urlGenerator.generateUploadUrl(
+        itemIdentifier: itemIdentifier,
+        fileName: fileName
+      )
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    var request = authorizedRequest(url: uploadUrl)
+    request.httpMethod = "PUT"
+    request.httpBody = data
+    if let contentType = contentType {
+      request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+    }
+    if autoMakeBucket {
+      request.setValue("1", forHTTPHeaderField: "x-amz-auto-make-bucket")
+    }
+    if !queueDerive {
+      request.setValue("0", forHTTPHeaderField: "x-archive-queue-derive")
+    }
+    if let sizeHint = sizeHint {
+      request.setValue("\(sizeHint)", forHTTPHeaderField: "x-archive-size-hint")
+    }
+    for (key, value) in metadata {
+      // IAS3 turns double hyphens back into underscores in metadata names
+      let headerName = "x-archive-meta-"
+        + key.replacingOccurrences(of: "_", with: "--")
+      request.setValue(
+        Self.metadataHeaderValue(value), forHTTPHeaderField: headerName)
+    }
+
+    return await performS3Request(request)
+  }
+
+  /** @inheritdoc */
+  public func deleteFile(
+    itemIdentifier: String,
+    fileName: String,
+    cascadeDerivatives: Bool = true
+  ) async -> Result<Void, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let uploadUrl: URL = urlGenerator.generateUploadUrl(
+        itemIdentifier: itemIdentifier,
+        fileName: fileName
+      )
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    var request = authorizedRequest(url: uploadUrl)
+    request.httpMethod = "DELETE"
+    if cascadeDerivatives {
+      request.setValue("1", forHTTPHeaderField: "x-archive-cascade-delete")
+    }
+
+    return await performS3Request(request)
+  }
+
+  private func performS3Request(_ request: URLRequest) async -> Result<Void, Error> {
+    do {
+      let (data, response) = try await urlSession.data(for: request)
+      if let httpResponse = response as? HTTPURLResponse,
+        !(200..<300).contains(httpResponse.statusCode) {
+        // IAS3 errors are S3-style XML with a Message element
+        let body = String(decoding: data, as: UTF8.self)
+        let message = Self.s3ErrorMessage(from: body)
+          ?? "IAS3 request failed with HTTP \(httpResponse.statusCode)"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(())
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /// Extracts the Message element from an S3-style XML error body
+  static func s3ErrorMessage(from body: String) -> String? {
+    guard
+      let start = body.range(of: "<Message>"),
+      let end = body.range(of: "</Message>"),
+      start.upperBound <= end.lowerBound
+    else { return nil }
+    return String(body[start.upperBound..<end.lowerBound])
+  }
+
+  /// IAS3 metadata header values with characters outside ASCII travel
+  /// percent-encoded inside a `uri(...)` wrapper
+  static func metadataHeaderValue(_ value: String) -> String {
+    guard !value.allSatisfy({ $0.isASCII }) else { return value }
+    var allowed = CharacterSet.alphanumerics
+    allowed.insert(charactersIn: "-._~")
+    let encoded = value.addingPercentEncoding(withAllowedCharacters: allowed) ?? value
+    return "uri(\(encoded))"
+  }
+
+  /** @inheritdoc */
   public func itemDetail(identifier: String) async -> Result<Item, Error> {
     guard
       let metadataUrl: URL = urlGenerator.generateMetadataUrl(

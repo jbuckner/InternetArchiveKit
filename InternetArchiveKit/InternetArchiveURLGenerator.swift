@@ -68,6 +68,25 @@ extension InternetArchive {
       return urlComponents.url
     }
 
+    /**
+     Generate an IAS3 (`s3.us.archive.org`) upload url for a file
+
+     - parameters:
+       - itemIdentifier: The item (bucket) identifier
+       - fileName: The file name (key)
+
+     - returns: Optional upload `URL`
+     */
+    public func generateUploadUrl(itemIdentifier: String, fileName: String)
+      -> URL?
+    {
+      var urlComponents: URLComponents = URLComponents()
+      urlComponents.scheme = scheme
+      urlComponents.host = "s3.us.archive.org"
+      urlComponents.path = "/\(itemIdentifier)/\(fileName)"
+      return urlComponents.url
+    }
+
     public func generateSearchUrl(
       query: InternetArchiveURLStringProtocol,
       page: Int,
