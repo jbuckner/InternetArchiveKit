@@ -166,16 +166,8 @@ extension InternetArchive {
     public let queryField: String
     public let dateRange: DateInterval
     public var asURLString: String? {
-      let startDate: Date = dateRange.start
-      let endDate: Date = dateRange.end
-      let dateFormatter: DateFormatter = DateFormatter()
-
-      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-      let startDateString: String = dateFormatter.string(from: startDate)
-      let endDateString: String = dateFormatter.string(from: endDate)
+      let startDateString: String = Self.dateFormatter.string(from: dateRange.start)
+      let endDateString: String = Self.dateFormatter.string(from: dateRange.end)
 
       return QueryRangeFormatter.formatRangeString(
         queryField: queryField,
@@ -183,6 +175,16 @@ extension InternetArchive {
         rangeEnd: endDateString
       )
     }
+
+    // DateFormatter allocation is expensive, so share one instance;
+    // DateFormatter is documented thread-safe
+    private static let dateFormatter: DateFormatter = {
+      let dateFormatter: DateFormatter = DateFormatter()
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+      return dateFormatter
+    }()
 
     public init(queryField: String, dateRange: DateInterval) {
       self.queryField = queryField
