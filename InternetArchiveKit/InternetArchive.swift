@@ -69,6 +69,85 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   }()
 
   /** @inheritdoc */
+  public func tasks(
+    identifier: String? = nil,
+    limit: Int? = nil,
+    cursor: String? = nil
+  ) async -> Result<TaskListing, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+
+    var queryItems: [URLQueryItem] = [
+      URLQueryItem(name: "summary", value: "1"),
+      URLQueryItem(name: "catalog", value: "1"),
+      URLQueryItem(name: "history", value: "1"),
+    ]
+    if let identifier = identifier {
+      queryItems.append(URLQueryItem(name: "identifier", value: identifier))
+    }
+    if let limit = limit {
+      queryItems.append(URLQueryItem(name: "limit", value: "\(limit)"))
+    }
+    if let cursor = cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+
+    guard
+      let tasksUrl: URL = urlGenerator.generateTasksUrl(queryItems: queryItems)
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    let result: Result<TasksEnvelope, Error> = await makeRequest(url: tasksUrl)
+    switch result {
+    case .success(let envelope):
+      guard envelope.success == true, let listing = envelope.value else {
+        let message = envelope.error ?? "tasks request failed"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(listing)
+    case .failure(let error):
+      return .failure(error)
+    }
+  }
+
+  /** @inheritdoc */
+  public func submitTask(
+    identifier: String,
+    cmd: String,
+    args: [String: String] = [:],
+    priority: Int? = nil
+  ) async -> Result<TaskSubmission, Error> {
+    guard credentials != nil else {
+      return .failure(InternetArchiveError.missingCredentials)
+    }
+    guard
+      let tasksUrl: URL = urlGenerator.generateTasksUrl(queryItems: [])
+    else {
+      return .failure(InternetArchiveError.invalidUrl)
+    }
+
+    var request = authorizedRequest(url: tasksUrl)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    do {
+      request.httpBody = try JSONEncoder().encode(
+        TaskSubmissionRequest(
+          identifier: identifier, cmd: cmd, args: args, priority: priority))
+      let (data, _) = try await urlSession.data(for: request)
+      let envelope: TaskSubmissionEnvelope = try decodeResponse(data)
+      guard envelope.success == true, let submission = envelope.value else {
+        let message = envelope.error ?? "task submission failed"
+        return .failure(InternetArchiveError.apiError(message: message))
+      }
+      return .success(submission)
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  /** @inheritdoc */
   public func search(
     query: InternetArchiveURLStringProtocol,
     page: Int,
