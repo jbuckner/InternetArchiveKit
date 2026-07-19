@@ -38,8 +38,8 @@ let logSubsystemId: String = "engineering.astral.internetarchivekit"
 /// ```
 public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable {
   // Safe to share across concurrency domains: every stored property is a `let`
-  // and requests run through the thread-safe `URLSession`. `@unchecked` is only
-  // needed because the injected URL generator and JSON decoder aren't `Sendable`.
+  // and requests run through the thread-safe `URLSession`. `@unchecked` is
+  // needed because the JSON decoder is a non-`Sendable` class.
   public convenience init() {
     let urlGenerator = URLGenerator()
     self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
