@@ -72,7 +72,7 @@ public protocol InternetArchiveProtocol {
     rows: Int,
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
-    completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.SearchResponse?, Error?) -> Void
   )
 
   /**
@@ -138,7 +138,7 @@ public protocol InternetArchiveProtocol {
     fields: [String]?,
     sortFields: [InternetArchiveURLQueryItemProtocol]?,
     pagination: InternetArchive.ScrapePagination?,
-    completion: @escaping (InternetArchive.ScrapeResponse?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.ScrapeResponse?, Error?) -> Void
   )
 
   /**
@@ -177,7 +177,7 @@ public protocol InternetArchiveProtocol {
   @available(*, deprecated, message: "Use the async version instead")
   func scrapeTotal(
     query: InternetArchiveURLStringProtocol,
-    completion: @escaping (Int?, Error?) -> Void
+    completion: @escaping @Sendable (Int?, Error?) -> Void
   )
 
   /**
@@ -213,7 +213,7 @@ public protocol InternetArchiveProtocol {
   @available(*, deprecated, message: "Use the async version instead")
   func itemDetail(
     identifier: String,
-    completion: @escaping (InternetArchive.Item?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.Item?, Error?) -> Void
   )
 }
 

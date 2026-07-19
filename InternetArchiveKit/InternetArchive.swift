@@ -96,7 +96,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     rows: Int,
     fields: [String]? = nil,
     sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
-    completion: @escaping (InternetArchive.SearchResponse?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.SearchResponse?, Error?) -> Void
   ) {
     Task {
       let results: Result<SearchResponse, Error> = await search(
@@ -155,7 +155,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     fields: [String]? = nil,
     sortFields: [InternetArchiveURLQueryItemProtocol]? = nil,
     pagination: ScrapePagination? = nil,
-    completion: @escaping (InternetArchive.ScrapeResponse?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.ScrapeResponse?, Error?) -> Void
   ) {
     Task {
       let results: Result<ScrapeResponse, Error> = await scrape(
@@ -203,7 +203,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   @available(*, deprecated, message: "Use the async version instead")
   public func scrapeTotal(
     query: InternetArchiveURLStringProtocol,
-    completion: @escaping (Int?, Error?) -> Void
+    completion: @escaping @Sendable (Int?, Error?) -> Void
   ) {
     Task {
       let result: Result<Int, Error> = await scrapeTotal(query: query)
@@ -236,7 +236,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   @available(*, deprecated, message: "Use the async version instead")
   public func itemDetail(
     identifier: String,
-    completion: @escaping (InternetArchive.Item?, Error?) -> Void
+    completion: @escaping @Sendable (InternetArchive.Item?, Error?) -> Void
   ) {
     Task {
       let results: Result<Item, Error> = await itemDetail(
