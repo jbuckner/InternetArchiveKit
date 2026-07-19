@@ -8,8 +8,14 @@
 
 import Foundation
 
-/// A protocol to which the main `InternetArchive` class conforms
-public protocol InternetArchiveProtocol {
+/// A protocol to which the main `InternetArchive` class conforms.
+///
+/// Refines `Sendable`: the client is a stateless request builder over a
+/// `URLSession`, safe to share across concurrency domains (the concrete
+/// `InternetArchive` is `@unchecked Sendable`). This lets callers hold an
+/// `any InternetArchiveProtocol` inside an actor or send it across isolation
+/// boundaries.
+public protocol InternetArchiveProtocol: Sendable {
   /**
    Search the Internet Archive
 
