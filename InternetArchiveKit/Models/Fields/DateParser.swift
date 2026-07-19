@@ -21,7 +21,7 @@ extension JJLISO8601DateFormatter: DateParserProtocol {}
 /// The shared instance is safe to use from concurrent decodes: `parsers` is
 /// immutable after init, and both `DateFormatter` and
 /// `JJLISO8601DateFormatter` are documented thread-safe.
-final class DateParser {
+final class DateParser: @unchecked Sendable {
   static let shared: DateParser = DateParser()
 
   func date(from string: String) -> Date? {

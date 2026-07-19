@@ -1,4 +1,4 @@
-// swift-tools-version:5.8
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
@@ -26,7 +26,10 @@ let package = Package(
     .testTarget(
       name: "InternetArchiveKitTests",
       dependencies: ["InternetArchiveKit", "JJLISO8601DateFormatter", "URLSessionMock"],
-      path: "InternetArchiveKitTests"
+      path: "InternetArchiveKitTests",
+      // URLSessionMock exposes a mutable static (`mockEndpoints`) that isn't
+      // Sendable; keep the tests in Swift 5 mode while the library is Swift 6.
+      swiftSettings: [.swiftLanguageMode(.v5)]
     )
   ]
 )
