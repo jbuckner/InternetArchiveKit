@@ -63,12 +63,21 @@ class InternetArchiveQueryTests: XCTestCase {
     XCTAssertEqual(clause.asURLString, "venue:(foo fest \\[bar stage\\])")
   }
 
-  func testQueryClauseEscapesEveryLuceneSpecialCharacter() {
+  func testQueryClauseEscapesParserSpecialCharacters() {
     let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
-      field: "foo", value: "a+b-c&d|e!f(g)h{i}j[k]l^m\"n~o:p\\q/r")
+      field: "foo", value: "a!b(c)d{e}f[g]h^i~j:k\\l/m")
     XCTAssertEqual(
       clause.asURLString,
-      "foo:(a\\+b\\-c\\&d\\|e\\!f\\(g\\)h\\{i\\}j\\[k\\]l\\^m\\\"n\\~o\\:p\\\\q\\/r)")
+      "foo:(a\\!b\\(c\\)d\\{e\\}f\\[g\\]h\\^i\\~j\\:k\\\\l\\/m)")
+  }
+
+  /// archive.org's Elasticsearch backend errors on the escaped forms of these
+  /// operator characters (`\-`, `\+`, `\&`, `\|`, `\"`), so they pass through
+  /// unescaped — verified live against advancedsearch.php.
+  func testQueryClauseLeavesElasticsearchOperatorsRaw() {
+    let clause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "foo", value: "a+b-c&d|e\"f")
+    XCTAssertEqual(clause.asURLString, "foo:(a+b-c&d|e\"f)")
   }
 
   func testQueryClauseKeepsWildcards() {

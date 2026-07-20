@@ -127,10 +127,14 @@ extension InternetArchive {
       return "\(booleanOperator.rawValue)\(fieldKey)\(finalValue)"
     }
 
-    /// Lucene syntax characters that get backslash-escaped in values. `*` and
-    /// `?` are deliberately absent so wildcard searches keep working.
+    /// Lucene syntax characters that get backslash-escaped in non-exactMatch
+    /// values. The query operators `+ - & | "` and the wildcards `* ?` are
+    /// deliberately absent: archive.org's Elasticsearch backend rejects the
+    /// escaped forms of the operators (`\-`, `\+`, `\&`, `\|`, `\"` come back
+    /// as a backend error) and they don't need escaping mid-value there, while
+    /// `* ?` stay raw so wildcard searches keep working.
     private static let luceneSpecialCharacters: Set<Character> = [
-      "+", "-", "&", "|", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", ":", "\\", "/",
+      "(", ")", "{", "}", "[", "]", "^", "~", ":", "\\", "/", "!",
     ]
 
     static func escapingLuceneSyntax(in value: String) -> String {
