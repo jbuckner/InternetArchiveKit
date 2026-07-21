@@ -14,6 +14,8 @@ let package = Package(
     .package(url: "https://github.com/michaeleisel/ZippyJSON", .upToNextMajor(from: "1.2.4")),
     .package(url: "https://github.com/michaeleisel/JJLISO8601DateFormatter", .upToNextMajor(from: "0.2.0")),
     .package(url: "https://github.com/azsn/URLSessionMock", .upToNextMajor(from: "0.1.0")),
+    // documentation tooling only; adds no products to the library
+    .package(url: "https://github.com/swiftlang/swift-docc-plugin", .upToNextMajor(from: "1.3.0")),
   ],
   targets: [
     .target(
