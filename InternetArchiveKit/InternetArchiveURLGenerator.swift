@@ -10,7 +10,7 @@ import Foundation
 import OSLog
 
 extension InternetArchive {
-  public class URLGenerator: InternetArchiveURLGeneratorProtocol {
+  public final class URLGenerator: InternetArchiveURLGeneratorProtocol {
     /// archive.org's search gateway rejects `q` values somewhere above
     /// ~1,900–2,000 characters — HTTP 200 with an `{"error": "…"}` body
     /// (surfaced as `InternetArchiveError.apiError`). This budget leaves

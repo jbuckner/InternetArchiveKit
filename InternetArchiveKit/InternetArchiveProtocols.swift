@@ -224,7 +224,7 @@ public protocol InternetArchiveProtocol: Sendable {
 }
 
 /// A protocol to which the main `InternetArchive.URLGenerator` class conforms
-public protocol InternetArchiveURLGeneratorProtocol {
+public protocol InternetArchiveURLGeneratorProtocol: Sendable {
   func generateItemImageUrl(itemIdentifier: String) -> URL?
   func generateMetadataUrl(identifier: String) -> URL?
   func generateDownloadUrl(itemIdentifier: String, fileName: String) -> URL?
