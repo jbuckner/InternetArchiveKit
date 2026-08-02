@@ -19,7 +19,7 @@ class InternetArchiveKitTests: XCTestCase {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
 
-  class BadUrlGenerator: InternetArchiveURLGeneratorProtocol {
+  final class BadUrlGenerator: InternetArchiveURLGeneratorProtocol {
     func generateItemImageUrl(itemIdentifier: String) -> URL? {
       return nil
     }
