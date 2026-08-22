@@ -6,9 +6,9 @@
 //  Copyright © 2019 Jason Buckner. All rights reserved.
 //
 
+import InternetArchiveKit
 import XCTest
 import ZippyJSON
-import InternetArchiveKit
 
 class FileTests: XCTestCase {
 
@@ -35,13 +35,13 @@ class FileTests: XCTestCase {
     // not a JSON boolean. `ModelField<IABool>` falls back to `IABool(fromString:)`,
     // which uses `Bool.init(_ description: String)` to parse "true" / "false".
     let json = #"""
-    {
-      "name": "frtr100312d1_01_Ripple.flac",
-      "format": "Flac",
-      "source": "original",
-      "private": "true"
-    }
-    """#.data(using: .utf8)!
+      {
+        "name": "frtr100312d1_01_Ripple.flac",
+        "format": "Flac",
+        "source": "original",
+        "private": "true"
+      }
+      """#.data(using: .utf8)!
 
     let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
     XCTAssertEqual(file.name, "frtr100312d1_01_Ripple.flac")
@@ -50,11 +50,11 @@ class FileTests: XCTestCase {
 
   func testPrivateFieldNilWhenAbsent() throws {
     let json = #"""
-    {
-      "name": "frtr100312d1_01_Ripple.mp3",
-      "format": "VBR MP3"
-    }
-    """#.data(using: .utf8)!
+      {
+        "name": "frtr100312d1_01_Ripple.mp3",
+        "format": "VBR MP3"
+      }
+      """#.data(using: .utf8)!
 
     let file = try ZippyJSONDecoder().decode(InternetArchive.File.self, from: json)
     XCTAssertNil(file.private)

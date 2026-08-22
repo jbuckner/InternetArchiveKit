@@ -6,8 +6,9 @@
 //  Copyright © 2026 Jason Buckner. All rights reserved.
 //
 
-import XCTest
 import URLSessionMock
+import XCTest
+
 @testable import InternetArchiveKit
 
 /// Non-2xx responses surface as `InternetArchiveError.httpError` carrying the

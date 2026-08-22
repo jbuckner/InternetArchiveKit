@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jason Buckner. All rights reserved.
 //
 
-import XCTest
 import InternetArchiveKit
+import XCTest
 
 class ItemMetadataTests: XCTestCase {
 

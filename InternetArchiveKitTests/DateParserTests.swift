@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import InternetArchiveKit
 
 // DateParser is the production consumer of JJLISO8601DateFormatter. It walks a chain of
@@ -28,44 +29,52 @@ class DateParserTests: XCTestCase {
   // Asserting the absolute epoch also proves ISO8601 wins over the looser yyyy-based
   // patterns later in the chain (a year-only parse would yield 2018-01-01, not this).
   func testParsesISO8601Zulu() {
-    XCTAssertEqual(parser.date(from: "2018-11-15T15:23:11Z"),
-                   Date(timeIntervalSince1970: 1542295391))
+    XCTAssertEqual(
+      parser.date(from: "2018-11-15T15:23:11Z"),
+      Date(timeIntervalSince1970: 1_542_295_391))
   }
 
   func testParsesISO8601WithTimeZoneOffset() {
     let apple = ISO8601DateFormatter()
-    XCTAssertEqual(parser.date(from: "2018-11-15T15:23:11-02:30"),
-                   apple.date(from: "2018-11-15T15:23:11-02:30"))
+    XCTAssertEqual(
+      parser.date(from: "2018-11-15T15:23:11-02:30"),
+      apple.date(from: "2018-11-15T15:23:11-02:30"))
   }
 
   func testParsesYearOnly() {
-    XCTAssertEqual(parser.date(from: "1957"),
-                   gmtFormatter("yyyy").date(from: "1957"))
+    XCTAssertEqual(
+      parser.date(from: "1957"),
+      gmtFormatter("yyyy").date(from: "1957"))
   }
 
   func testParsesYearMonth() {
-    XCTAssertEqual(parser.date(from: "1987-07"),
-                   gmtFormatter("yyyy-MM").date(from: "1987-07"))
+    XCTAssertEqual(
+      parser.date(from: "1987-07"),
+      gmtFormatter("yyyy-MM").date(from: "1987-07"))
   }
 
   func testParsesYearMonthDay() {
-    XCTAssertEqual(parser.date(from: "1993-03-14"),
-                   gmtFormatter("yyyy-MM-dd").date(from: "1993-03-14"))
+    XCTAssertEqual(
+      parser.date(from: "1993-03-14"),
+      gmtFormatter("yyyy-MM-dd").date(from: "1993-03-14"))
   }
 
   func testParsesSpaceSeparatedDateTime() {
-    XCTAssertEqual(parser.date(from: "2018-12-30 09:12:32"),
-                   gmtFormatter("yyyy-MM-dd HH:mm:ss").date(from: "2018-12-30 09:12:32"))
+    XCTAssertEqual(
+      parser.date(from: "2018-12-30 09:12:32"),
+      gmtFormatter("yyyy-MM-dd HH:mm:ss").date(from: "2018-12-30 09:12:32"))
   }
 
   func testParsesBracketedYear() {
-    XCTAssertEqual(parser.date(from: "[1968]"),
-                   gmtFormatter("'['yyyy']'").date(from: "[1968]"))
+    XCTAssertEqual(
+      parser.date(from: "[1968]"),
+      gmtFormatter("'['yyyy']'").date(from: "[1968]"))
   }
 
   func testParsesCircaYear() {
-    XCTAssertEqual(parser.date(from: "c.a. 1973"),
-                   gmtFormatter("'c.a.' yyyy").date(from: "c.a. 1973"))
+    XCTAssertEqual(
+      parser.date(from: "c.a. 1973"),
+      gmtFormatter("'c.a.' yyyy").date(from: "c.a. 1973"))
   }
 
   func testReturnsNilForGarbage() {

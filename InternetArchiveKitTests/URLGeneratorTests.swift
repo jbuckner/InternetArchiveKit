@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import InternetArchiveKit
 
 class APIControllerTests: XCTestCase {
@@ -14,20 +15,25 @@ class APIControllerTests: XCTestCase {
   func testGenerateSearchUrl() {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar", "baz": "boop"])
-    let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "foo", direction: .asc)
-    if let url: URL = urlGenerator.generateSearchUrl(query: query,
-                                                     page: 0,
-                                                     rows: 10,
-                                                     fields: ["foo", "bar"],
-                                                     sortFields: [sortField],
-                                                     additionalQueryParams: []) {
+    let sortField: InternetArchive.SortField = InternetArchive.SortField(
+      field: "foo", direction: .asc)
+    if let url: URL = urlGenerator.generateSearchUrl(
+      query: query,
+      page: 0,
+      rows: 10,
+      fields: ["foo", "bar"],
+      sortFields: [sortField],
+      additionalQueryParams: [])
+    {
       let absoluteUrl: String = url.absoluteString
       debugPrint(absoluteUrl)
       // these are not necessarily always in the same order so just search
       XCTAssertTrue(absoluteUrl.contains("sort%5B%5D=foo%20asc"))
       XCTAssertTrue(absoluteUrl.contains("fl%5B%5D=foo"))
       XCTAssertTrue(absoluteUrl.contains("fl%5B%5D=bar"))
-      XCTAssertTrue(absoluteUrl.contains("q=(foo:(bar)%20AND%20baz:(boop))") || absoluteUrl.contains("q=(baz:(boop)%20AND%20foo:(bar))"))
+      XCTAssertTrue(
+        absoluteUrl.contains("q=(foo:(bar)%20AND%20baz:(boop))")
+          || absoluteUrl.contains("q=(baz:(boop)%20AND%20foo:(bar))"))
       XCTAssertTrue(absoluteUrl.contains("output=json"))
       XCTAssertTrue(absoluteUrl.contains("rows=10"))
       XCTAssertTrue(absoluteUrl.contains("page=0"))
@@ -39,16 +45,19 @@ class APIControllerTests: XCTestCase {
   func testGenerateScrapeUrl() {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
-    let sortField: InternetArchive.SortField = InternetArchive.SortField(field: "date", direction: .desc)
+    let sortField: InternetArchive.SortField = InternetArchive.SortField(
+      field: "date", direction: .desc)
     guard
-      let url: URL = urlGenerator.generateScrapeUrl(query: query,
-                                                    fields: ["identifier", "title"],
-                                                    sortFields: [sortField],
-                                                    pagination: .cursor("abc123"),
-                                                    additionalQueryParams: []),
-      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        XCTFail("Error generating scrape URL")
-        return
+      let url: URL = urlGenerator.generateScrapeUrl(
+        query: query,
+        fields: ["identifier", "title"],
+        sortFields: [sortField],
+        pagination: .cursor("abc123"),
+        additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    else {
+      XCTFail("Error generating scrape URL")
+      return
     }
 
     XCTAssertEqual(components.scheme, "gopher")
@@ -56,7 +65,9 @@ class APIControllerTests: XCTestCase {
     XCTAssertEqual(components.path, "/services/search/v1/scrape")
 
     // parse the query items back so the assertions don't depend on percent-encoding
-    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) { $0[$1.name] = $1.value }
+    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) {
+      $0[$1.name] = $1.value
+    }
     XCTAssertEqual(items["q"], "(foo:(bar))")
     XCTAssertEqual(items["fields"], "identifier,title")  // comma-delimited, not repeated fl[]
     XCTAssertEqual(items["sorts"], "date desc")  // comma-delimited, not repeated sort[]
@@ -68,17 +79,21 @@ class APIControllerTests: XCTestCase {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
     guard
-      let url: URL = urlGenerator.generateScrapeUrl(query: query,
-                                                    fields: [],
-                                                    sortFields: [],
-                                                    pagination: .count(500),
-                                                    additionalQueryParams: []),
-      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        XCTFail("Error generating scrape URL")
-        return
+      let url: URL = urlGenerator.generateScrapeUrl(
+        query: query,
+        fields: [],
+        sortFields: [],
+        pagination: .count(500),
+        additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    else {
+      XCTFail("Error generating scrape URL")
+      return
     }
 
-    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) { $0[$1.name] = $1.value }
+    let items: [String: String] = (components.queryItems ?? []).reduce(into: [:]) {
+      $0[$1.name] = $1.value
+    }
     XCTAssertEqual(items["count"], "500")
     XCTAssertNil(items["cursor"])  // `.count` and `.cursor` are mutually exclusive
   }
@@ -87,14 +102,16 @@ class APIControllerTests: XCTestCase {
     let urlGenerator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "gopher")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: ["foo": "bar"])
     guard
-      let url: URL = urlGenerator.generateScrapeUrl(query: query,
-                                                    fields: [],
-                                                    sortFields: [],
-                                                    pagination: nil,
-                                                    additionalQueryParams: []),
-      let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        XCTFail("Error generating scrape URL")
-        return
+      let url: URL = urlGenerator.generateScrapeUrl(
+        query: query,
+        fields: [],
+        sortFields: [],
+        pagination: nil,
+        additionalQueryParams: []),
+      let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+    else {
+      XCTFail("Error generating scrape URL")
+      return
     }
 
     let names: Set<String> = Set((components.queryItems ?? []).map { $0.name })
@@ -119,7 +136,8 @@ class APIControllerTests: XCTestCase {
 
     // invalid: identifier present but not last
     XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, date]))
-    XCTAssertTrue(InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, downloads, date]))
+    XCTAssertTrue(
+      InternetArchive.URLGenerator.scrapeSortMisplacesIdentifier([id, downloads, date]))
   }
 
   func testGenerateDownloadUrl() {

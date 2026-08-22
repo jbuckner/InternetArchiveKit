@@ -8,6 +8,7 @@
 
 import XCTest
 import ZippyJSON
+
 @testable import InternetArchiveKit
 
 /// The models encode back to JSON that decodes into the same values, so
@@ -21,8 +22,8 @@ class EncodableTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": "3", "bar": ["boop", "bop"] }
-    """
+        { "foo": "3", "bar": ["boop", "bop"] }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -48,13 +49,13 @@ class EncodableTests: XCTestCase {
 
   func testItemMetadataRoundTrip() throws {
     let json: String = """
-      {
-        "identifier": "sci2007-07-28.Schoeps",
-        "title": "String Cheese Incident Live",
-        "date": "2007-07-28T00:00:00Z",
-        "venue": ["Red Rocks"]
-      }
-    """
+        {
+          "identifier": "sci2007-07-28.Schoeps",
+          "title": "String Cheese Incident Live",
+          "date": "2007-07-28T00:00:00Z",
+          "venue": ["Red Rocks"]
+        }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return

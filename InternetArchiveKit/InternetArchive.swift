@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import ZippyJSON
 import OSLog
+import ZippyJSON
 
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
@@ -264,7 +264,8 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
       )
 
       if let httpResponse = response as? HTTPURLResponse,
-        !(200..<300).contains(httpResponse.statusCode) {
+        !(200..<300).contains(httpResponse.statusCode)
+      {
         // a rejected request can still carry the API's `{"error": …}`
         // envelope, so prefer its message over a bare status code
         if let envelope = try? jsonDecoder.decode(

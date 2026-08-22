@@ -6,15 +6,16 @@
 //  Copyright © 2018 Jason Buckner. All rights reserved.
 //
 
-import XCTest
 import URLSessionMock
+import XCTest
+
 @testable import InternetArchiveKit
 
 class InternetArchiveKitTests: XCTestCase {
   override func setUp() {
     // Put setup code here. This method is called before the invocation of each test method in the class.
   }
-  
+
   override func tearDown() {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
   }
@@ -32,23 +33,35 @@ class InternetArchiveKitTests: XCTestCase {
       return nil
     }
 
-    func generateSearchUrl(query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]) -> URL? {
+    func generateSearchUrl(
+      query: InternetArchiveURLStringProtocol, page: Int, rows: Int, fields: [String],
+      sortFields: [InternetArchiveURLQueryItemProtocol], additionalQueryParams: [URLQueryItem]
+    ) -> URL? {
       return nil
     }
 
-    func generateScrapeUrl(query: InternetArchiveURLStringProtocol, fields: [String], sortFields: [InternetArchiveURLQueryItemProtocol], pagination: InternetArchive.ScrapePagination?, additionalQueryParams: [URLQueryItem]) -> URL? {
+    func generateScrapeUrl(
+      query: InternetArchiveURLStringProtocol, fields: [String],
+      sortFields: [InternetArchiveURLQueryItemProtocol],
+      pagination: InternetArchive.ScrapePagination?, additionalQueryParams: [URLQueryItem]
+    ) -> URL? {
       return nil
     }
   }
 
   func testBadSearchUrl() {
     let expectation = XCTestExpectation(description: "Test Bad Search URL")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let urlGenerator = BadUrlGenerator()
     let mockSession = URLSession.mock
     let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
-    archive.search(query: query, page: 0, rows: 10) { (_: InternetArchive.SearchResponse?, error: Error?) in
-      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+    archive.search(query: query, page: 0, rows: 10) {
+      (_: InternetArchive.SearchResponse?, error: Error?) in
+      XCTAssertEqual(
+        error as! InternetArchive.InternetArchiveError,
+        InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
@@ -56,12 +69,16 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testBadScrapeUrl() {
     let expectation = XCTestExpectation(description: "Test Bad Scrape URL")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let urlGenerator = BadUrlGenerator()
     let mockSession = URLSession.mock
     let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.scrape(query: query) { (_: InternetArchive.ScrapeResponse?, error: Error?) in
-      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      XCTAssertEqual(
+        error as! InternetArchive.InternetArchiveError,
+        InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
@@ -73,7 +90,9 @@ class InternetArchiveKitTests: XCTestCase {
     let mockSession = URLSession.mock
     let archive = InternetArchive(urlGenerator: urlGenerator, urlSession: mockSession)
     archive.itemDetail(identifier: "foo") { (_: InternetArchive.Item?, error: Error?) in
-      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      XCTAssertEqual(
+        error as! InternetArchive.InternetArchiveError,
+        InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
@@ -104,10 +123,14 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testSearchQuery() {
     let expectation = XCTestExpectation(description: "Test Search Query")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
-    InternetArchive().search(query: query,
-                             page: 0,
-                             rows: 10) { (response: InternetArchive.SearchResponse?, error: Error?) in
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
+    InternetArchive().search(
+      query: query,
+      page: 0,
+      rows: 10
+    ) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()
@@ -115,7 +138,8 @@ class InternetArchiveKitTests: XCTestCase {
       }
 
       if let response = response {
-        XCTAssertTrue(response.response.numFound > 7000)  // the etree archive has 8500+ artists so just sanity check
+        // the etree archive has 8500+ artists so just sanity check
+        XCTAssertTrue(response.response.numFound > 7000)
       } else {
         XCTFail("no response")
       }
@@ -127,11 +151,15 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testSearchFields() {
     let expectation = XCTestExpectation(description: "Test Search Fields")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
-    InternetArchive().search(query: query,
-                             page: 0,
-                             rows: 10,
-                             fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
+    InternetArchive().search(
+      query: query,
+      page: 0,
+      rows: 10,
+      fields: ["identifier", "title"]
+    ) { (response: InternetArchive.SearchResponse?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()
@@ -165,47 +193,53 @@ class InternetArchiveKitTests: XCTestCase {
 
     guard
       let startDate: Date = dateFormatter.date(from: startDateString),
-      let endDate: Date = dateFormatter.date(from: endDateString) else {
-        XCTFail("date generation failed")
-        return
+      let endDate: Date = dateFormatter.date(from: endDateString)
+    else {
+      XCTFail("date generation failed")
+      return
     }
     let dateInterval: DateInterval = DateInterval(start: startDate, end: endDate)
-    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(queryField: "date",
-                                                                                   dateRange: dateInterval)
-    let collectionClause: InternetArchive.QueryClause = InternetArchive.QueryClause(field: "collection", value: "etree")
+    let dateRange: InternetArchive.QueryDateRange = InternetArchive.QueryDateRange(
+      queryField: "date",
+      dateRange: dateInterval)
+    let collectionClause: InternetArchive.QueryClause = InternetArchive.QueryClause(
+      field: "collection", value: "etree")
 
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [dateRange, collectionClause])
 
-    InternetArchive().search(query: query,
-                             page: 0,
-                             rows: 10,
-                             fields: ["identifier", "title"]) { (response: InternetArchive.SearchResponse?, error: Error?) in
-                              if let error: Error = error {
-                                XCTFail("error, \(error.localizedDescription)")
-                                expectation.fulfill()
-                                return
-                              }
+    InternetArchive().search(
+      query: query,
+      page: 0,
+      rows: 10,
+      fields: ["identifier", "title"]
+    ) { (response: InternetArchive.SearchResponse?, error: Error?) in
+      if let error: Error = error {
+        XCTFail("error, \(error.localizedDescription)")
+        expectation.fulfill()
+        return
+      }
 
-                              if let response = response {
-                                if let firstDoc: InternetArchive.ItemMetadata = response.response.docs.first {
-                                  XCTAssertNotNil(firstDoc.title)
-                                  XCTAssertNil(firstDoc.addeddate)
-                                } else {
-                                  XCTFail("no item found")
-                                }
-                              } else {
-                                XCTFail("no response")
-                              }
-                              expectation.fulfill()
+      if let response = response {
+        if let firstDoc: InternetArchive.ItemMetadata = response.response.docs.first {
+          XCTAssertNotNil(firstDoc.title)
+          XCTAssertNil(firstDoc.addeddate)
+        } else {
+          XCTFail("no item found")
+        }
+      } else {
+        XCTFail("no response")
+      }
+      expectation.fulfill()
     }
 
     wait(for: [expectation], timeout: 20.0)
   }
 
-
   func testGetCollection() {
     let expectation = XCTestExpectation(description: "Test Get Collection")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     InternetArchive().search(
       query: query,
       page: 0,
@@ -219,19 +253,21 @@ class InternetArchiveKitTests: XCTestCase {
         }
 
         if let response = response {
-          XCTAssertTrue(response.response.numFound > 7000)  // the etree archive has 7400+ artists so just sanity check
+          // the etree archive has 7400+ artists so just sanity check
+          XCTAssertTrue(response.response.numFound > 7000)
         } else {
           XCTFail("no response")
         }
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
   }
 
   func testItemDetail() {
     let expectation = XCTestExpectation(description: "Test Item Detail")
-    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") { (item: InternetArchive.Item?, error: Error?) in
+    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") {
+      (item: InternetArchive.Item?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()
@@ -251,7 +287,8 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testTrackLength() {
     let expectation = XCTestExpectation(description: "Test Item Files")
-    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") { (item: InternetArchive.Item?, error: Error?) in
+    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") {
+      (item: InternetArchive.Item?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
         expectation.fulfill()
@@ -289,7 +326,9 @@ class InternetArchiveKitTests: XCTestCase {
   // eg 2638 total results, start at 2630, page 264 (0-indexed) there should be 8 results returned when requesting 10 at a time
   func testPagination() {
     let expectation = XCTestExpectation(description: "Test Pagination")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let rowsPerPage: Int = 10
 
     InternetArchive().search(
@@ -327,19 +366,21 @@ class InternetArchiveKitTests: XCTestCase {
               }
 
               expectation.fulfill()
-          })
+            })
         } else {
           XCTFail("no response")
           expectation.fulfill()
         }
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
   }
 
   func testOaiUpdated() {
     let expectation = XCTestExpectation(description: "Test OaiUpdated")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     InternetArchive().search(
       query: query,
       page: 0,
@@ -359,7 +400,7 @@ class InternetArchiveKitTests: XCTestCase {
           XCTFail("no response")
         }
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
 
@@ -367,7 +408,9 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testScrape() {
     let expectation = XCTestExpectation(description: "Test Scrape")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     InternetArchive().scrape(
       query: query,
       fields: ["identifier", "title"],
@@ -379,8 +422,10 @@ class InternetArchiveKitTests: XCTestCase {
         }
 
         if let response = response {
-          XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(response.items.count > 100)  // archive.org returns a large server-sized batch
+          // the etree archive has 9000+ collections so just sanity check
+          XCTAssertTrue(response.total > 7000)
+          // archive.org returns a large server-sized batch
+          XCTAssertTrue(response.items.count > 100)
           XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
           XCTAssertNotNil(response.items.first?.title)
           XCTAssertNotNil(response.cursor)  // more results remain, so a cursor is returned
@@ -388,7 +433,7 @@ class InternetArchiveKitTests: XCTestCase {
           XCTFail("no response")
         }
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
   }
@@ -397,7 +442,9 @@ class InternetArchiveKitTests: XCTestCase {
   // request and the results should continue where the first left off, with no overlap.
   func testScrapeCursor() {
     let expectation = XCTestExpectation(description: "Test Scrape Cursor")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let archive = InternetArchive()
 
     archive.scrape(
@@ -419,13 +466,14 @@ class InternetArchiveKitTests: XCTestCase {
               XCTAssertTrue(secondBatch.items.count > 0)
               let firstIds: Set<String> = Set(firstBatch.items.map { $0.identifier })
               let secondIds: Set<String> = Set(secondBatch.items.map { $0.identifier })
-              XCTAssertTrue(firstIds.isDisjoint(with: secondIds))  // the cursor advanced past the first batch
+              // the cursor advanced past the first batch
+              XCTAssertTrue(firstIds.isDisjoint(with: secondIds))
             } else {
               XCTFail("no second batch")
             }
             expectation.fulfill()
-        })
-    })
+          })
+      })
 
     wait(for: [expectation], timeout: 30.0)
   }
@@ -433,7 +481,9 @@ class InternetArchiveKitTests: XCTestCase {
   // `.count(n)` returns exactly n items in a single bounded batch.
   func testScrapeCount() {
     let expectation = XCTestExpectation(description: "Test Scrape Count")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     InternetArchive().scrape(
       query: query,
       fields: ["identifier"],
@@ -445,25 +495,28 @@ class InternetArchiveKitTests: XCTestCase {
           XCTFail("no response, error: \(error?.localizedDescription ?? "unknown")")
         }
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
   }
 
   func testScrapeAsyncThrows() async throws {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(
       query: query,
       fields: ["identifier"],
       sortFields: nil,
       pagination: nil
     )
-    XCTAssertTrue(response.total > 7000)  // the etree archive has 9000+ collections so just sanity check
+    // the etree archive has 9000+ collections so just sanity check
+    XCTAssertTrue(response.total > 7000)
     XCTAssertTrue(response.items.count > 0)
   }
 
   func testScrapeAsyncThrowsInvalidUrl() async {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree"])
     let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
     do {
       // the type annotation selects the `async throws` overload over the `async -> Result` one
@@ -478,7 +531,9 @@ class InternetArchiveKitTests: XCTestCase {
   // The README's minimal call forms: `fields`, `sortFields`, and `pagination` all default to nil,
   // so these also pin the defaults at compile time.
   func testSearchMinimalArguments() async {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let result = await InternetArchive().search(query: query, page: 1, rows: 10)
     switch result {
     case .success(let response):
@@ -489,7 +544,9 @@ class InternetArchiveKitTests: XCTestCase {
   }
 
   func testScrapeMinimalArguments() async throws {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     // the type annotation selects the `async throws` overload over the `async -> Result` one
     let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(query: query)
     XCTAssertTrue(response.items.count > 0)
@@ -498,40 +555,47 @@ class InternetArchiveKitTests: XCTestCase {
   // `scrapeTotal` returns just the match count (the Scrape API's `total_only`), fetching no items.
   func testScrapeTotal() {
     let expectation = XCTestExpectation(description: "Test Scrape Total")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     InternetArchive().scrapeTotal(
       query: query,
       completion: { (total: Int?, error: Error?) in
         if let total = total {
-          XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+          // the etree archive has 9000+ collections so just sanity check
+          XCTAssertTrue(total > 7000)
         } else {
           XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
         }
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 20.0)
   }
 
   func testBadScrapeTotalUrl() {
     let expectation = XCTestExpectation(description: "Test Bad Scrape Total URL")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree"])
     let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
     archive.scrapeTotal(query: query) { (_: Int?, error: Error?) in
-      XCTAssertEqual(error as! InternetArchive.InternetArchiveError, InternetArchive.InternetArchiveError.invalidUrl)
+      XCTAssertEqual(
+        error as! InternetArchive.InternetArchiveError,
+        InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 10)
   }
 
   func testScrapeTotalAsyncThrows() async throws {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let total: Int = try await InternetArchive().scrapeTotal(query: query)
     XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
   }
 
   func testScrapeTotalAsyncThrowsInvalidUrl() async {
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree"])
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection": "etree"])
     let archive = InternetArchive(urlGenerator: BadUrlGenerator(), urlSession: URLSession.mock)
     do {
       // the type annotation selects the `async throws` overload over the `async -> Result` one
@@ -545,11 +609,14 @@ class InternetArchiveKitTests: XCTestCase {
   // archive.org rejects a scrape sort where `identifier` is not the last key. The library catches
   // it client-side and fails before sending the request.
   func testScrapeRejectsMisplacedIdentifierSort() {
-    let expectation = XCTestExpectation(description: "Test Scrape Rejects Misplaced Identifier Sort")
-    let query: InternetArchive.Query = InternetArchive.Query(clauses: ["collection" : "etree", "mediatype": "collection"])
+    let expectation = XCTestExpectation(
+      description: "Test Scrape Rejects Misplaced Identifier Sort")
+    let query: InternetArchive.Query = InternetArchive.Query(clauses: [
+      "collection": "etree", "mediatype": "collection",
+    ])
     let sortFields: [InternetArchive.SortField] = [
       InternetArchive.SortField(field: "identifier", direction: .asc),
-      InternetArchive.SortField(field: "date", direction: .desc)
+      InternetArchive.SortField(field: "date", direction: .desc),
     ]
     InternetArchive().scrape(
       query: query,
@@ -564,7 +631,7 @@ class InternetArchiveKitTests: XCTestCase {
           (error as? InternetArchive.InternetArchiveError)?.errorDescription,
           "Invalid sort fields: 'identifier' must be the last sort field")
         expectation.fulfill()
-    })
+      })
 
     wait(for: [expectation], timeout: 10)
   }

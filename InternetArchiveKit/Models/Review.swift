@@ -21,6 +21,7 @@ extension InternetArchive {
     public let createdate: ModelField<IADate>?
     public let stars: ModelField<IADouble>?
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     @available(*, deprecated, renamed: "reviewerItemname")
     public var reviewer_itemname: String? { reviewerItemname }
 
@@ -44,7 +45,9 @@ extension InternetArchive {
 
     // `reviewer_itemname` intentionally has no default value: if both inits
     // were callable with zero arguments, `Review()` would be ambiguous.
-    @available(*, deprecated, message: "Use init(reviewerItemname:) instead of init(reviewer_itemname:)")
+    @available(
+      *, deprecated, message: "Use init(reviewerItemname:) instead of init(reviewer_itemname:)"
+    )
     public init(
       reviewbody: ModelField<IAString>? = nil,
       reviewtitle: String? = nil,

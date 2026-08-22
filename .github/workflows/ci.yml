@@ -47,11 +47,16 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
 
   lint:
-    name: SwiftLint
+    name: swift-format
     runs-on: ubuntu-latest
-    container: ghcr.io/realm/swiftlint:0.63.3
+    # pinned to a patch release because formatting output can shift between
+    # swift-format versions, and CI has to agree with what developers run locally
+    container: swift:6.3.3
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run SwiftLint
-        run: swiftlint --reporter github-actions-logging
+      # explicit paths rather than `.` so the checkouts under .build are skipped
+      - name: Run swift-format
+        run: |
+          swift format lint --strict --recursive \
+            InternetArchiveKit InternetArchiveKitTests InternetArchiveKitExample Package.swift
