@@ -93,6 +93,7 @@ extension InternetArchive {
       var urlComponents: URLComponents = getBaseUrlComponents()
       urlComponents.path = "/advancedsearch.php"
       urlComponents.queryItems = params
+      encodePlusInQuery(&urlComponents)
       return urlComponents.url
     }
 
@@ -166,7 +167,16 @@ extension InternetArchive {
       var urlComponents: URLComponents = getBaseUrlComponents()
       urlComponents.path = "/services/search/v1/scrape"
       urlComponents.queryItems = params
+      encodePlusInQuery(&urlComponents)
       return urlComponents.url
+    }
+
+    /// `URLComponents` leaves `+` raw in query values, and archive.org decodes
+    /// a raw `+` as a space. Every other `+` in the encoded query is a literal
+    /// one, so `%2B` is what a server needs to see.
+    private func encodePlusInQuery(_ urlComponents: inout URLComponents) {
+      guard let encoded = urlComponents.percentEncodedQuery else { return }
+      urlComponents.percentEncodedQuery = encoded.replacingOccurrences(of: "+", with: "%2B")
     }
 
     private func getBaseUrlComponents() -> URLComponents {

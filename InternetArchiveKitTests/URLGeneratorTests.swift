@@ -168,3 +168,57 @@ class APIControllerTests: XCTestCase {
   }
 
 }
+
+class PlusEncodingTests: XCTestCase {
+  private let generator = InternetArchive.URLGenerator(host: "foohost.org", scheme: "https")
+
+  func testPlusInSearchQueryIsEncoded() {
+    let query = InternetArchive.Query(clauses: ["title": "a+b"])
+    let url = generator.generateSearchUrl(
+      query: query, page: 1, rows: 10, fields: ["identifier"], sortFields: [],
+      additionalQueryParams: [])
+    XCTAssertEqual(
+      url?.absoluteString,
+      "https://foohost.org/advancedsearch.php?fl%5B%5D=identifier&q=(title:(a%2Bb))&output=json&rows=10&page=1"
+    )
+  }
+
+  func testPlusInScrapeQueryIsEncoded() {
+    let query = InternetArchive.Query(clauses: ["title": "a+b"])
+    let url = generator.generateScrapeUrl(
+      query: query, fields: ["identifier"], sortFields: [], pagination: nil,
+      additionalQueryParams: [])
+    XCTAssertEqual(
+      url?.absoluteString,
+      "https://foohost.org/services/search/v1/scrape?q=(title:(a%2Bb))&fields=identifier")
+  }
+
+  func testRepresentativeLMAUrlsAreUnchanged() {
+    let query = InternetArchive.Query(clauses: [
+      "collection": "etree", "date": "1977-05-08",
+    ])
+    let sort = InternetArchive.SortField(field: "date", direction: .desc)
+    let search = generator.generateSearchUrl(
+      query: InternetArchive.QueryClause(field: "collection", value: "etree"),
+      page: 2, rows: 50, fields: ["identifier", "title"], sortFields: [sort],
+      additionalQueryParams: [])
+    XCTAssertEqual(
+      search?.absoluteString,
+      "https://foohost.org/advancedsearch.php?sort%5B%5D=date%20desc&fl%5B%5D=identifier&fl%5B%5D=title&q=collection:(etree)&output=json&rows=50&page=2"
+    )
+    let scrape = generator.generateScrapeUrl(
+      query: query, fields: ["identifier", "title"], sortFields: [sort], pagination: .count(100),
+      additionalQueryParams: [])
+    XCTAssertFalse(scrape?.absoluteString.contains("%2B") ?? true)
+    XCTAssertFalse(scrape?.absoluteString.contains("+") ?? true)
+    let ids = InternetArchive.QueryClause(
+      field: "identifier", values: ["gd77-05-08", "gd77-05-09"])
+    let idsURL = generator.generateScrapeUrl(
+      query: ids, fields: [], sortFields: [], pagination: .cursor("abc123"),
+      additionalQueryParams: [])
+    XCTAssertEqual(
+      idsURL?.absoluteString,
+      "https://foohost.org/services/search/v1/scrape?q=identifier:((gd77-05-08)%20OR%20(gd77-05-09))&cursor=abc123"
+    )
+  }
+}
