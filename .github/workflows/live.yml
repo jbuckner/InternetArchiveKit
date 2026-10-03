@@ -1,0 +1,24 @@
+name: Live archive.org
+
+# Runs the suite against the real archive.org. It doesn't run on pull requests and isn't a
+# required check: archive.org's own outages and index changes shouldn't block merges. A red
+# nightly run is the signal that the API changed shape or is misbehaving.
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    name: Live tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests against archive.org
+        env:
+          IAKIT_LIVE_TESTS: "1"
+        run: swift test

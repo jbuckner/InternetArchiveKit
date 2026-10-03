@@ -126,7 +126,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: 10
@@ -139,7 +139,7 @@ class InternetArchiveKitTests: XCTestCase {
 
       if let response = response {
         // the etree archive has 8500+ artists so just sanity check
-        XCTAssertTrue(response.response.numFound > 7000)
+        XCTAssertTrue(response.response.numFound > TestArchive.minimumCollections)
       } else {
         XCTFail("no response")
       }
@@ -154,7 +154,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: 10,
@@ -207,7 +207,7 @@ class InternetArchiveKitTests: XCTestCase {
 
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [dateRange, collectionClause])
 
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: 10,
@@ -240,7 +240,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: 10,
@@ -254,7 +254,7 @@ class InternetArchiveKitTests: XCTestCase {
 
         if let response = response {
           // the etree archive has 7400+ artists so just sanity check
-          XCTAssertTrue(response.response.numFound > 7000)
+          XCTAssertTrue(response.response.numFound > TestArchive.minimumCollections)
         } else {
           XCTFail("no response")
         }
@@ -266,7 +266,7 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testItemDetail() {
     let expectation = XCTestExpectation(description: "Test Item Detail")
-    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") {
+    TestArchive.make().itemDetail(identifier: "ymsb2006-07-03.flac16") {
       (item: InternetArchive.Item?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
@@ -287,7 +287,7 @@ class InternetArchiveKitTests: XCTestCase {
 
   func testTrackLength() {
     let expectation = XCTestExpectation(description: "Test Item Files")
-    InternetArchive().itemDetail(identifier: "ymsb2006-07-03.flac16") {
+    TestArchive.make().itemDetail(identifier: "ymsb2006-07-03.flac16") {
       (item: InternetArchive.Item?, error: Error?) in
       if let error: Error = error {
         XCTFail("error, \(error.localizedDescription)")
@@ -331,7 +331,7 @@ class InternetArchiveKitTests: XCTestCase {
     ])
     let rowsPerPage: Int = 10
 
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: rowsPerPage,
@@ -347,7 +347,7 @@ class InternetArchiveKitTests: XCTestCase {
           let total = response.response.numFound
           let lastPage = Int(Double(total) / Double(10)) + 1
 
-          InternetArchive().search(
+          TestArchive.make().search(
             query: query,
             page: lastPage,
             rows: rowsPerPage,
@@ -381,7 +381,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().search(
+    TestArchive.make().search(
       query: query,
       page: 0,
       rows: 10,
@@ -411,7 +411,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().scrape(
+    TestArchive.make().scrape(
       query: query,
       fields: ["identifier", "title"],
       completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
@@ -423,7 +423,7 @@ class InternetArchiveKitTests: XCTestCase {
 
         if let response = response {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(response.total > 7000)
+          XCTAssertTrue(response.total > TestArchive.minimumCollections)
           // archive.org returns a large server-sized batch
           XCTAssertTrue(response.items.count > 100)
           XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
@@ -445,7 +445,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    let archive = InternetArchive()
+    let archive = TestArchive.make()
 
     archive.scrape(
       query: query,
@@ -484,13 +484,13 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().scrape(
+    TestArchive.make().scrape(
       query: query,
       fields: ["identifier"],
-      pagination: .count(150),
+      pagination: .count(100),
       completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
         if let response = response {
-          XCTAssertEqual(response.items.count, 150)
+          XCTAssertEqual(response.items.count, 100)
         } else {
           XCTFail("no response, error: \(error?.localizedDescription ?? "unknown")")
         }
@@ -504,14 +504,14 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(
+    let response: InternetArchive.ScrapeResponse = try await TestArchive.make().scrape(
       query: query,
       fields: ["identifier"],
       sortFields: nil,
       pagination: nil
     )
     // the etree archive has 9000+ collections so just sanity check
-    XCTAssertTrue(response.total > 7000)
+    XCTAssertTrue(response.total > TestArchive.minimumCollections)
     XCTAssertTrue(response.items.count > 0)
   }
 
@@ -534,7 +534,7 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    let result = await InternetArchive().search(query: query, page: 1, rows: 10)
+    let result = await TestArchive.make().search(query: query, page: 1, rows: 10)
     switch result {
     case .success(let response):
       XCTAssertTrue(response.response.docs.count > 0)
@@ -548,7 +548,7 @@ class InternetArchiveKitTests: XCTestCase {
       "collection": "etree", "mediatype": "collection",
     ])
     // the type annotation selects the `async throws` overload over the `async -> Result` one
-    let response: InternetArchive.ScrapeResponse = try await InternetArchive().scrape(query: query)
+    let response: InternetArchive.ScrapeResponse = try await TestArchive.make().scrape(query: query)
     XCTAssertTrue(response.items.count > 0)
   }
 
@@ -558,12 +558,12 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    InternetArchive().scrapeTotal(
+    TestArchive.make().scrapeTotal(
       query: query,
       completion: { (total: Int?, error: Error?) in
         if let total = total {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(total > 7000)
+          XCTAssertTrue(total > TestArchive.minimumCollections)
         } else {
           XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
         }
@@ -590,8 +590,9 @@ class InternetArchiveKitTests: XCTestCase {
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
       "collection": "etree", "mediatype": "collection",
     ])
-    let total: Int = try await InternetArchive().scrapeTotal(query: query)
-    XCTAssertTrue(total > 7000)  // the etree archive has 9000+ collections so just sanity check
+    let total: Int = try await TestArchive.make().scrapeTotal(query: query)
+    // the etree archive has 9000+ collections so just sanity check
+    XCTAssertTrue(total > TestArchive.minimumCollections)
   }
 
   func testScrapeTotalAsyncThrowsInvalidUrl() async {
@@ -618,7 +619,7 @@ class InternetArchiveKitTests: XCTestCase {
       InternetArchive.SortField(field: "identifier", direction: .asc),
       InternetArchive.SortField(field: "date", direction: .desc),
     ]
-    InternetArchive().scrape(
+    TestArchive.make().scrape(
       query: query,
       fields: ["identifier"],
       sortFields: sortFields,
