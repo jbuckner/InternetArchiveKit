@@ -36,6 +36,7 @@ extension InternetArchive {
    please open a pull request.
    */
   public struct ItemMetadata: Codable, Sendable {
+    public let accessRestrictedItem: ModelField<IABool>?
     public let addeddate: ModelField<IADate>?
     public let adder: ModelField<IAString>?
     public let avgRating: ModelField<IADouble>?
@@ -61,6 +62,7 @@ extension InternetArchive {
     public let isDark: ModelField<IAString>?
     public let itemSize: ModelField<IAInt>?
     public let itemCount: ModelField<IAInt>?
+    public let licenseurl: ModelField<IAURL>?
     public let lineage: ModelField<IAString>?
     public let limflag: ModelField<IAString>?
     public let md5s: ModelField<IAString>?
@@ -99,7 +101,78 @@ extension InternetArchive {
     public let week: ModelField<IAInt>?
     public let year: ModelField<IAInt>?
 
+    /// Spelled out because `access-restricted-item` is hyphenated, and the decoder's
+    /// `.convertFromSnakeCase` strategy only rewrites underscores. `CodingKeys` is
+    /// all-or-nothing, so every property is listed.
+    enum CodingKeys: String, CodingKey {
+      case accessRestrictedItem = "access-restricted-item"
+      case addeddate
+      case adder
+      case avgRating
+      case backupLocation
+      case collection
+      case collectionsRaw
+      case collectionSize
+      case coverage
+      case creator
+      case curation
+      case date
+      case description
+      case downloads
+      case discs
+      case filesCount
+      case format
+      case hasMp3
+      case hidden
+      case homepage
+      case identifier
+      case indexdate
+      case indexflag
+      case isDark
+      case itemSize
+      case itemCount
+      case licenseurl
+      case lineage
+      case limflag
+      case md5s
+      case mediatype
+      case month
+      case notes
+      case numericId
+      case numReviews
+      case numRecentReviews
+      case numTopBa
+      case numTopDl
+      case oaiUpdatedate
+      case pick
+      case `public`
+      case publicdate
+      case publisher
+      case reviewdate
+      case rights
+      case runtime
+      case shndiscs
+      case showSearchByYear
+      case showSearchByDate
+      case source
+      case spotlightIdentifier
+      case subject
+      case taper
+      case tasks
+      case title
+      case transferer
+      case type
+      case updated
+      case updatedate
+      case updater
+      case uploader
+      case venue
+      case week
+      case year
+    }
+
     public init(
+      accessRestrictedItem: ModelField<IABool>? = nil,
       addeddate: ModelField<IADate>? = nil,
       adder: ModelField<IAString>? = nil,
       avgRating: ModelField<IADouble>? = nil,
@@ -125,6 +198,7 @@ extension InternetArchive {
       isDark: ModelField<IAString>? = nil,
       itemCount: ModelField<IAInt>? = nil,
       itemSize: ModelField<IAInt>? = nil,
+      licenseurl: ModelField<IAURL>? = nil,
       lineage: ModelField<IAString>? = nil,
       limflag: ModelField<IAString>? = nil,
       md5s: ModelField<IAString>? = nil,
@@ -163,6 +237,7 @@ extension InternetArchive {
       week: ModelField<IAInt>? = nil,
       year: ModelField<IAInt>? = nil
     ) {
+      self.accessRestrictedItem = accessRestrictedItem
       self.addeddate = addeddate
       self.adder = adder
       self.avgRating = avgRating
@@ -188,6 +263,7 @@ extension InternetArchive {
       self.isDark = isDark
       self.itemCount = itemCount
       self.itemSize = itemSize
+      self.licenseurl = licenseurl
       self.lineage = lineage
       self.limflag = limflag
       self.md5s = md5s
