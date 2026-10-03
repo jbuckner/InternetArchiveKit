@@ -120,8 +120,8 @@ final class ItemMetadataAccessKeysTests: XCTestCase {
 
   func testNewFieldsRoundTrip() throws {
     let metadata = InternetArchive.ItemMetadata(
-      accessRestrictedItem: .init(values: [true]),
       identifier: "x",
+      accessRestrictedItem: .init(values: [true]),
       licenseurl: .init(values: [URL(string: "https://creativecommons.org/licenses/by/4.0/")!]))
     let data = try JSONEncoder().encode(metadata)
     XCTAssertTrue(String(decoding: data, as: UTF8.self).contains("\"access-restricted-item\":true"))
