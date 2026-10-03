@@ -1,11 +1,13 @@
 import XCTest
+
 @testable import InternetArchiveKit
 
 final class LuceneQueryTests: XCTestCase {
   func testEachCharacterIsRemoved() {
     for character in "+-&|!(){}[]^\"~*?:\\/" {
       XCTAssertEqual(LuceneQuery.sanitized("a\(character)b"), "a b", "character \(character)")
-      XCTAssertEqual(LuceneQuery.sanitized("\(character)ab\(character)"), "ab", "character \(character)")
+      XCTAssertEqual(
+        LuceneQuery.sanitized("\(character)ab\(character)"), "ab", "character \(character)")
     }
   }
 
@@ -14,7 +16,8 @@ final class LuceneQueryTests: XCTestCase {
   }
 
   func testMixedInput() {
-    XCTAssertEqual(LuceneQuery.sanitized("  de+ad -- (grateful) [77]: \"live\"/  "), "de ad grateful 77 live")
+    XCTAssertEqual(
+      LuceneQuery.sanitized("  de+ad -- (grateful) [77]: \"live\"/  "), "de ad grateful 77 live")
   }
 
   func testEmptyResult() {
