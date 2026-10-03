@@ -33,10 +33,12 @@ extension InternetArchive.Item {
   func tracks(using urlGenerator: InternetArchive.URLGenerator) -> [Track] {
     guard let identifier = metadata?.identifier else { return [] }
     return sortedTracks.compactMap { file in
-      guard let url = urlGenerator.generateDownloadUrl(
-        itemIdentifier: identifier,
-        fileName: file.name
-      ) else { return nil }
+      guard
+        let url = urlGenerator.generateDownloadUrl(
+          itemIdentifier: identifier,
+          fileName: file.name
+        )
+      else { return nil }
       return Track(
         id: file.name,
         title: file.title?.value ?? file.name,

@@ -30,7 +30,7 @@ public protocol ModelFieldProtocol: Decodable {
 extension InternetArchive {
   /**
    An abstraction for Internet Archive-style metadata fields.
-  
+
    Internet Archive metadata fields can be stored as strings or an array of strings.
    Typically we want to use these fields in a native types (`Int`, `Double`, `Date`, `URL`, etc).
    The `ModelField` struct does a few things to make handling these values more convenient:
@@ -38,10 +38,10 @@ extension InternetArchive {
    - Converts the fields from strings to their native type
    - Normalizes the response to an array of objects
    - Provides a convenience `value` accessor to get the first value of the array since most fields are single values
-  
+
    Native types are wrapped in `ModelFieldProtocol` objects like `IAInt` and `IADate`
    to handle the string to native conversion.
-  
+
    ### Example Usage:
    ```
    struct Foo: Decodable {

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import InternetArchiveKit
 
 /// `InternetArchive` fetches through any `InternetArchiveDataLoading`.

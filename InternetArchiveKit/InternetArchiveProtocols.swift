@@ -41,7 +41,7 @@ public protocol InternetArchiveProtocol: Sendable {
 
   /**
    Search the Internet Archive
-  
+
    - parameters:
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - page: The results pagination page number
@@ -61,7 +61,7 @@ public protocol InternetArchiveProtocol: Sendable {
 
   /**
    Search the Internet Archive
-  
+
    - parameters:
    - query: The search query as an `InternetArchiveURLStringProtocol` object
    - page: The results pagination page number
@@ -199,7 +199,7 @@ public protocol InternetArchiveProtocol: Sendable {
 
   /**
    Fetch a single item from the Internet Archive
-  
+
    - parameters:
    - identifier: The item identifier
    - returns: Result<InternetArchive.Item, Error>
@@ -210,7 +210,7 @@ public protocol InternetArchiveProtocol: Sendable {
 
   /**
    Fetch a single item from the Internet Archive
-  
+
    - parameters:
    - identifier: The item identifier
    - completion: Returns optional `InternetArchive.Item` and `Error` objects

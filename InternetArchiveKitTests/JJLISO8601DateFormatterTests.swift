@@ -6,9 +6,10 @@
 //  Copyright © 2019 Jason Buckner. All rights reserved.
 //
 
-import XCTest
-@testable import InternetArchiveKit
 import JJLISO8601DateFormatter
+import XCTest
+
+@testable import InternetArchiveKit
 
 // JJLISO8601DateFormatter is a faster, drop-in replacement for Foundation's
 // ISO8601DateFormatter. These tests pin its behavior to Apple's formatter in both
@@ -20,7 +21,7 @@ import JJLISO8601DateFormatter
 class JJLISO8601DateFormatterTests: XCTestCase {
 
   // A fixed instant reused across tests: 2018-11-15T15:23:11Z.
-  private let referenceEpoch: TimeInterval = 1542295391
+  private let referenceEpoch: TimeInterval = 1_542_295_391
 
   // MARK: - Parsing (String -> Date)
 
@@ -35,8 +36,9 @@ class JJLISO8601DateFormatterTests: XCTestCase {
   // the contract holds even if both implementations were to drift together.
   func testISODateParserParsesToExpectedEpoch() {
     let isoDateParser = JJLISO8601DateFormatter()
-    XCTAssertEqual(isoDateParser.date(from: "2018-11-15T15:23:11Z"),
-                   Date(timeIntervalSince1970: referenceEpoch))
+    XCTAssertEqual(
+      isoDateParser.date(from: "2018-11-15T15:23:11Z"),
+      Date(timeIntervalSince1970: referenceEpoch))
   }
 
   func testISODateParserHandlesTimezoneOffset() {
@@ -120,13 +122,13 @@ class JJLISO8601DateFormatterTests: XCTestCase {
     let dates = [
       appleParser.date(from: "2018-11-15T15:23:11Z")!,
       appleParser.date(from: "2000-01-01T00:00:00Z")!,
-      appleParser.date(from: "2020-02-29T23:59:59Z")!
+      appleParser.date(from: "2020-02-29T23:59:59Z")!,
     ]
     let optionSets: [ISO8601DateFormatter.Options] = [
       .withInternetDateTime,
       .withFullDate,
       .withFullTime,
-      [.withFullDate, .withFullTime, .withSpaceBetweenDateAndTime]
+      [.withFullDate, .withFullTime, .withSpaceBetweenDateAndTime],
     ]
     for date in dates {
       for options in optionSets {
@@ -140,7 +142,7 @@ class JJLISO8601DateFormatterTests: XCTestCase {
     let zones = [
       TimeZone(secondsFromGMT: 0)!,
       TimeZone(secondsFromGMT: -7 * 3600)!,
-      TimeZone(secondsFromGMT: 5 * 3600 + 1800)!
+      TimeZone(secondsFromGMT: 5 * 3600 + 1800)!,
     ]
     for zone in zones {
       assertStringEquivalent(date: date, options: .withInternetDateTime, timeZone: zone)
@@ -150,8 +152,10 @@ class JJLISO8601DateFormatterTests: XCTestCase {
   func testStaticStringFromDateMatchesApple() {
     let date = Date(timeIntervalSince1970: referenceEpoch)
     let zone = TimeZone(secondsFromGMT: 0)!
-    let jjlString = JJLISO8601DateFormatter.string(from: date, timeZone: zone, formatOptions: .withInternetDateTime)
-    let appleString = ISO8601DateFormatter.string(from: date, timeZone: zone, formatOptions: .withInternetDateTime)
+    let jjlString = JJLISO8601DateFormatter.string(
+      from: date, timeZone: zone, formatOptions: .withInternetDateTime)
+    let appleString = ISO8601DateFormatter.string(
+      from: date, timeZone: zone, formatOptions: .withInternetDateTime)
     XCTAssertEqual(jjlString, appleString)
   }
 
@@ -159,7 +163,7 @@ class JJLISO8601DateFormatterTests: XCTestCase {
 
   func testDateToStringToDateRoundTrip() {
     let formatter = JJLISO8601DateFormatter()
-    let original = Date(timeIntervalSince1970: referenceEpoch) // whole seconds -> exact
+    let original = Date(timeIntervalSince1970: referenceEpoch)  // whole seconds -> exact
     let string = formatter.string(from: original)
     XCTAssertEqual(formatter.date(from: string), original)
   }
@@ -193,7 +197,8 @@ class JJLISO8601DateFormatterTests: XCTestCase {
         let hour: Int = Int(arc4random_uniform(11)) + 1
         let minute: Int = Int(arc4random_uniform(59))
         let second: Int = Int(arc4random_uniform(59))
-        let randomISOString: String = String(format: "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second)
+        let randomISOString: String = String(
+          format: "%04d-%02d-%02dT%02d:%02d:%02dZ", year, month, day, hour, minute, second)
 
         let comparisonDate = appleFormatter.date(from: randomISOString)
 
