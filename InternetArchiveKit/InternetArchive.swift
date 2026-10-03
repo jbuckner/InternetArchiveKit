@@ -10,6 +10,14 @@ import Foundation
 import OSLog
 import ZippyJSON
 
+/// The slice of `ZippyJSONDecoder` the request helpers need, so one code path
+/// can run with the library's snake-case decoder or a plain one.
+protocol JSONDataDecoding {
+  func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T
+}
+
+extension ZippyJSONDecoder: JSONDataDecoding {}
+
 let logSubsystemId: String = "engineering.astral.internetarchivekit"
 
 /// Interact with the InternetArchive API
@@ -45,15 +53,24 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
   }
 
-  public init(
+  public convenience init(
     urlGenerator: InternetArchiveURLGeneratorProtocol,
     urlSession: URLSession
   ) {
-    self.urlGenerator = urlGenerator
-    self.urlSession = urlSession
+    self.init(urlGenerator: urlGenerator, dataLoader: urlSession)
   }
 
-  private let urlGenerator: InternetArchiveURLGeneratorProtocol
+  /// Creates a client that fetches through any `InternetArchiveDataLoading`,
+  /// so tests can stub the transport without a `URLSession`.
+  public init(
+    urlGenerator: InternetArchiveURLGeneratorProtocol = URLGenerator(),
+    dataLoader: InternetArchiveDataLoading
+  ) {
+    self.urlGenerator = urlGenerator
+    self.dataLoader = dataLoader
+  }
+
+  let urlGenerator: InternetArchiveURLGeneratorProtocol
 
   private let jsonDecoder: ZippyJSONDecoder = {
     let decoder = ZippyJSONDecoder()
@@ -253,11 +270,18 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
 
   private func makeRequest<T>(url: URL) async -> Result<T, Error>
   where T: Decodable {
+    await makeRequest(url: url, decoder: jsonDecoder)
+  }
+
+  func makeRequest<T, D: JSONDataDecoding>(
+    url: URL, decoder: D
+  ) async -> Result<T, Error>
+  where T: Decodable {
     logger.info("makeRequest start, url: \(url.absoluteString, privacy: .public)")
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
-      let (data, response) = try await urlSession.data(from: url)
+      let (data, response) = try await dataLoader.data(for: URLRequest(url: url))
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       logger.info(
         "makeRequest completed in \(timeElapsed, privacy: .public) s, url: \(url.absoluteString, privacy: .public)"
@@ -268,7 +292,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
       {
         // a rejected request can still carry the API's `{"error": …}`
         // envelope, so prefer its message over a bare status code
-        if let envelope = try? jsonDecoder.decode(
+        if let envelope = try? decoder.decode(
           APIErrorEnvelope.self, from: data
         ) {
           throw InternetArchiveError.apiError(message: envelope.error)
@@ -277,7 +301,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
           statusCode: httpResponse.statusCode)
       }
 
-      let results: T = try decodeResponse(data)
+      let results: T = try decodeResponse(data, decoder: decoder)
       return .success(results)
     } catch {
       logger.error(
@@ -291,12 +315,14 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
   /// HTTP-200 error envelope (`{"error": "…"}`), surface the API's
   /// message as `InternetArchiveError.apiError` instead of the
   /// shape-mismatch decoding error it would otherwise cause.
-  private func decodeResponse<T>(_ data: Data) throws -> T
+  private func decodeResponse<T, D: JSONDataDecoding>(
+    _ data: Data, decoder: D
+  ) throws -> T
   where T: Decodable {
     do {
-      return try jsonDecoder.decode(T.self, from: data)
+      return try decoder.decode(T.self, from: data)
     } catch {
-      if let envelope = try? jsonDecoder.decode(
+      if let envelope = try? decoder.decode(
         APIErrorEnvelope.self, from: data
       ) {
         throw InternetArchiveError.apiError(message: envelope.error)
@@ -305,7 +331,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
-  private let urlSession: URLSession
+  private let dataLoader: InternetArchiveDataLoading
 
   private let logger: Logger = Logger(
     subsystem: logSubsystemId,
