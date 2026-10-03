@@ -45,12 +45,21 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     self.init(urlGenerator: urlGenerator, urlSession: URLSession.shared)
   }
 
-  public init(
+  public convenience init(
     urlGenerator: InternetArchiveURLGeneratorProtocol,
     urlSession: URLSession
   ) {
+    self.init(urlGenerator: urlGenerator, dataLoader: urlSession)
+  }
+
+  /// Creates a client that fetches through any `InternetArchiveDataLoading`,
+  /// so tests can stub the transport without a `URLSession`.
+  public init(
+    urlGenerator: InternetArchiveURLGeneratorProtocol = URLGenerator(),
+    dataLoader: InternetArchiveDataLoading
+  ) {
     self.urlGenerator = urlGenerator
-    self.urlSession = urlSession
+    self.dataLoader = dataLoader
   }
 
   private let urlGenerator: InternetArchiveURLGeneratorProtocol
@@ -257,7 +266,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     let startTime: CFTimeInterval = CFAbsoluteTimeGetCurrent()
 
     do {
-      let (data, response) = try await urlSession.data(from: url)
+      let (data, response) = try await dataLoader.data(for: URLRequest(url: url))
       let timeElapsed: CFTimeInterval = CFAbsoluteTimeGetCurrent() - startTime
       logger.info(
         "makeRequest completed in \(timeElapsed, privacy: .public) s, url: \(url.absoluteString, privacy: .public)"
@@ -304,7 +313,7 @@ public final class InternetArchive: InternetArchiveProtocol, @unchecked Sendable
     }
   }
 
-  private let urlSession: URLSession
+  private let dataLoader: InternetArchiveDataLoading
 
   private let logger: Logger = Logger(
     subsystem: logSubsystemId,
