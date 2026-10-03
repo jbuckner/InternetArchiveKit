@@ -31,6 +31,8 @@ extension InternetArchive {
    */
   public struct ResponseHeader: Codable, Sendable {
     public let status: Int
+    // swift-format-ignore: AlwaysUseLowerCamelCase
+    // `QTime` is the name archive.org uses on the wire
     public let QTime: Int
     public let params: ResponseParams
 
@@ -66,7 +68,7 @@ extension InternetArchive {
 
   /**
    The response parameters from a search request
-  
+
    This contains the query information that you sent in the search request.
    */
   public struct ResponseParams: Codable, Sendable {

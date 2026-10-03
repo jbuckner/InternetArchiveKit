@@ -6,8 +6,9 @@
 //  Copyright © 2026 Jason Buckner. All rights reserved.
 //
 
-import XCTest
 import URLSessionMock
+import XCTest
+
 @testable import InternetArchiveKit
 
 /// archive.org signals rejected searches (e.g. `q` over ~2,000 chars) as

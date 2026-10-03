@@ -5,8 +5,9 @@
 //  Copyright © 2026 Jason Buckner. All rights reserved.
 //
 
-import XCTest
 import URLSessionMock
+import XCTest
+
 @testable import InternetArchiveKit
 
 final class LenientValueTests: XCTestCase {
@@ -153,7 +154,8 @@ final class CallerTypeDecodingTests: XCTestCase {
 
     XCTAssertEqual(results.numFound, 10461)
     XCTAssertEqual(results.start, 0)
-    XCTAssertEqual(results.docs.map(\.identifier), ["AboutBan1935", "Doctorin1946", "HealthYo1953"])
+    XCTAssertEqual(
+      results.docs.map(\.identifier), ["AboutBan1935", "Doctorin1946", "HealthYo1953"])
     XCTAssertEqual(results.docs[0].year?.year, 1935)
     XCTAssertEqual(results.docs[0].downloads?.int, 27_201_041)
     XCTAssertEqual(results.docs[0].runtime?.seconds, 663)
@@ -161,7 +163,8 @@ final class CallerTypeDecodingTests: XCTestCase {
   }
 
   func testMetadataDecodesIntoCallerType() async throws {
-    let url = try XCTUnwrap(InternetArchive.URLGenerator().generateMetadataUrl(identifier: "AboutBan1935"))
+    let url = try XCTUnwrap(
+      InternetArchive.URLGenerator().generateMetadataUrl(identifier: "AboutBan1935"))
     let ia = archive(serving: try fixture("lenientMetadata.json"), at: url)
 
     let detail = try await ia.metadata(identifier: "AboutBan1935", as: Detail.self)

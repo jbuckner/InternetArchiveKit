@@ -115,7 +115,8 @@ extension InternetArchive {
     public let values: [String]
     public let exactMatch: Bool
     public let booleanOperator: QueryClauseBooleanOperator
-    public var asURLString: String? {  // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
+    // eg `collection:(etree)`, `-title:(foo)`, `(bar)`, `identifier:(foo OR bar)`
+    public var asURLString: String? {
       let fieldKey: String = field.count > 0 ? "\(field):" : ""
       let surroundedValues = values.compactMap { (value: String) -> String? in
         return exactMatch
@@ -327,7 +328,8 @@ extension InternetArchive {
 
   public enum QueryClauseBooleanOperator: String, Sendable {
     case and = ""
-    case not = "-"  // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
+    // if we want negate this query clause, put a minus before it, ie: `-collection:(foo)`
+    case not = "-"
   }
 }
 

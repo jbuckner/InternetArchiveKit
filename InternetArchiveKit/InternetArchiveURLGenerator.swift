@@ -25,10 +25,10 @@ extension InternetArchive {
 
     /**
      Generate the metadata url for an Internet Archive search
-    
+
      - parameters:
      - identifier: The item identifier
-    
+
      - returns: Optional metadata `URL`
      */
     public func generateMetadataUrl(identifier: String) -> URL? {
@@ -39,10 +39,10 @@ extension InternetArchive {
 
     /**
      Generate the item image url for an Internet Archive item
-    
+
      - parameters:
      - itemIdentifier: The item identifier
-    
+
      - returns: Optional item image `URL`
      */
     public func generateItemImageUrl(itemIdentifier: String) -> URL? {
@@ -53,11 +53,11 @@ extension InternetArchive {
 
     /**
      Generate the download url for an Internet Archive file
-    
+
      - parameters:
      - itemIdentifier: The item identifier
      - fileName: The file name
-    
+
      - returns: Optional file download `URL`
      */
     public func generateDownloadUrl(itemIdentifier: String, fileName: String)
@@ -217,10 +217,10 @@ extension InternetArchive {
     /// almost certainly a batching bug, so fail loudly in development.
     private func warnIfQueryExceedsRecommendedLength(_ queryString: String?) {
       guard Self.queryExceedsRecommendedLength(queryString),
-            let queryString = queryString else { return }
+        let queryString = queryString
+      else { return }
       logger.error(
         // Logger messages are single string-interpolation literals and can't be split across lines
-        // swiftlint:disable:next line_length
         "search query is \(queryString.count, privacy: .public) chars; archive.org rejects q over ~2,000. Chunk against URLGenerator.recommendedMaxQueryLength (\(Self.recommendedMaxQueryLength, privacy: .public)). Query prefix: \(String(queryString.prefix(120)), privacy: .public)"
       )
       assertionFailure(

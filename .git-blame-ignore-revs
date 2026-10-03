@@ -1,0 +1,9 @@
+# Revisions to skip when running git blame.
+#
+# Configure locally with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub picks this file up automatically.
+
+# Switch from SwiftLint to swift-format (#28)
+c6b5b10a1a5f3a1fbe19706d0da4bb5b9392bc51

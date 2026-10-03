@@ -24,14 +24,20 @@ struct PlayerBar: View {
             .foregroundStyle(.secondary)
         }
         Spacer()
-        Button { player.previous() } label: {
+        Button {
+          player.previous()
+        } label: {
           Image(systemName: "backward.fill")
         }
-        Button { player.togglePlayPause() } label: {
+        Button {
+          player.togglePlayPause()
+        } label: {
           Image(systemName: player.isPlaying ? "pause.fill" : "play.fill")
             .frame(width: 24)
         }
-        Button { player.next() } label: {
+        Button {
+          player.next()
+        } label: {
           Image(systemName: "forward.fill")
         }
       }

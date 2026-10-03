@@ -7,6 +7,7 @@
 
 import XCTest
 import ZippyJSON
+
 @testable import InternetArchiveKit
 
 /// Mirrors the decoder `InternetArchive` uses for its own models.
@@ -69,7 +70,8 @@ final class LicenseTests: XCTestCase {
       license("http://creativecommons.org/licenses/by-nc-sa/3.0/us/").shortName, "CC BY-NC-SA 3.0")
     XCTAssertEqual(license("https://creativecommons.org/licenses/by/4.0").shortName, "CC BY 4.0")
     XCTAssertEqual(license("https://creativecommons.org/licenses/by").shortName, "CC BY")
-    XCTAssertEqual(license("https://www.creativecommons.org/licenses/by-sa/2.0/").shortName, "CC BY-SA 2.0")
+    XCTAssertEqual(
+      license("https://www.creativecommons.org/licenses/by-sa/2.0/").shortName, "CC BY-SA 2.0")
   }
 
   func testPublicDomainNames() {

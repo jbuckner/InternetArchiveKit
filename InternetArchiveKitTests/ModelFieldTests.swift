@@ -7,8 +7,9 @@
 //
 
 import XCTest
-@testable import InternetArchiveKit
 import ZippyJSON
+
+@testable import InternetArchiveKit
 
 class ModelFieldTests: XCTestCase {
 
@@ -26,8 +27,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": "bar" }
-    """
+        { "foo": "bar" }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -46,8 +47,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": ["bar", "baz"] }
-    """
+        { "foo": ["bar", "baz"] }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -75,8 +76,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": "bar", "bar": ["bar", "boop"] }
-    """
+        { "foo": "bar", "bar": ["bar", "boop"] }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -103,8 +104,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": 1, "bar": 2.5, "baz": [1, "two", 3] }
-    """
+        { "foo": 1, "bar": 2.5, "baz": [1, "two", 3] }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -126,8 +127,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "year": 2018 }
-    """
+        { "year": 2018 }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -152,8 +153,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": true }
-    """
+        { "foo": true }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -186,8 +187,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": 1, "bar": "2", "baz": [3, 4], "bop": ["5", "6"], "bad": "abc" }
-    """
+        { "foo": 1, "bar": "2", "baz": [3, 4], "bop": ["5", "6"], "bad": "abc" }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -232,8 +233,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": true, "bar": "false", "baz": [true, false], "bop": ["false", "true"], "bad": "blep" }
-    """
+        { "foo": true, "bar": "false", "baz": [true, false], "bop": ["false", "true"], "bad": "blep" }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -274,10 +275,10 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "good": [1.2, 2.3],
-        "bad": "foo"
-      }
-    """
+        { "good": [1.2, 2.3],
+          "bad": "foo"
+        }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -319,19 +320,19 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      {
-        "year": "1957",
-        "yearMonth": "1987-07",
-        "yearMonthDay": "1993-03-14",
-        "yearBracket": "[1968]",
-        "yearCirca": "c.a. 1973",
-        "dateTime": "2018-12-30 09:12:32",
-        "isoDate": "2018-11-15T15:23:11Z",
-        "isoDateTimeZoneOffset1": "2018-11-15T15:23:11-02:30",
-        "isoDateTimeZoneOffset2": "2018-11-15T15:23:11+04:00",
-        "badDate": "baddate"
-      }
-    """
+        {
+          "year": "1957",
+          "yearMonth": "1987-07",
+          "yearMonthDay": "1993-03-14",
+          "yearBracket": "[1968]",
+          "yearCirca": "c.a. 1973",
+          "dateTime": "2018-12-30 09:12:32",
+          "isoDate": "2018-11-15T15:23:11Z",
+          "isoDateTimeZoneOffset1": "2018-11-15T15:23:11-02:30",
+          "isoDateTimeZoneOffset2": "2018-11-15T15:23:11+04:00",
+          "badDate": "baddate"
+        }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -396,8 +397,8 @@ class ModelFieldTests: XCTestCase {
     }
 
     let json: String = """
-      { "foo": "http://yondermountainstringband.com" }
-    """
+        { "foo": "http://yondermountainstringband.com" }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -440,25 +441,26 @@ class ModelFieldTests: XCTestCase {
       let colonSeconds: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let colonSecondsMinutes: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let colonSecondsMinutesHours: InternetArchive.ModelField<InternetArchive.IATimeInterval>
-      let colonSecondsMinutesHoursDecimal: InternetArchive.ModelField<InternetArchive.IATimeInterval>
+      let colonSecondsMinutesHoursDecimal:
+        InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let badString1: InternetArchive.ModelField<InternetArchive.IATimeInterval>
       let badString2: InternetArchive.ModelField<InternetArchive.IATimeInterval>
     }
 
     let json: String = """
-      {
-        "decimal": "35.27",
-        "intString": "45",
-        "int": 25,
-        "double": 19.13,
-        "colonSeconds": "00:35",
-        "colonSecondsMinutes": "23:11",
-        "colonSecondsMinutesHours": "3:37:22",
-        "colonSecondsMinutesHoursDecimal": "4:43:21.273",
-        "badString1": "foo",
-        "badString2": "a:b"
-      }
-    """
+        {
+          "decimal": "35.27",
+          "intString": "45",
+          "int": 25,
+          "double": 19.13,
+          "colonSeconds": "00:35",
+          "colonSecondsMinutes": "23:11",
+          "colonSecondsMinutesHours": "3:37:22",
+          "colonSecondsMinutesHoursDecimal": "4:43:21.273",
+          "badString1": "foo",
+          "badString2": "a:b"
+        }
+      """
     guard let data: Data = json.data(using: .utf8) else {
       XCTFail("error encoding json to data")
       return
@@ -485,7 +487,8 @@ class ModelFieldTests: XCTestCase {
       XCTAssertEqual(results.colonSeconds.value, comparisonColonSeconds)
       XCTAssertEqual(results.colonSecondsMinutes.value, comparisonColonSecondsMinutes)
       XCTAssertEqual(results.colonSecondsMinutesHours.value, comparisonColonSecondsMinutesHours)
-      XCTAssertEqual(results.colonSecondsMinutesHoursDecimal.value, comparisonColonSecondsMinutesHoursDecimal)
+      XCTAssertEqual(
+        results.colonSecondsMinutesHoursDecimal.value, comparisonColonSecondsMinutesHoursDecimal)
       XCTAssertNil(results.badString1.value)
       XCTAssertNil(results.badString2.value)
     } catch {
