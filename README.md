@@ -103,6 +103,15 @@ let result = await archive.scrapeTotal(query: query)
 // result == .success(9250)
 ```
 
+## Contributing
+
+CI runs `swift format lint --strict` on the `swift:6.3.3` toolchain. Format with that same version. A newer local toolchain (Swift 6.4 for example) orders imports differently and fails the check.
+
+```sh
+docker run --rm -v "$PWD":/w -w /w swift:6.3.3 \
+  swift format --in-place --recursive InternetArchiveKit InternetArchiveKitTests InternetArchiveKitExample Package.swift
+```
+
 ## Limitations
 
 Currently, InternetArchiveKit is read-only and does not have support for all of Internet Archive's data. Pull requests are welcome!
