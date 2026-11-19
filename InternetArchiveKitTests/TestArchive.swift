@@ -23,12 +23,26 @@ enum TestArchive {
   }
 
   static func make() -> InternetArchive {
-    isLive ? InternetArchive() : InternetArchive(dataLoader: RecordedArchive())
+    isLive
+      ? InternetArchive(dataLoader: ImplausibleScrapeRetrier(base: URLSession.shared))
+      : InternetArchive(dataLoader: RecordedArchive())
   }
 
   /// How many etree collections a "sanity check" test should expect. Live, the real index
   /// holds thousands. The recording holds a fixed 115 of them.
   static var minimumCollections: Int { isLive ? 7000 : 100 }
+
+  /// The least a scrape total for the etree collection list should be. Live, the Scrape API
+  /// reports a different total for this query from one spell to the next (1, 13, 77, 9,341 and
+  /// 18,306 have all been seen on the same query, each lasting minutes), so a live run only
+  /// requires a positive count. The recording holds a fixed 115.
+  static var minimumScrapeTotal: Int { isLive ? 1 : 100 }
+
+  /// A test's wait timeout. Live runs allow for `ImplausibleScrapeRetrier`'s backoff, which
+  /// can spend about 80 seconds on each request while archive.org serves bad scrape answers.
+  static func timeout(_ seconds: TimeInterval) -> TimeInterval {
+    isLive ? max(seconds, 300) : seconds
+  }
 
   /// Skips the calling test unless it's running against the real archive.org.
   static func requireLive() throws {
@@ -150,5 +164,40 @@ final class RecordedArchive: InternetArchiveDataLoading, @unchecked Sendable {
 
   private static func json(_ name: String) -> Any? {
     fixtureData(name).flatMap { try? JSONSerialization.jsonObject(with: $0) }
+  }
+}
+
+/// Wraps the live `URLSession` for the nightly run. archive.org's Scrape API intermittently
+/// answers a 200 with a bogus tiny result for a query that matches thousands of items (for
+/// example `total: 1` with one item for the etree collection list, seen on 5 of 25 identical
+/// requests). The request is correct and an immediate retry gets the real answer, so this
+/// retries (about 80 seconds in all, since a bad spell has lasted 30+ seconds) a scrape response whose `total` is below `TestArchive.minimumCollections` when
+/// the query is the etree collection list (`collection:(etree) AND mediatype:(collection)`). Any other request or response passes through.
+struct ImplausibleScrapeRetrier: InternetArchiveDataLoading {
+  let base: InternetArchiveDataLoading
+  var attempts = 8
+  var firstDelay: Duration = .seconds(2)
+  var maxDelay: Duration = .seconds(16)
+
+  func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+    var delay = firstDelay
+    var result = try await base.data(for: request)
+    for _ in 1..<attempts where isImplausible(request, result.0) {
+      try await Task.sleep(for: delay)
+      delay = min(delay * 2, maxDelay)
+      result = try await base.data(for: request)
+    }
+    return result
+  }
+
+  private func isImplausible(_ request: URLRequest, _ body: Data) -> Bool {
+    guard let url = request.url, url.path == "/services/search/v1/scrape",
+      let q = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+        .queryItems?.first(where: { $0.name == "q" })?.value,
+      q.contains("etree"), q.contains("mediatype:(collection)"),
+      let json = try? JSONSerialization.jsonObject(with: body) as? [String: Any],
+      let total = json["total"] as? Int
+    else { return false }
+    return total < TestArchive.minimumCollections
   }
 }

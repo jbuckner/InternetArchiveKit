@@ -64,7 +64,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadScrapeUrl() {
@@ -81,7 +81,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadItemDetailUrl() {
@@ -95,7 +95,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadJSONReturnedFromRequest() {
@@ -118,7 +118,7 @@ class InternetArchiveKitTests: XCTestCase {
       XCTAssert(error is DecodingError)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testSearchQuery() {
@@ -146,7 +146,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testSearchFields() {
@@ -179,7 +179,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testSearchDateRange() {
@@ -232,7 +232,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testGetCollection() {
@@ -261,7 +261,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testItemDetail() {
@@ -282,7 +282,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testTrackLength() {
@@ -316,7 +316,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   // To test pagination, I first make a request to internet archive and get the number of documents in the response
@@ -373,7 +373,7 @@ class InternetArchiveKitTests: XCTestCase {
         }
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testOaiUpdated() {
@@ -402,7 +402,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
 
   }
 
@@ -423,7 +423,7 @@ class InternetArchiveKitTests: XCTestCase {
 
         if let response = response {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(response.total > TestArchive.minimumCollections)
+          XCTAssertTrue(response.total >= TestArchive.minimumScrapeTotal)
           // archive.org returns a large server-sized batch
           XCTAssertTrue(response.items.count > 100)
           XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
@@ -435,7 +435,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   // The Scrape API scrolls forward with a cursor: pass the cursor from the first batch into a second
@@ -475,10 +475,12 @@ class InternetArchiveKitTests: XCTestCase {
           })
       })
 
-    wait(for: [expectation], timeout: 30.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(30.0))
   }
 
-  // `.count(n)` returns exactly n items in a single bounded batch.
+  // `.count(n)` returns exactly n items in a single bounded batch. This asks for 110 because
+  // archive.org answers `count=100` (the minimum) for the etree collection list with `total: 1`
+  // and one item for hours at a time, while 101, 105, 110 and 1000 return the full batch.
   func testScrapeCount() {
     let expectation = XCTestExpectation(description: "Test Scrape Count")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
@@ -487,17 +489,17 @@ class InternetArchiveKitTests: XCTestCase {
     TestArchive.make().scrape(
       query: query,
       fields: ["identifier"],
-      pagination: .count(100),
+      pagination: .count(110),
       completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
         if let response = response {
-          XCTAssertEqual(response.items.count, 100)
+          XCTAssertEqual(response.items.count, 110)
         } else {
           XCTFail("no response, error: \(error?.localizedDescription ?? "unknown")")
         }
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testScrapeAsyncThrows() async throws {
@@ -511,7 +513,7 @@ class InternetArchiveKitTests: XCTestCase {
       pagination: nil
     )
     // the etree archive has 9000+ collections so just sanity check
-    XCTAssertTrue(response.total > TestArchive.minimumCollections)
+    XCTAssertTrue(response.total >= TestArchive.minimumScrapeTotal)
     XCTAssertTrue(response.items.count > 0)
   }
 
@@ -563,14 +565,14 @@ class InternetArchiveKitTests: XCTestCase {
       completion: { (total: Int?, error: Error?) in
         if let total = total {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(total > TestArchive.minimumCollections)
+          XCTAssertTrue(total >= TestArchive.minimumScrapeTotal)
         } else {
           XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
         }
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testBadScrapeTotalUrl() {
@@ -583,7 +585,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testScrapeTotalAsyncThrows() async throws {
@@ -592,7 +594,7 @@ class InternetArchiveKitTests: XCTestCase {
     ])
     let total: Int = try await TestArchive.make().scrapeTotal(query: query)
     // the etree archive has 9000+ collections so just sanity check
-    XCTAssertTrue(total > TestArchive.minimumCollections)
+    XCTAssertTrue(total >= TestArchive.minimumScrapeTotal)
   }
 
   func testScrapeTotalAsyncThrowsInvalidUrl() async {
@@ -634,7 +636,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
 }
