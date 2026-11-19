@@ -478,7 +478,9 @@ class InternetArchiveKitTests: XCTestCase {
     wait(for: [expectation], timeout: TestArchive.timeout(30.0))
   }
 
-  // `.count(n)` returns exactly n items in a single bounded batch.
+  // `.count(n)` returns exactly n items in a single bounded batch. This asks for 110 because
+  // archive.org answers `count=100` (the minimum) for the etree collection list with `total: 1`
+  // and one item for hours at a time, while 101, 105, 110 and 1000 return the full batch.
   func testScrapeCount() {
     let expectation = XCTestExpectation(description: "Test Scrape Count")
     let query: InternetArchive.Query = InternetArchive.Query(clauses: [
@@ -487,10 +489,10 @@ class InternetArchiveKitTests: XCTestCase {
     TestArchive.make().scrape(
       query: query,
       fields: ["identifier"],
-      pagination: .count(100),
+      pagination: .count(110),
       completion: { (response: InternetArchive.ScrapeResponse?, error: Error?) in
         if let response = response {
-          XCTAssertEqual(response.items.count, 100)
+          XCTAssertEqual(response.items.count, 110)
         } else {
           XCTFail("no response, error: \(error?.localizedDescription ?? "unknown")")
         }
