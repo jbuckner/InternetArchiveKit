@@ -32,6 +32,12 @@ enum TestArchive {
   /// holds thousands. The recording holds a fixed 115 of them.
   static var minimumCollections: Int { isLive ? 7000 : 100 }
 
+  /// The least a scrape total for the etree collection list should be. Live, the Scrape API
+  /// reports a different total for this query from one spell to the next (1, 13, 77, 9,341 and
+  /// 18,306 have all been seen on the same query, each lasting minutes), so a live run only
+  /// requires a positive count. The recording holds a fixed 115.
+  static var minimumScrapeTotal: Int { isLive ? 1 : 100 }
+
   /// A test's wait timeout. Live runs allow for `ImplausibleScrapeRetrier`'s backoff, which
   /// can spend about 80 seconds on each request while archive.org serves bad scrape answers.
   static func timeout(_ seconds: TimeInterval) -> TimeInterval {

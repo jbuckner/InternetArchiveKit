@@ -423,7 +423,7 @@ class InternetArchiveKitTests: XCTestCase {
 
         if let response = response {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(response.total > TestArchive.minimumCollections)
+          XCTAssertTrue(response.total >= TestArchive.minimumScrapeTotal)
           // archive.org returns a large server-sized batch
           XCTAssertTrue(response.items.count > 100)
           XCTAssertEqual(response.count, response.items.count)  // `count` reports this batch's size
@@ -513,7 +513,7 @@ class InternetArchiveKitTests: XCTestCase {
       pagination: nil
     )
     // the etree archive has 9000+ collections so just sanity check
-    XCTAssertTrue(response.total > TestArchive.minimumCollections)
+    XCTAssertTrue(response.total >= TestArchive.minimumScrapeTotal)
     XCTAssertTrue(response.items.count > 0)
   }
 
@@ -565,7 +565,7 @@ class InternetArchiveKitTests: XCTestCase {
       completion: { (total: Int?, error: Error?) in
         if let total = total {
           // the etree archive has 9000+ collections so just sanity check
-          XCTAssertTrue(total > TestArchive.minimumCollections)
+          XCTAssertTrue(total >= TestArchive.minimumScrapeTotal)
         } else {
           XCTFail("no total, error: \(error?.localizedDescription ?? "unknown")")
         }
@@ -594,7 +594,7 @@ class InternetArchiveKitTests: XCTestCase {
     ])
     let total: Int = try await TestArchive.make().scrapeTotal(query: query)
     // the etree archive has 9000+ collections so just sanity check
-    XCTAssertTrue(total > TestArchive.minimumCollections)
+    XCTAssertTrue(total >= TestArchive.minimumScrapeTotal)
   }
 
   func testScrapeTotalAsyncThrowsInvalidUrl() async {
