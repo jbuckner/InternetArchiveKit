@@ -64,7 +64,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadScrapeUrl() {
@@ -81,7 +81,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadItemDetailUrl() {
@@ -95,7 +95,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testBadJSONReturnedFromRequest() {
@@ -118,7 +118,7 @@ class InternetArchiveKitTests: XCTestCase {
       XCTAssert(error is DecodingError)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testSearchQuery() {
@@ -146,7 +146,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testSearchFields() {
@@ -179,7 +179,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testSearchDateRange() {
@@ -232,7 +232,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testGetCollection() {
@@ -261,7 +261,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testItemDetail() {
@@ -282,7 +282,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testTrackLength() {
@@ -316,7 +316,7 @@ class InternetArchiveKitTests: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   // To test pagination, I first make a request to internet archive and get the number of documents in the response
@@ -373,7 +373,7 @@ class InternetArchiveKitTests: XCTestCase {
         }
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testOaiUpdated() {
@@ -402,7 +402,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
 
   }
 
@@ -435,7 +435,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   // The Scrape API scrolls forward with a cursor: pass the cursor from the first batch into a second
@@ -475,7 +475,7 @@ class InternetArchiveKitTests: XCTestCase {
           })
       })
 
-    wait(for: [expectation], timeout: 30.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(30.0))
   }
 
   // `.count(n)` returns exactly n items in a single bounded batch.
@@ -497,7 +497,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testScrapeAsyncThrows() async throws {
@@ -570,7 +570,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 20.0)
+    wait(for: [expectation], timeout: TestArchive.timeout(20.0))
   }
 
   func testBadScrapeTotalUrl() {
@@ -583,7 +583,7 @@ class InternetArchiveKitTests: XCTestCase {
         InternetArchive.InternetArchiveError.invalidUrl)
       expectation.fulfill()
     }
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
   func testScrapeTotalAsyncThrows() async throws {
@@ -634,7 +634,7 @@ class InternetArchiveKitTests: XCTestCase {
         expectation.fulfill()
       })
 
-    wait(for: [expectation], timeout: 10)
+    wait(for: [expectation], timeout: TestArchive.timeout(10))
   }
 
 }
