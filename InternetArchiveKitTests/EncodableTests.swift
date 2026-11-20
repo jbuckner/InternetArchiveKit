@@ -76,4 +76,45 @@ class EncodableTests: XCTestCase {
     XCTAssertEqual(reDecoded.venue.flatMap { $0.value }, "Red Rocks")
     XCTAssertEqual(reDecoded.date.flatMap { $0.value }, decoded.date.flatMap { $0.value })
   }
+
+  /// The fields this release added have to survive a cache round-trip too: an enum whose
+  /// value the Archive introduced later, a hyphenated wire key, and a parsed blob.
+  func testItemMetadataRoundTripsNewFieldTypes() throws {
+    let json: String = """
+      {
+        "identifier": "etree",
+        "mediatype": "collection",
+        "page-progression": "lr",
+        "identifier-access": "http://archive.org/details/etree",
+        "external-identifier": "urn:lcp:goody:epub:1cc7e3b8",
+        "aspect_ratio": "16:9",
+        "closed_captioning": "no",
+        "scandate": "20241031063000",
+        "curation": "[curator]tracey pooh[/curator][state]un-dark[/state]"
+      }
+      """
+    guard let data: Data = json.data(using: .utf8) else {
+      XCTFail("error encoding json to data")
+      return
+    }
+
+    let decoder = ZippyJSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    let decoded = try decoder.decode(InternetArchive.ItemMetadata.self, from: data)
+
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    let reEncoded: Data = try encoder.encode(decoded)
+    let reDecoded = try decoder.decode(InternetArchive.ItemMetadata.self, from: reEncoded)
+
+    XCTAssertTrue(reDecoded.mediatype?.value == .collection)
+    XCTAssertTrue(reDecoded.pageProgression?.value == .leftToRight)
+    XCTAssertEqual(
+      reDecoded.identifierAccess?.value?.absoluteString, "http://archive.org/details/etree")
+    XCTAssertEqual(reDecoded.externalIdentifier?.value?.scheme, "lcp")
+    XCTAssertEqual(reDecoded.aspectRatio?.value?.width, 16)
+    XCTAssertEqual(reDecoded.closedCaptioning?.value, false)
+    XCTAssertEqual(reDecoded.scandate?.value, decoded.scandate?.value)
+    XCTAssertEqual(reDecoded.curation?.value?.curator, "tracey pooh")
+  }
 }

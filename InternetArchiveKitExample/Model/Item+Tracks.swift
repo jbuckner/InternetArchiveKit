@@ -17,7 +17,7 @@ extension InternetArchive.Item {
   /// which makes that a reasonable tiebreaker.
   var sortedTracks: [InternetArchive.File] {
     (files ?? [])
-      .filter { $0.format?.value == "VBR MP3" }
+      .filter { $0.format?.value == .vbrMP3 }
       .sorted { first, second in
         let firstTrack = first.track?.value ?? 0
         let secondTrack = second.track?.value ?? 0

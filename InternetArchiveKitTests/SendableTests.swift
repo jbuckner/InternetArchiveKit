@@ -28,5 +28,12 @@ class SendableTests: XCTestCase {
     requireSendable(InternetArchive.ModelField<InternetArchive.IAInt>.self)
     requireSendable(InternetArchive.ModelField<InternetArchive.IAString>.self)
     requireSendable(InternetArchive.ModelField<InternetArchive.IADate>.self)
+    requireSendable(InternetArchive.ModelField<InternetArchive.IAEpochDate>.self)
+    requireSendable(InternetArchive.ModelField<InternetArchive.IAAspectRatio>.self)
+    requireSendable(InternetArchive.ModelField<InternetArchive.IACuration>.self)
+    requireSendable(InternetArchive.ModelField<InternetArchive.IAExternalIdentifier>.self)
+    requireSendable(
+      InternetArchive.ModelField<InternetArchive.IAEnum<InternetArchive.MediaType>>.self)
+    requireSendable(InternetArchive.Item.AlternateLocations.self)
   }
 }

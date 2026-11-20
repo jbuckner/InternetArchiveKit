@@ -44,6 +44,30 @@ case .failure(let error):
 
 For more advanced usage, see the test suite and the included sample app.
 
+## Metadata fields
+
+Item metadata is a bag of strings on the wire, so every field is a `ModelField<T>` that converts to a native type. Read a single value with `.value`, or all of them with `.values` for the fields the Archive repeats.
+
+```swift
+metadata.title?.value        // String?
+metadata.year?.value         // Int?
+metadata.addeddate?.value    // Date?
+metadata.subject?.values     // [String]
+```
+
+Fields with a documented set of allowed values use `IAEnum`. Because the Archive adds values without notice, an unrecognized one is kept as a raw string instead of being dropped, so `.rawValue` always works and `.known` tells you whether it matched:
+
+```swift
+metadata.mediatype?.value == .etree    // compare against the case
+metadata.mediatype?.value == "etree"   // or the wire string
+metadata.mediatype?.value?.known       // MediaType?, nil if the Archive sent something new
+metadata.mediatype?.value?.rawValue    // String, always
+```
+
+A few fields carry structure inside a string and get their own types: `aspect_ratio` (`"16:9"`), `curation` (`[curator]…[/curator][state]…[/state]`), and `external-identifier` (`urn:isbn:…`). They encode back to the same string they were parsed from, so a cached item stays the shape the Archive serves.
+
+One field to watch: `runtime` is typed by uploaders and the Archive doesn't normalize it, so alongside `"2:29:30"` you'll find `"245 Mins."` and `"2hr, 07min"`. It stays a `String`; use `metadata.runtimeInterval` for a `TimeInterval` when the value happens to be a duration, or a file's `length` for a duration you can rely on.
+
 ## `search()` vs `scrape()`
 
 Both run the same Lucene-style query against the same index, but they're built for different jobs.

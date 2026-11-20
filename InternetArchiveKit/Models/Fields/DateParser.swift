@@ -25,6 +25,11 @@ final class DateParser: @unchecked Sendable {
   static let shared: DateParser = DateParser()
 
   func date(from string: String) -> Date? {
+    // An all-numeric format with no separators, like `yyyyMMdd`, matches the empty string
+    // and hands back a default date of 2000-01-01. Nothing downstream can tell that apart
+    // from a real parse, so reject empty input before it reaches a formatter.
+    guard !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+
     for parser in parsers {
       if let parsedDate = parser.date(from: string) {
         return parsedDate
@@ -33,11 +38,15 @@ final class DateParser: @unchecked Sendable {
     return nil
   }
 
-  // the parsers to try in order of priority
+  // Ordered most specific first: `DateFormatter` consumes as much as it can rather than
+  // requiring a full match, so a looser format ahead of a tighter one can win with a
+  // partial parse.
   private let parsers: [DateParserProtocol] = [
     JJLISO8601DateFormatter(),
     makeFormatter(dateFormat: "yyyy-MM-dd HH:mm:ss"),
     makeFormatter(dateFormat: "yyyy-MM-dd"),
+    makeFormatter(dateFormat: "yyyyMMddHHmmss"),
+    makeFormatter(dateFormat: "yyyyMMdd"),
     makeFormatter(dateFormat: "yyyy-MM"),
     makeFormatter(dateFormat: "yyyy"),
     makeFormatter(dateFormat: "'['yyyy']'"),

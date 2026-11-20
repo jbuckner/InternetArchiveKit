@@ -85,20 +85,45 @@ extension InternetArchive {
   /**
    Internet Archive `Bool` field
 
+   The Archive spells booleans several ways depending on the field: `closed_captioning` is
+   `yes`/`no`, while other flags use `true`/`false` or `1`/`0`. All of them parse.
+
    ### Example Usage
    ```
    let boolField = IABool(fromString: "true")
    boolField.value => true
+
+   let captionsField = IABool(fromString: "yes")
+   captionsField.value => true
    ```
    */
   public class IABool: ModelFieldProtocol {
     public typealias FieldType = Bool
     public var value: FieldType?
     required public init?(fromString string: String) {
-      self.value = FieldType.init(string)
+      self.value = Self.parse(string)
     }
     required public init(from: Decoder) throws {
-      self.value = try FieldType.init(from: from)
+      let container = try from.singleValueContainer()
+      do {
+        self.value = try container.decode(Bool.self)
+      } catch {
+        // flags arrive as JSON strings ("true") and sometimes as numbers (1)
+        if let stringValue = try? container.decode(String.self) {
+          self.value = Self.parse(stringValue)
+        } else if let intValue = try? container.decode(Int.self) {
+          self.value = Self.parse(String(intValue))
+        } else {
+          throw error
+        }
+      }
+    }
+    private static func parse(_ string: String) -> FieldType? {
+      switch string.trimmingCharacters(in: .whitespaces).lowercased() {
+      case "true", "yes", "1": return true
+      case "false", "no", "0": return false
+      default: return nil
+      }
     }
   }
 
